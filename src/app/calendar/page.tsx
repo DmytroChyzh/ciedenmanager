@@ -1,15 +1,17 @@
 'use client';
-import Sidebar from '@/components/Sidebar';
-import Header from '@/components/Header';
 import Calendar from '@/components/Calendar';
+import { useEffect } from 'react';
 
 export default function CalendarPage() {
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, []);
   return (
-    <div className="min-h-screen bg-[#F7F8F9] flex">
-      <Sidebar />
+    <div className="min-h-screen flex flex-col gap-8 overflow-hidden">
       <div className="flex-1 flex flex-col">
-        <Header />
-        <main className="flex-1 p-8">
+        <main className="flex-1">
           <Calendar />
         </main>
       </div>

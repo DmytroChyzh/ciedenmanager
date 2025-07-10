@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -9,20 +10,22 @@ module.exports = {
     extend: {
       colors: {
         primary: '#651FFF',
-        secondary: '#FF9800',
-        'blue-grey': '#607D8B',
-        gray: {
-          50: '#F9FAFB',
-          100: '#F3F4F6',
-          200: '#E5E7EB',
-          300: '#D1D5DB',
-          400: '#9CA3AF',
-          500: '#6B7280',
-          600: '#4B5563',
-          700: '#374151',
-          800: '#1F2937',
-          900: '#111827',
-        },
+        'primary-hover': '#7435ff',
+        orange: '#FF9102',
+        'orange-hover': '#ffc81f',
+        bluegrey: '#b4beca',
+        green: '#8AC34A',
+        red: '#F44436',
+        dark: '#212121',
+        'secondary-text': '#a6a6a6',
+        divider: '#c3cbd4',
+        disabled: '#b4beca',
+        'bg-grey': '#f0f2f4',
+        'dark-bg': '#212121',
+        'dark-card': '#292929',
+        'dark-text': '#fff',
+        'dark-accent': '#651FFF',
+        'dark-orange': '#FF9102',
       },
     },
   },

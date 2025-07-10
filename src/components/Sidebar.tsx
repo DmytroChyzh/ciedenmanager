@@ -1,13 +1,15 @@
 "use client";
 import React from 'react';
-import { HomeIcon, ChatBubbleLeftRightIcon, CalendarDaysIcon, CalculatorIcon } from '@heroicons/react/24/solid';
+import { HomeIcon, ChatBubbleLeftRightIcon, CalendarDaysIcon, CalculatorIcon, SparklesIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function Sidebar() {
   const pathname = usePathname();
   const { language, t } = useLanguage();
+  const { logout } = useAuth();
 
   const menuItems = [
     { 
@@ -15,6 +17,12 @@ export default function Sidebar() {
       label: t('dashboard'), 
       icon: <HomeIcon className="w-6 h-6" />,
       href: '/dashboard'
+    },
+    {
+      key: 'assistant',
+      label: t('assistant') || 'AI помічник',
+      icon: <SparklesIcon className="w-6 h-6" />,
+      href: '/assistant'
     },
     { 
       key: 'chats', 
@@ -37,39 +45,41 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-64 bg-white border-r border-[#ede7ff] flex flex-col px-4 z-30 min-h-screen">
-      <div className="flex items-center gap-3 mt-6 mb-8 select-none">
-        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="18" cy="18" r="16" fill="#ede7ff"/>
-          <path d="M18 7l2.09 6.26H26l-5.18 3.76L22.18 23 18 19.27 13.82 23l1.36-5.98L10 13.26h5.91L18 7z" fill="#651FFF"/>
-          <circle cx="27" cy="10" r="3" fill="#FFB300"/>
-        </svg>
-        <span className="font-extrabold text-xl text-[#222] tracking-tight leading-tight">
-          <span className="text-[#651FFF]">Cieden</span> Manager
-        </span>
-      </div>
-      
-      <nav className="flex flex-col gap-2">
+    <aside className="bg-white dark:bg-dark-card rounded-2xl w-[300px] h-[1070px] flex flex-col ml-8 mt-8 mb-4 border border-transparent dark:border-[#333]">
+      <nav className="flex flex-col gap-10 mt-16 flex-1">
         {menuItems.map((item) => {
           const isActive = pathname === item.href;
           return (
             <Link key={item.key} href={item.href} legacyBehavior>
-              <a className={`flex items-center gap-3 px-3 py-3 rounded-xl font-semibold transition w-full text-left text-base ${
+              <a className={`flex items-center gap-4 px-6 py-4 rounded-xl text-xl font-semibold transition w-[260px] text-left mx-auto ${
                 isActive 
-                  ? 'bg-[#651FFF] text-white shadow' 
-                  : 'hover:bg-[#ede7ff] text-[#373737]'
+                  ? 'bg-[#ede7ff] dark:bg-[#292929] text-[#651FFF] dark:text-dark-orange' 
+                  : 'hover:bg-[#f3f0ff] dark:hover:bg-[#232323] text-[#222] dark:text-dark-text'
               }`}>
-                <span className="w-6 h-6">
+                <span className="w-8 h-8 flex items-center justify-center">
                   {React.cloneElement(item.icon, { 
-                    className: `w-6 h-6 ${isActive ? 'text-white' : 'text-[#651FFF]'}` 
+                    className: `w-8 h-8 ${isActive ? 'text-[#651FFF] dark:text-dark-orange' : 'text-[#222] dark:text-dark-text'}` 
                   })}
                 </span>
-                {item.label}
+                <span className="truncate w-full">{item.label}</span>
               </a>
             </Link>
           );
         })}
       </nav>
+      
+      {/* Logout button at bottom */}
+      <div className="p-6">
+        <button 
+          onClick={logout}
+          className="flex items-center gap-4 px-6 py-4 rounded-xl text-xl font-semibold transition w-[260px] text-left mx-auto hover:bg-[#f3f0ff] dark:hover:bg-[#232323] text-[#222] dark:text-dark-text"
+        >
+          <span className="w-8 h-8 flex items-center justify-center">
+            <ArrowRightOnRectangleIcon className="w-8 h-8 text-[#222] dark:text-dark-text" />
+          </span>
+          <span className="truncate w-full">{t('signOut')}</span>
+        </button>
+      </div>
     </aside>
   );
 } 

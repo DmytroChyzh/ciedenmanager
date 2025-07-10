@@ -5,61 +5,36 @@ import { db } from '@/lib/firebase';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { UserGroupIcon, ChatBubbleLeftRightIcon, BoltIcon } from '@heroicons/react/24/solid';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import Header from '@/components/Header';
-import Sidebar from '@/components/Sidebar';
 import ChatSessionsTable from '@/components/ChatSessionsTable';
 import SalesChatView from '@/components/SalesChatView';
 import { useLanguage } from '@/contexts/LanguageContext';
+import GraphCard from '@/components/GraphCard';
+import UsersCountCard from '@/components/UsersCountCard';
+import ChatsCountCard from '@/components/ChatsCountCard';
+import TargetsTrackerCard from '@/components/ActiveChatsCard';
+import ChatViewMini from '@/components/ChatViewMini';
 
 const ICON_CLASSES = 'w-6 h-6 text-[#651FFF]';
 
-function GraphCard({ title, value, data, type, icon, percent, color }: any) {
-  const { t } = useLanguage();
-  
-  const chart = type === 'line' ? (
-    <ResponsiveContainer width="100%" height="100%">
-      <LineChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-        <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#8B97B0' }} />
-        <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#8B97B0' }} />
-        <Tooltip />
-        <Line type="monotone" dataKey="value" stroke={color} strokeWidth={2} dot={{ fill: color, strokeWidth: 2, r: 3 }} />
-      </LineChart>
-    </ResponsiveContainer>
-  ) : (
-    <ResponsiveContainer width="100%" height="100%">
-      <BarChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-        <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#8B97B0' }} />
-        <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#8B97B0' }} />
-        <Tooltip />
-        <Bar dataKey="value" fill={color} radius={[4, 4, 0, 0]} />
-      </BarChart>
-    </ResponsiveContainer>
-  );
-
-  return (
-    <div className="bg-white rounded-2xl shadow-md border border-[#ede7ff] p-6 flex flex-col min-w-[260px]">
-      <div className="flex items-center gap-3 mb-2">
-        <span>{icon}</span>
-        <span className="text-[#651FFF] font-semibold text-lg">{title}</span>
-      </div>
-      <div className="flex items-end gap-2 mb-2">
-        <span className="text-4xl font-bold text-[#222]">{value}</span>
-        <span className={`text-sm font-semibold ${percent >= 0 ? 'text-green-500' : 'text-red-500'}`}>{percent >= 0 ? `↑ ${percent}%` : `↓ ${Math.abs(percent)}%`} <span className="text-[#8B97B0] font-normal ml-1">{t('perWeek')}</span></span>
-      </div>
-      <div className="w-full h-20">{chart}</div>
-    </div>
-  );
-}
-
 export default function Dashboard() {
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, []);
+
   const { t } = useLanguage();
   const [chats, setChats] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
   const [generatingId, setGeneratingId] = useState<string | null>(null);
+  const [showDetails, setShowDetails] = useState(false);
+  
+  // Стани періодів для кожної картки
+  const [usersPeriod, setUsersPeriod] = useState<'week' | 'month' | 'year'>('week');
+  const [chatsPeriod, setChatsPeriod] = useState<'week' | 'month' | 'year'>('week');
+  const [targetsPeriod, setTargetsPeriod] = useState<'week' | 'month' | 'year'>('week');
 
   useEffect(() => {
     async function fetchChatSessions() {
@@ -89,26 +64,54 @@ export default function Dashboard() {
     fetchChatSessions();
   }, []);
 
+  const handleRowSelect = (sessionId: string) => {
+    setSelectedSessionId(sessionId);
+    setShowDetails(false);
+  };
+
   const handleGenerateReport = async (sessionId: string) => {
     setGeneratingId(sessionId);
     setSelectedSessionId(sessionId);
+    setShowDetails(true);
     setTimeout(() => setGeneratingId(null), 2000);
   };
 
-  // Метрики для графіків
-  const getMetricData = (chats: any[], metric: 'users' | 'chats' | 'active') => {
+  // Метрики для графіків з підтримкою періодів
+  const getMetricData = (chats: any[], metric: 'users' | 'chats' | 'active', period: 'week' | 'month' | 'year' = 'week') => {
     const now = new Date();
-    const week = [];
-    for (let i = 6; i >= 0; i--) {
-      const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
-      week.push({
-        day: ['Пн','Вт','Ср','Чт','Пт','Сб','Нд'][d.getDay() === 0 ? 6 : d.getDay() - 1],
-        date: d.toLocaleDateString(),
-        value: 0
-      });
+    const timeData = [];
+    
+    if (period === 'week') {
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
+        timeData.push({
+          day: ['monShort','tueShort','wedShort','thuShort','friShort','satShort','sunShort'][d.getDay() === 0 ? 6 : d.getDay() - 1],
+          date: d.toLocaleDateString(),
+          value: 0
+        });
+      }
+    } else if (period === 'month') {
+      for (let i = 29; i >= 0; i--) {
+        const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
+        timeData.push({
+          day: d.getDate().toString(),
+          date: d.toLocaleDateString(),
+          value: 0
+        });
+      }
+    } else { // year
+      for (let i = 11; i >= 0; i--) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        timeData.push({
+          day: d.toLocaleDateString('uk', { month: 'short' }),
+          date: d.toLocaleDateString(),
+          value: 0
+        });
+      }
     }
+
     if (metric === 'users') {
-      week.forEach(w => {
+      timeData.forEach(w => {
         const emails = new Set();
         chats.forEach(chat => {
           const date = chat.createdAt?.toDate?.() ? chat.createdAt.toDate().toLocaleDateString() : '—';
@@ -117,14 +120,14 @@ export default function Dashboard() {
         w.value = emails.size;
       });
     } else if (metric === 'chats') {
-      week.forEach(w => {
+      timeData.forEach(w => {
         w.value = chats.filter(chat => {
           const date = chat.createdAt?.toDate?.() ? chat.createdAt.toDate().toLocaleDateString() : '—';
           return date === w.date;
         }).length;
       });
     } else if (metric === 'active') {
-      week.forEach(w => {
+      timeData.forEach(w => {
         w.value = chats.filter(chat => {
           const updated = chat.updatedAt?.toDate?.() || chat.createdAt?.toDate?.();
           const date = updated ? updated.toLocaleDateString() : '—';
@@ -133,7 +136,7 @@ export default function Dashboard() {
         }).length;
       });
     }
-    return week;
+    return timeData;
   };
 
   const totalChats = chats.length;
@@ -144,7 +147,7 @@ export default function Dashboard() {
     return updated && now - updated.getTime() < 60 * 60 * 1000;
   }).length;
 
-  // Динаміка (для приросту)
+  // Динаміка (для приросту) з підтримкою періодів
   const getGrowth = (data: any[]) => {
     if (data.length < 2) return 0;
     const prev = data[data.length - 2].value;
@@ -179,63 +182,56 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F7F8F9] flex">
-      <Sidebar />
-      <div className="flex-1 flex flex-col">
-        <Header />
-        <main className="flex-1 p-8">
-          <div className="w-full h-full space-y-6">
-            {/* GraphCard метрики */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-              <GraphCard
-                title={t('usersCount')}
-                value={totalUsers}
-                data={getMetricData(chats, 'users')}
-                type="bar"
-                icon={<UserGroupIcon className="w-7 h-7 text-[#651FFF]" />}
-                percent={getGrowth(getMetricData(chats, 'users'))}
-                color="#651FFF"
-              />
-              <GraphCard
-                title={t('chatsCount')}
-                value={totalChats}
-                data={getMetricData(chats, 'chats')}
-                type="line"
-                icon={<ChatBubbleLeftRightIcon className="w-7 h-7 text-[#651FFF]" />}
-                percent={getGrowth(getMetricData(chats, 'chats'))}
-                color="#651FFF"
-              />
-              <GraphCard
-                title={t('activeChats')}
-                value={activeChats}
-                data={getMetricData(chats, 'active')}
-                type="line"
-                icon={<BoltIcon className="w-7 h-7 text-[#651FFF]" />}
-                percent={getGrowth(getMetricData(chats, 'active'))}
-                color="#651FFF"
-              />
-            </div>
-            <div className="w-full flex flex-row h-full min-h-0 gap-6" style={{height: '60vh', minHeight: '320px'}}>
-              <div className="flex-[2] flex flex-col h-full min-h-0">
-                <ChatSessionsTable
-                  sessions={chats}
-                  onSelect={setSelectedSessionId}
-                  selectedSessionId={selectedSessionId}
-                  onGenerateReport={handleGenerateReport}
-                />
-              </div>
-              <div className="flex-[1] flex flex-col h-full min-h-0">
-                {selectedSessionId ? (
-                  <SalesChatView sessionId={selectedSessionId} />
-                ) : (
-                  <div className="bg-white rounded-2xl border border-[#ede7ff] p-8 h-full flex items-center justify-center text-gray-400 min-h-[120px]">
-                    {t('selectSession')}
-                  </div>
-                )}
-              </div>
-            </div>
+    <div className="min-h-screen flex flex-col gap-8 overflow-hidden bg-[#F7F8F9] dark:bg-dark-bg">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <UsersCountCard 
+          value={totalUsers} 
+          data={getMetricData(chats, 'users', usersPeriod)} 
+          percent={getGrowth(getMetricData(chats, 'users', usersPeriod))}
+          onPeriodChange={setUsersPeriod}
+          currentPeriod={usersPeriod}
+        />
+        <ChatsCountCard 
+          value={totalChats} 
+          data={getMetricData(chats, 'chats', chatsPeriod)} 
+          percent={getGrowth(getMetricData(chats, 'chats', chatsPeriod))}
+          onPeriodChange={setChatsPeriod}
+          currentPeriod={chatsPeriod}
+        />
+        <TargetsTrackerCard 
+          value={totalChats} 
+          percent={getGrowth(getMetricData(chats, 'chats', targetsPeriod))}
+          onPeriodChange={setTargetsPeriod}
+          currentPeriod={targetsPeriod}
+        />
+      </div>
+      <div
+        className="flex flex-row gap-8"
+        style={{ height: 'calc(100vh - 96px - 32px - 32px - 32px)' }}
+      >
+        <div className="flex-1 flex flex-col h-full">
+          <div className="h-[65%] overflow-y-auto">
+            <ChatSessionsTable 
+              sessions={filteredChats} 
+              selectedSessionId={selectedSessionId} 
+              onSelect={handleRowSelect} 
+              onGenerateReport={handleGenerateReport}
+            />
           </div>
-        </main>
+        </div>
+        <div className="w-[606px] flex flex-col h-full">
+          <div className="h-[65%] overflow-y-auto">
+            {showDetails && selectedSessionId ? (
+              <SalesChatView sessionId={selectedSessionId} />
+            ) : selectedSessionId ? (
+              <ChatViewMini sessionId={selectedSessionId} />
+            ) : (
+              <div className="bg-white dark:bg-dark-card rounded-2xl p-8 h-full flex items-center justify-center text-gray-400 dark:text-dark-text min-h-[120px]">
+                {t('selectSession')}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

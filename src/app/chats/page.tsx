@@ -1,6 +1,4 @@
 "use client";
-import Sidebar from '@/components/Sidebar';
-import Header from '@/components/Header';
 import ChatList from '@/components/ChatList';
 import React, { useState, useEffect } from 'react';
 import { doc, onSnapshot } from 'firebase/firestore';
@@ -90,6 +88,11 @@ function ChatView({ sessionId }: { sessionId?: string }) {
 }
 
 export default function ChatsPage() {
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, []);
   const { t } = useLanguage();
   const [selectedSessionId, setSelectedSessionId] = useState<string | undefined>(undefined);
   const [showDetails, setShowDetails] = useState(false);
@@ -118,11 +121,9 @@ export default function ChatsPage() {
 
   return (
     <div className="min-h-screen bg-[#F7F8F9] flex">
-      <Sidebar />
       <div className="flex-1 flex flex-col h-full min-h-0">
-        <Header />
-        <main className="flex-1 p-8 h-full min-h-0">
-          <div className="bg-white rounded-2xl border border-[#ede7ff] flex flex-col h-[85vh] min-h-[500px] w-full overflow-hidden">
+        <main className="flex-1 h-full min-h-0">
+          <div className="bg-white rounded-2xl flex flex-col h-[85vh] min-h-[500px] w-full overflow-hidden">
             {/* Основний flex-контейнер */}
             <div className="flex flex-1 min-h-0 h-full w-full">
               <div className="h-full border-r border-gray-200 flex-shrink-0">
@@ -130,7 +131,7 @@ export default function ChatsPage() {
               </div>
               <div className="flex-1 flex flex-col min-w-0 h-full min-h-0">
                 {/* Центральний хедер */}
-                <div className="flex items-center justify-between w-full border-b border-gray-200 px-8 py-8 gap-6 bg-white" style={{minHeight: '96px'}}>
+                <div className="flex items-center justify-between w-full border-b border-gray-200 px-6 py-6 gap-6 bg-white" style={{minHeight: '96px'}}>
                   <div className="flex items-center gap-2 min-w-[220px]">
                     {/* <h2 className="text-xl font-bold text-[#651FFF]">Чат-сесії</h2> */}
                     {/* Якщо треба залишити тільки лічильник, розкоментуй наступний рядок: */}
@@ -152,11 +153,11 @@ export default function ChatsPage() {
                 </div>
                 {/* Чат */}
                 {showDetails && selectedSessionId ? (
-                  <div className="flex-1 min-h-0 flex flex-col px-8 py-6 justify-center h-full">
+                  <div className="flex-1 min-h-0 flex flex-col px-6 py-4 justify-center h-full">
                     <ChatView sessionId={selectedSessionId} />
                   </div>
                 ) : (
-                  <div className="flex-1 min-h-0 flex flex-col px-8 py-6 justify-center h-full">
+                  <div className="flex-1 min-h-0 flex flex-col px-6 py-4 justify-center h-full">
                     <ChatView sessionId={selectedSessionId} />
                   </div>
                 )}

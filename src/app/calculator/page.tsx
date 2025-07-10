@@ -1,15 +1,18 @@
-import Sidebar from '@/components/Sidebar';
-import Header from '@/components/Header';
+'use client';
+import Calculator from '@/components/Calculator';
+import { useEffect } from 'react';
 
 export default function CalculatorPage() {
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, []);
   return (
-    <div className="min-h-screen bg-[#F7F8F9] flex">
-      <Sidebar />
+    <div className="min-h-screen flex flex-col gap-8 overflow-hidden">
       <div className="flex-1 flex flex-col">
-        <Header />
-        <main className="flex-1 p-8">
-          <h1 className="text-2xl font-bold text-[#651FFF]">Calculator</h1>
-          {/* Add your calculator UI here, all text in English */}
+        <main className="flex-1">
+          <Calculator />
         </main>
       </div>
     </div>

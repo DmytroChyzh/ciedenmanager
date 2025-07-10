@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { subscribeToChatSessions } from '@/lib/firestore';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ChatListSession {
   id: string;
@@ -22,7 +23,14 @@ interface ChatListProps {
 
 export default function ChatList({ selectedSessionId, onSelect, hideHeader }: ChatListProps) {
   const [sessions, setSessions] = useState<ChatListSession[]>([]);
-  const [readSessions, setReadSessions] = useState<Set<string>>(new Set());
+  const [readSessions, setReadSessions] = useState<Set<string>>(() => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('readSessions');
+      return stored ? new Set(JSON.parse(stored)) : new Set();
+    }
+    return new Set();
+  });
+  const { t } = useLanguage();
 
   useEffect(() => {
     const unsubscribe = subscribeToChatSessions((data) => {
@@ -33,9 +41,18 @@ export default function ChatList({ selectedSessionId, onSelect, hideHeader }: Ch
 
   useEffect(() => {
     if (selectedSessionId) {
-      setReadSessions(prev => new Set(prev).add(selectedSessionId));
+      setReadSessions(prev => {
+        const updated = new Set(prev).add(selectedSessionId);
+        localStorage.setItem('readSessions', JSON.stringify(Array.from(updated)));
+        return updated;
+      });
     }
   }, [selectedSessionId]);
+
+  useEffect(() => {
+    // Синхронізуємо localStorage якщо щось змінилося (наприклад, очищення)
+    localStorage.setItem('readSessions', JSON.stringify(Array.from(readSessions)));
+  }, [readSessions]);
 
   return (
     <aside className="w-80 max-w-xs min-w-[260px] border-r border-[#ede7ff] bg-white rounded-l-2xl h-full flex flex-col">
@@ -67,7 +84,7 @@ export default function ChatList({ selectedSessionId, onSelect, hideHeader }: Ch
                   <div className="text-xs text-gray-400">{session.messages?.length ?? 0} повідомлень</div>
                 </div>
                 <span className={`ml-auto px-2 py-1 rounded-full text-xs font-medium ${readSessions.has(session.id) ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-500'}`}>
-                  {readSessions.has(session.id) ? 'Прочитано' : 'Непрочитано'}
+                  {readSessions.has(session.id) ? t('read') : t('unread')}
                 </span>
               </li>
             ))}

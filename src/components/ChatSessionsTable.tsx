@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ChatSessionsTableProps {
   sessions: any[];
@@ -9,98 +10,94 @@ interface ChatSessionsTableProps {
 }
 
 export default function ChatSessionsTable({ sessions, selectedSessionId, onSelect, onGenerateReport }: ChatSessionsTableProps) {
-  const [filter, setFilter] = useState({ status: 'all', email: '' });
+  const { t } = useLanguage();
+  const [filter, setFilter] = useState({ email: '' });
 
   const filtered = sessions.filter(session => {
-    const matchesStatus = filter.status === 'all' || session.metadata?.status === filter.status;
-    const matchesEmail = !filter.email || session.metadata?.userEmail?.toLowerCase().includes(filter.email.toLowerCase());
-    return matchesStatus && matchesEmail;
+    const matchesName = !filter.email || session.metadata?.userName?.toLowerCase().includes(filter.email.toLowerCase());
+    return matchesName;
   });
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'active': return 'bg-green-100 text-green-800';
-      case 'completed': return 'bg-blue-100 text-blue-800';
-      case 'archived': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
+  const getStatusColor = (isActive: boolean) => {
+    return isActive
+      ? 'bg-green-100 text-green-800'
+      : 'bg-gray-100 text-gray-500';
   };
 
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'active': return 'Активна';
-      case 'completed': return 'Завершена';
-      case 'archived': return 'Архівна';
-      default: return status;
-    }
+  const getStatusText = (isActive: boolean) => {
+    return isActive ? t('active') : t('inactive');
   };
+
+  const now = Date.now();
 
   return (
-    <div className="bg-white rounded-2xl border border-[#ede7ff] p-8 h-full min-h-0 flex flex-col pb-4">
+    <div className="bg-white dark:bg-dark-card rounded-2xl p-8 h-full min-h-0 flex flex-col pb-4">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-        <h2 className="text-xl font-semibold text-[#651FFF]">Останні сесії</h2>
+        <h2 className="text-xl font-semibold text-[#651FFF] dark:text-dark-orange">{t('latestSessions')}</h2>
         <div className="flex gap-2">
-          <select
-            value={filter.status}
-            onChange={e => setFilter(f => ({ ...f, status: e.target.value }))}
-            className="border border-gray-300 rounded-md px-3 py-2 text-sm"
-          >
-            <option value="all">Всі статуси</option>
-            <option value="active">Активні</option>
-            <option value="completed">Завершені</option>
-            <option value="archived">Архівні</option>
-          </select>
           <input
             type="text"
-            placeholder="Пошук по email..."
+            placeholder={t('searchByName')}
             value={filter.email}
             onChange={e => setFilter(f => ({ ...f, email: e.target.value }))}
-            className="border border-gray-300 rounded-md px-3 py-2 text-sm w-64"
+            className="border border-gray-300 dark:border-[#333] rounded-md px-3 py-2 text-sm w-64 bg-white dark:bg-dark-card text-[#222] dark:text-dark-text"
           />
         </div>
       </div>
       <div className="overflow-x-auto overflow-y-auto flex-1 min-h-0 max-h-full">
-        <table className="min-w-full text-sm">
+        <table className="min-w-full text-sm rounded-2xl overflow-hidden bg-white dark:bg-dark-card text-[#222] dark:text-dark-text">
           <thead>
-            <tr className="bg-[#ede7ff]">
-              <th className="px-4 py-2 text-left font-medium text-[#651FFF]">Ім'я</th>
-              <th className="px-4 py-2 text-left font-medium text-[#651FFF]">Email</th>
-              <th className="px-4 py-2 text-left font-medium text-[#651FFF]">Статус</th>
-              <th className="px-4 py-2 text-left font-medium text-[#651FFF]">Дата створення</th>
-              <th className="px-4 py-2 text-left font-medium text-[#651FFF]">Повідомлень</th>
-              <th className="px-4 py-2"></th>
+            <tr className="bg-[#F8F9FA] dark:bg-[#232323] text-[#651FFF] dark:text-dark-orange text-base rounded-2xl">
+              <th className="px-4 py-3 text-left font-semibold">{t('name')}</th>
+              <th className="px-4 py-3 text-left font-semibold">{t('email')}</th>
+              <th className="px-4 py-3 text-left font-semibold">{t('status')}</th>
+              <th className="px-4 py-3 text-left font-semibold">{t('createdAt')}</th>
+              <th className="px-4 py-3 text-left font-semibold">{t('messages')}</th>
+              <th className="px-4 py-3"></th>
             </tr>
           </thead>
           <tbody>
             {filtered.length === 0 ? (
-              <tr><td colSpan={6} className="text-center py-4 text-gray-400">Немає сесій</td></tr>
-            ) : (
-              filtered.map(session => (
-                <tr
-                  key={session.id}
-                  className={`hover:bg-[#ede7ff]/60 transition-colors cursor-pointer ${selectedSessionId === session.id ? 'bg-[#ede7ff] font-bold' : ''}`}
-                  onClick={() => onSelect && onSelect(session.id)}
-                >
-                  <td className="px-4 py-2">{session.metadata?.userName || '—'}</td>
-                  <td className="px-4 py-2">{session.metadata?.userEmail || '—'}</td>
-                  <td className="px-4 py-2">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(session.metadata?.status)}`}>
-                      {getStatusText(session.metadata?.status)}
-                    </span>
-                  </td>
-                  <td className="px-4 py-2">{session.metadata?.startedAt?.toDate?.().toLocaleString('uk-UA') || '—'}</td>
-                  <td className="px-4 py-2">{session.metadata?.totalMessages ?? session.messages?.length ?? 0}</td>
-                  <td className="px-4 py-2">
-                    <button
-                      className="bg-[#651FFF] text-white px-4 py-2 rounded-lg hover:bg-[#5A1BE0] transition-colors text-sm font-semibold"
-                      onClick={e => { e.stopPropagation(); onGenerateReport && onGenerateReport(session.id); }}
-                    >
-                      Згенерувати звіт
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
+              <tr><td colSpan={6} className="text-center py-4 text-gray-400">{t('noSessions')}</td></tr>
+            ) :
+              filtered.map(session => {
+                const updated = session.updatedAt?.toDate?.() || session.createdAt?.toDate?.();
+                const isActive = updated && (now - updated.getTime() < 5 * 60 * 1000); // 5 хвилин
+                return (
+                  <tr
+                    key={session.id}
+                    className={`border-b border-[#ede7ff] dark:border-[#333] hover:bg-[#f3f0ff] dark:hover:bg-[#232323] transition-all cursor-pointer ${selectedSessionId === session.id ? 'bg-[#ede7ff]/60 dark:bg-[#292929]' : ''}`}
+                    onClick={() => onSelect && onSelect(session.id)}
+                  >
+                    <td className={selectedSessionId === session.id ? "px-4 py-5 text-primary dark:text-dark-orange" : "px-4 py-5"}>{session.metadata?.userName || '—'}</td>
+                    <td className={selectedSessionId === session.id ? "px-4 py-5 text-primary" : "px-4 py-5"}>{session.metadata?.userEmail || '—'}</td>
+                    <td className={selectedSessionId === session.id ? "px-4 py-5 text-primary" : "px-4 py-5"}>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs transition-colors duration-200 ${selectedSessionId === session.id ? 'font-medium' : 'font-normal'}
+                          ${(() => {
+                            if (isActive) return 'bg-green text-white';
+                            return 'bg-[#e0f2fa] dark:bg-[#232323] text-dark dark:text-dark-text';
+                          })()}
+                        `}
+                      >
+                        {getStatusText(isActive)}
+                      </span>
+                    </td>
+                    <td className={selectedSessionId === session.id ? "px-4 py-5 text-primary" : "px-4 py-5"}>{session.metadata?.startedAt?.toDate?.().toLocaleString('uk-UA') || '—'}</td>
+                    <td className={selectedSessionId === session.id ? "px-4 py-5 text-primary" : "px-4 py-5"}>{session.metadata?.totalMessages ?? session.messages?.length ?? 0}</td>
+                    <td className={selectedSessionId === session.id ? "px-4 py-5 text-primary" : "px-4 py-5"}>
+                      <button
+                        className="border border-primary text-dark dark:text-dark-text font-semibold text-xs uppercase tracking-wider bg-white dark:bg-dark-card px-5 py-2.5 rounded-md flex items-center justify-center gap-2 transition-colors transition-border duration-200 hover:bg-primary hover:text-white hover:border-primary group"
+                        onClick={e => { e.stopPropagation(); onGenerateReport && onGenerateReport(session.id); }}
+                      >
+                        {t('generateReport')}
+                        <svg className="w-5 h-5 ml-1 transition-colors duration-200 group-hover:text-white text-primary dark:text-dark-orange" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
+            }
           </tbody>
         </table>
       </div>

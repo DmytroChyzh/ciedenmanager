@@ -6,7 +6,6 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
-import logoUrl from '../../public/cieden-logo.svg';
 
 interface SalesChatViewProps {
   sessionId: string;
@@ -113,7 +112,7 @@ Next steps: [вкажіть наступні кроки]
     // Логотип
     try {
       const img = new Image();
-      img.src = logoUrl;
+      img.src = '/logo1.svg';
       await new Promise(res => { img.onload = res; });
       doc.addImage(img, 'SVG', 10, 10, 40, 16);
     } catch {}
@@ -220,47 +219,47 @@ Next steps: [вкажіть наступні кроки]
   }
 
   return (
-    <div className={`bg-white border border-[#ede7ff] p-6 h-full min-h-0 flex-1 flex flex-col gap-4 pb-4 overflow-y-auto max-h-full ${rounded ? 'rounded-2xl' : ''}`}>
-      <div className="font-bold text-lg text-[#651FFF] mb-2">Деталі сесії</div>
+    <div className={`bg-white dark:bg-dark-card rounded-2xl p-8 h-full min-h-0 flex flex-col gap-6 ${rounded ? 'rounded-2xl' : ''}`}>
+      <h2 className="text-xl font-semibold text-[#651FFF] dark:text-dark-orange mb-4">{t('sessionDetails')}</h2>
       <div className="mb-2">
         <div className="text-sm text-gray-500">ID сесії: {sessionId}</div>
         <div className="text-sm text-gray-700">Клієнт: {session.metadata?.userName || '—'}</div>
         <div className="text-sm text-gray-500">Email: {session.metadata?.userEmail || '—'}</div>
       </div>
       <div className="mb-4">
-        <div className="font-semibold mb-1">{t('chat')}</div>
-        <div className="bg-[#f7f8fa] rounded-lg p-3 min-h-[120px] text-gray-700 max-h-48 overflow-y-auto flex flex-col gap-2">
-          {messages.length > 0 ? (
-            messages.map((msg, idx) => (
-              <div key={idx} className="flex flex-col text-xs">
-                <span className="font-semibold text-[#651FFF]">{msg.role === 'user' ? t('client') : msg.role === 'manager' ? t('manager') : t('ai')}</span>
-                <span className="text-gray-800">{msg.text || msg.content || msg.message || <span className="italic text-gray-400">{t('noText')}</span>}</span>
+        <div className="font-bold text-lg text-[#651FFF] dark:text-dark-orange mb-2">Чат</div>
+        <div className="flex flex-col gap-2">
+          {session?.messages?.length > 0 ? (
+            session.messages.map((msg: any, idx: number) => (
+              <div key={idx} className="flex flex-col text-xs bg-[#f7f8fa] dark:bg-[#232323] rounded-lg p-2">
+                <span className="font-semibold text-[#651FFF] dark:text-dark-orange">{msg.role === 'user' ? 'Клієнт' : msg.role === 'manager' ? 'Менеджер' : 'AI'}</span>
+                <span className="text-gray-800 dark:text-dark-text">{msg.text || msg.content || msg.message || <span className="italic text-gray-400 dark:text-dark-text">(немає тексту)</span>}</span>
                 {msg.timestamp?.toDate && (
-                  <span className="text-gray-400">{msg.timestamp.toDate().toLocaleString('uk-UA')}</span>
+                  <span className="text-gray-400 dark:text-dark-text">{msg.timestamp.toDate().toLocaleString('uk-UA')}</span>
                 )}
               </div>
             ))
           ) : (
-            <span className="italic text-gray-400">{t('noMessagesInSession')}</span>
+            <span className="italic text-gray-400 dark:text-dark-text">Немає повідомлень у цій сесії</span>
           )}
         </div>
       </div>
       <div className="mb-4">
-        <div className="font-semibold mb-1">{t('autoSummary')}</div>
-        <div className="bg-[#f5f3ff] rounded-lg p-3 min-h-[60px] text-gray-700">
-          {aiLoading ? <span className="text-gray-400">{t('generatingSummary')}</span> : aiSummary || <span className="italic text-gray-400">{t('notEnoughData')}</span>}
+        <div className="font-bold text-lg text-[#651FFF] dark:text-dark-orange mb-2">Auto-summary</div>
+        <div className="bg-[#f7f8fa] dark:bg-[#232323] rounded-lg p-2 text-gray-400 dark:text-dark-text text-sm">
+          {aiSummary || t('notEnoughData')}
         </div>
       </div>
       <div className="mb-4">
-        <div className="font-semibold mb-1">{t('estimate')}</div>
-        <div className="bg-[#f5f3ff] rounded-lg p-3 min-h-[40px] text-gray-700">
-          {aiLoading ? <span className="text-gray-400">{t('generatingEstimate')}</span> : aiEstimate || <span className="italic text-gray-400">{t('notEnoughData')}</span>}
+        <div className="font-bold text-lg text-[#651FFF] dark:text-dark-orange mb-2">Estimate</div>
+        <div className="bg-[#f7f8fa] dark:bg-[#232323] rounded-lg p-2 text-gray-400 dark:text-dark-text text-sm">
+          {aiEstimate || t('notEnoughData')}
         </div>
       </div>
       <div className="mb-4">
-        <div className="font-semibold mb-1">{t('researchHighlights')}</div>
-        <div className="bg-[#f5f3ff] rounded-lg p-3 min-h-[60px] text-gray-700">
-          {aiLoading ? <span className="text-gray-400">{t('generatingHighlights')}</span> : aiHighlights || <span className="italic text-gray-400">{t('notEnoughData')}</span>}
+        <div className="font-bold text-lg text-[#651FFF] dark:text-dark-orange mb-2">Research Highlights</div>
+        <div className="bg-[#f7f8fa] dark:bg-[#232323] rounded-lg p-2 text-gray-400 dark:text-dark-text text-sm">
+          {aiHighlights || t('notEnoughData')}
         </div>
       </div>
       <div className="flex gap-2 mt-2">
