@@ -72,23 +72,23 @@ export default function Calculator() {
   ];
 
   return (
-    <div className="h-full w-full flex flex-col bg-[#f7f8fa] p-0 m-0">
-      <div className="bg-white rounded-2xl h-full max-h-[1070px] flex flex-col w-full min-h-0 justify-start items-center">
+    <div className="h-full w-full flex flex-col bg-[#f7f8fa] p-2 sm:p-4 md:p-8 m-0">
+      <div className="bg-white rounded-2xl h-full max-h-full flex flex-col w-full min-h-0 justify-start items-center">
         {/* Дисплей */}
-        <div className="w-full px-8 pt-10 pb-4 flex flex-col items-end">
-          <div className="w-full text-right text-[#651FFF] text-[8rem] font-bold tracking-tight leading-none select-all truncate bg-white rounded-xl shadow-md border border-[#ede7ff] p-6 mb-2" style={{ fontWeight: 700 }}>{result}</div>
-          <div className="w-full text-right text-[#888] text-5xl font-mono tracking-tight leading-none select-all truncate bg-white rounded-lg px-4 py-2" style={{ minHeight: '2.5rem' }}>{expression}</div>
+        <div className="w-full px-2 sm:px-4 md:px-8 pt-4 sm:pt-8 md:pt-10 pb-2 sm:pb-4 flex flex-col items-end">
+          <div className="w-full text-right text-[#651FFF] text-3xl sm:text-5xl md:text-8xl font-bold tracking-tight leading-none select-all truncate bg-white rounded-xl shadow-md border border-[#ede7ff] p-2 sm:p-4 md:p-6 mb-2" style={{ fontWeight: 700 }}>{result}</div>
+          <div className="w-full text-right text-[#888] text-lg sm:text-2xl md:text-5xl font-mono tracking-tight leading-none select-all truncate bg-white rounded-lg px-2 sm:px-4 py-1 sm:py-2" style={{ minHeight: '2.5rem' }}>{expression}</div>
         </div>
-        <div className="flex-1 flex flex-col items-center justify-start w-full pb-8">
-          <div className="w-full max-w-[1200px] mx-auto flex justify-center">
-            <div className="grid grid-cols-7 gap-4 w-full">
+        <div className="flex-1 flex flex-col items-center justify-start w-full pb-4 sm:pb-8">
+          <div className="w-full max-w-full md:max-w-[1200px] mx-auto flex justify-center">
+            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2 sm:gap-3 md:gap-4 w-full">
               {[
                 ...mainButtons.flat().filter(Boolean),
                 ...advButtons
               ].map((btn, i) => (
                 <button
                   key={i}
-                  className="w-32 h-24 rounded-xl transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#651FFF] select-none flex items-center justify-center bg-[#f6f2ff] text-[#651FFF] hover:bg-[#ede7ff] text-2xl font-bold shadow-md"
+                  className="w-full h-16 sm:h-20 md:h-24 rounded-xl transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#651FFF] select-none flex items-center justify-center bg-[#f6f2ff] text-[#651FFF] hover:bg-[#ede7ff] text-lg sm:text-2xl font-bold shadow-md"
                   onClick={() => handleClick(btn)}
                 >
                   {btn}

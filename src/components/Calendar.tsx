@@ -93,7 +93,7 @@ export default function Calendar() {
   }
 
   return (
-    <div className="bg-white rounded-2xl p-6 h-full max-h-[1070px] flex flex-col">
+    <div className="bg-white rounded-2xl p-2 sm:p-4 md:p-6 h-full max-h-full flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
@@ -216,7 +216,7 @@ export default function Calendar() {
       {/* Calendar Grid */}
       <div className="flex-1 min-h-0">
         {viewMode === 'month' && (
-          <div className="grid grid-cols-7 gap-1 h-full">
+          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-1 h-full">
             {/* Week days header */}
             {weekDays.map((day) => (
               <div key={day} className="p-3 text-center font-semibold text-gray-600 text-sm border-b">

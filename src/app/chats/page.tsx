@@ -6,6 +6,7 @@ import { db } from '@/lib/firebase';
 import { UserCircleIcon, SparklesIcon } from '@heroicons/react/24/solid';
 import SalesChatView from '@/components/SalesChatView';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
 function ChatView({ sessionId }: { sessionId?: string }) {
   const { t } = useLanguage();
@@ -119,31 +120,56 @@ export default function ChatsPage() {
     setLoadingDetails(false);
   }, [selectedSessionId]);
 
+  const [showSidebar, setShowSidebar] = useState(false);
+
   return (
-    <div className="min-h-screen bg-[#F7F8F9] flex">
+    <div className="min-h-screen bg-[#F7F8F9] flex flex-col md:flex-row">
+      {/* Sidebar для мобільних */}
+      <div className="block md:hidden w-full">
+        <button
+          className="fixed top-4 left-4 z-30 bg-white border border-gray-200 rounded-full p-2 shadow-md md:hidden"
+          onClick={() => setShowSidebar(true)}
+          aria-label="Відкрити меню"
+        >
+          <Bars3Icon className="w-7 h-7 text-[#651FFF]" />
+        </button>
+        {showSidebar && (
+          <div className="fixed inset-0 z-40 bg-black bg-opacity-30 flex">
+            <aside className="w-72 max-w-[90vw] h-full bg-white border-r border-gray-200 flex flex-col animate-slideInLeft">
+              <div className="flex items-center justify-between px-6 py-6 border-b border-gray-200">
+                <span className="font-bold text-xl text-[#651FFF]">{t('chats')}</span>
+                <button onClick={() => setShowSidebar(false)} className="text-gray-400 hover:text-gray-700 p-2 rounded-full">
+                  <XMarkIcon className="w-6 h-6" />
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto">
+                <ChatList selectedSessionId={selectedSessionId} onSelect={id => { setSelectedSessionId(id); setShowDetails(false); setShowSidebar(false); }} hideHeader />
+              </div>
+            </aside>
+            <div className="flex-1" onClick={() => setShowSidebar(false)} />
+          </div>
+        )}
+      </div>
+      {/* Main content */}
       <div className="flex-1 flex flex-col h-full min-h-0">
         <main className="flex-1 h-full min-h-0">
-          <div className="bg-white rounded-2xl flex flex-col h-[85vh] min-h-[500px] w-full overflow-hidden">
-            {/* Основний flex-контейнер */}
-            <div className="flex flex-1 min-h-0 h-full w-full">
-              <div className="h-full border-r border-gray-200 flex-shrink-0">
+          <div className="bg-white rounded-2xl flex flex-col h-[80vh] min-h-[400px] w-full overflow-hidden">
+            <div className="flex flex-col md:flex-row flex-1 min-h-0 h-full w-full">
+              {/* Sidebar для desktop/tablet */}
+              <div className="hidden md:block h-full border-r border-gray-200 flex-shrink-0 min-w-[220px] max-w-[320px] w-[260px]">
                 <ChatList selectedSessionId={selectedSessionId} onSelect={id => { setSelectedSessionId(id); setShowDetails(false); }} hideHeader />
               </div>
               <div className="flex-1 flex flex-col min-w-0 h-full min-h-0">
-                {/* Центральний хедер */}
-                <div className="flex items-center justify-between w-full border-b border-gray-200 px-6 py-6 gap-6 bg-white" style={{minHeight: '96px'}}>
-                  <div className="flex items-center gap-2 min-w-[220px]">
-                    {/* <h2 className="text-xl font-bold text-[#651FFF]">Чат-сесії</h2> */}
-                    {/* Якщо треба залишити тільки лічильник, розкоментуй наступний рядок: */}
-                    {/* <span className="text-sm text-gray-500 font-semibold">{{sessions.length}} активних</span> */}
+                <div className="flex items-center justify-between w-full border-b border-gray-200 px-3 sm:px-6 py-3 sm:py-6 gap-3 sm:gap-6 bg-white" style={{minHeight: '72px'}}>
+                  <div className="flex items-center gap-2 min-w-[120px] sm:min-w-[220px]">
                   </div>
                   <div className="flex flex-col items-center flex-1 min-w-0">
-                    <div className="font-bold text-lg text-[#651FFF] truncate w-full text-center">{selectedSession ? `${t('chatWith')} ${selectedSession.metadata?.userName || '—'}` : t('selectChat')}</div>
+                    <div className="font-bold text-base sm:text-lg text-[#651FFF] truncate w-full text-center">{selectedSession ? `${t('chatWith')} ${selectedSession.metadata?.userName || '—'}` : t('selectChat')}</div>
                     <div className="text-xs text-gray-500 truncate w-full text-center">{selectedSession?.metadata?.userEmail || ''}</div>
                   </div>
-                  <div className="flex items-center min-w-[180px] justify-end">
+                  <div className="flex items-center min-w-[100px] sm:min-w-[180px] justify-end">
                     <button
-                      className="bg-[#651FFF] text-white px-5 py-2 rounded-lg hover:bg-[#5A1BE0] transition-colors text-base font-semibold shadow-sm"
+                      className="bg-[#651FFF] text-white px-3 sm:px-5 py-2 rounded-lg hover:bg-[#5A1BE0] transition-colors text-sm sm:text-base font-semibold shadow-sm"
                       onClick={handleGenerateReport}
                       disabled={!selectedSessionId}
                     >
@@ -152,26 +178,21 @@ export default function ChatsPage() {
                   </div>
                 </div>
                 {/* Чат */}
-                {showDetails && selectedSessionId ? (
-                  <div className="flex-1 min-h-0 flex flex-col px-6 py-4 justify-center h-full">
-                    <ChatView sessionId={selectedSessionId} />
-                  </div>
-                ) : (
-                  <div className="flex-1 min-h-0 flex flex-col px-6 py-4 justify-center h-full">
-                    <ChatView sessionId={selectedSessionId} />
-                  </div>
-                )}
+                <div className="flex-1 min-h-0 flex flex-col px-2 sm:px-6 py-2 sm:py-4 justify-center h-full">
+                  <ChatView sessionId={selectedSessionId} />
+                </div>
               </div>
+              {/* Деталі/AI summary */}
               {loadingDetails && selectedSessionId && (
-                <div className="h-full flex flex-col w-[600px] max-w-[700px] min-w-[520px] flex-shrink-0 border-l border-[#ede7ff] items-center justify-center">
+                <div className="hidden md:flex h-full flex-col w-[320px] lg:w-[600px] max-w-[90vw] flex-shrink-0 border-l border-[#ede7ff] items-center justify-center">
                   <div className="flex flex-col items-center justify-center h-full w-full">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#651FFF] mb-4"></div>
-                    <div className="text-[#651FFF] font-semibold text-lg">{t('generatingReport')}</div>
+                    <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#651FFF] mb-4"></div>
+                    <div className="text-[#651FFF] font-semibold text-base lg:text-lg">{t('generatingReport')}</div>
                   </div>
                 </div>
               )}
               {showDetails && selectedSessionId && !loadingDetails && (
-                <div className="h-full flex flex-col w-[600px] max-w-[700px] min-w-[520px] flex-shrink-0 border-l border-[#ede7ff]">
+                <div className="hidden md:flex h-full flex-col w-[320px] lg:w-[600px] max-w-[90vw] flex-shrink-0 border-l border-[#ede7ff]">
                   <SalesChatView sessionId={selectedSessionId} rounded={false} />
                 </div>
               )}
