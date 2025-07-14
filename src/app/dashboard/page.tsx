@@ -206,27 +206,31 @@ export default function Dashboard() {
         />
       </div>
       <div className="flex flex-col md:flex-row gap-4 md:gap-8 w-full min-h-0 flex-1">
-        <div className="flex-1 flex flex-col h-full min-h-0 pb-8">
-          <div className="h-full overflow-y-auto min-h-0">
-            <ChatSessionsTable 
-              sessions={filteredChats} 
-              selectedSessionId={selectedSessionId} 
-              onSelect={handleRowSelect} 
-              onGenerateReport={handleGenerateReport}
-            />
+        <div className="flex-1 flex flex-col h-full min-h-0">
+          <div className="flex-1 flex flex-col min-h-0 pb-8">
+            <div className="h-full overflow-y-auto min-h-0">
+              <ChatSessionsTable 
+                sessions={filteredChats} 
+                selectedSessionId={selectedSessionId} 
+                onSelect={handleRowSelect} 
+                onGenerateReport={handleGenerateReport}
+              />
+            </div>
           </div>
         </div>
-        <div className="w-full md:w-[606px] flex flex-col h-full min-h-0 pb-8">
-          <div className="h-full overflow-y-auto min-h-0">
-            {showDetails && selectedSessionId ? (
-              <SalesChatView sessionId={selectedSessionId} />
-            ) : selectedSessionId ? (
-              <ChatViewMini sessionId={selectedSessionId} />
-            ) : (
-              <div className="bg-white dark:bg-dark-card rounded-2xl p-4 md:p-8 h-full flex items-center justify-center text-gray-400 dark:text-dark-text min-h-[80px] md:min-h-[120px] text-sm md:text-base text-center">
-                {t('selectSession')}
-              </div>
-            )}
+        <div className="w-full md:w-[606px] flex flex-col h-full min-h-0">
+          <div className="flex-1 flex flex-col min-h-0 pb-8">
+            <div className="h-full overflow-y-auto min-h-0">
+              {showDetails && selectedSessionId ? (
+                <SalesChatView sessionId={selectedSessionId} />
+              ) : selectedSessionId ? (
+                <ChatViewMini sessionId={selectedSessionId} />
+              ) : (
+                <div className="bg-white dark:bg-dark-card rounded-2xl p-4 md:p-8 h-full flex items-center justify-center text-gray-400 dark:text-dark-text min-h-[80px] md:min-h-[120px] text-sm md:text-base text-center">
+                  {t('selectSession')}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
