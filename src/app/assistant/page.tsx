@@ -408,7 +408,7 @@ export default function AssistantPage() {
   ];
 
   return (
-    <div className="rounded-2xl min-h-[600px] h-full flex flex-col md:flex-row w-full max-w-full md:max-w-[2164px] mx-auto p-0">
+    <div className="rounded-2xl min-h-0 flex flex-col md:flex-row w-full max-w-full md:max-w-[2164px] mx-auto p-0" style={{height: '100vh'}}>
       {/* Sidebar для мобільних */}
       <div className="block md:hidden w-full">
         <button
@@ -490,8 +490,8 @@ export default function AssistantPage() {
         )}
       </div>
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col bg-white rounded-none md:rounded-l-2xl h-full relative overflow-y-auto min-w-0">
-        <div className="flex flex-col h-full w-full max-w-full md:max-w-5xl mx-auto">
+      <div className="flex-1 flex flex-col bg-white rounded-none md:rounded-l-2xl h-full min-h-0 relative overflow-y-auto">
+        <div className="flex flex-col h-full w-full max-w-full md:max-w-5xl mx-auto min-h-0 flex-1">
           {/* Empty State - Centered Input */}
           {activeChat.messages.length === 0 && (
             <div className="flex-1 flex flex-col justify-center items-center px-2 sm:px-4 py-6 sm:py-8">

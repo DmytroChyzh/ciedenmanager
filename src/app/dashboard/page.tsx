@@ -182,8 +182,8 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col gap-4 md:gap-8 overflow-hidden bg-[#F7F8F9] dark:bg-dark-bg">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+    <div className="min-h-0 flex-1 flex flex-col gap-4 md:gap-8 overflow-hidden bg-[#F7F8F9] dark:bg-dark-bg" style={{height: '100vh'}}>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 flex-shrink-0">
         <UsersCountCard 
           value={totalUsers} 
           data={getMetricData(chats, 'users', usersPeriod)} 
@@ -205,12 +205,9 @@ export default function Dashboard() {
           currentPeriod={targetsPeriod}
         />
       </div>
-      <div
-        className="flex flex-col md:flex-row gap-4 md:gap-8 w-full"
-        style={{ minHeight: '400px' }}
-      >
-        <div className="flex-1 flex flex-col h-full min-w-0">
-          <div className="h-[320px] md:h-[65%] overflow-y-auto">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-8 w-full min-h-0 flex-1">
+        <div className="flex-1 flex flex-col h-full min-h-0">
+          <div className="h-full overflow-y-auto min-h-0">
             <ChatSessionsTable 
               sessions={filteredChats} 
               selectedSessionId={selectedSessionId} 
@@ -219,14 +216,14 @@ export default function Dashboard() {
             />
           </div>
         </div>
-        <div className="w-full md:w-[606px] flex flex-col h-full min-w-0">
-          <div className="h-[320px] md:h-[65%] overflow-y-auto">
+        <div className="w-full md:w-[606px] flex flex-col h-full min-h-0">
+          <div className="h-full overflow-y-auto min-h-0">
             {showDetails && selectedSessionId ? (
               <SalesChatView sessionId={selectedSessionId} />
             ) : selectedSessionId ? (
               <ChatViewMini sessionId={selectedSessionId} />
             ) : (
-              <div className="bg-white dark:bg-dark-card rounded-2xl p-4 md:p-8 h-full flex items-center justify-center text-gray-400 dark:text-dark-text min-h-[120px]">
+              <div className="bg-white dark:bg-dark-card rounded-2xl p-4 md:p-8 h-full flex items-center justify-center text-gray-400 dark:text-dark-text min-h-[80px] md:min-h-[120px] text-sm md:text-base text-center">
                 {t('selectSession')}
               </div>
             )}

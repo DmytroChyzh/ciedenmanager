@@ -123,7 +123,7 @@ export default function ChatsPage() {
   const [showSidebar, setShowSidebar] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#F7F8F9] flex flex-col md:flex-row">
+    <div className="min-h-0 flex-1 flex flex-col md:flex-row bg-[#F7F8F9]" style={{height: '100vh'}}>
       {/* Sidebar для мобільних */}
       <div className="block md:hidden w-full">
         <button
@@ -153,7 +153,7 @@ export default function ChatsPage() {
       {/* Main content */}
       <div className="flex-1 flex flex-col h-full min-h-0">
         <main className="flex-1 h-full min-h-0">
-          <div className="bg-white rounded-2xl flex flex-col h-[80vh] min-h-[400px] w-full overflow-hidden">
+          <div className="bg-white rounded-2xl flex flex-col h-full min-h-0 w-full overflow-hidden">
             <div className="flex flex-col md:flex-row flex-1 min-h-0 h-full w-full">
               {/* Sidebar для desktop/tablet */}
               <div className="hidden md:block h-full border-r border-gray-200 flex-shrink-0 min-w-[220px] max-w-[320px] w-[260px]">
@@ -178,7 +178,7 @@ export default function ChatsPage() {
                   </div>
                 </div>
                 {/* Чат */}
-                <div className="flex-1 min-h-0 flex flex-col px-2 sm:px-6 py-2 sm:py-4 justify-center h-full">
+                <div className="flex-1 min-h-0 flex flex-col px-2 sm:px-6 py-2 sm:py-4 justify-center h-full overflow-y-auto">
                   <ChatView sessionId={selectedSessionId} />
                 </div>
               </div>
