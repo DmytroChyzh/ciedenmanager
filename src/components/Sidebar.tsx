@@ -48,7 +48,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className={`bg-white dark:bg-dark-card rounded-2xl h-full md:h-[1070px] flex flex-col md:ml-8 md:mt-8 md:mb-4 border border-transparent dark:border-[#333] transition-all duration-200 ${collapsed ? 'w-16' : 'w-full md:w-[260px] lg:w-[300px]'}`}>
+    <aside className={`bg-white dark:bg-dark-card rounded-2xl h-full md:h-[1070px] flex flex-col md:ml-8 md:mt-8 md:mb-4 border border-transparent dark:border-[#333] transition-all duration-200 ${collapsed ? 'w-16' : 'w-full md:w-[260px] lg:w-[300px]'} pb-8`}>
       {/* Кнопка згортання/розгортання */}
       <button
         className={`hidden md:flex items-center justify-center mt-4 ml-4 w-8 h-8 rounded-full hover:bg-[#ede7ff] transition ${collapsed ? 'rotate-180' : ''}`}
