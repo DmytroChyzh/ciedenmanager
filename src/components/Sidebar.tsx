@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 
 export default function Sidebar() {
@@ -18,76 +18,76 @@ export default function Sidebar() {
     { 
       key: 'dashboard', 
       label: t('dashboard'), 
-      icon: <HomeIcon className="w-6 h-6" />,
+      icon: <HomeIcon className="w-5 h-5" />,
       href: '/dashboard'
     },
     {
       key: 'assistant',
       label: t('assistant') || 'AI помічник',
-      icon: <SparklesIcon className="w-6 h-6" />,
+      icon: <SparklesIcon className="w-5 h-5" />,
       href: '/assistant'
     },
     { 
       key: 'chats', 
       label: t('chats'), 
-      icon: <ChatBubbleLeftRightIcon className="w-6 h-6" />,
+      icon: <ChatBubbleLeftRightIcon className="w-5 h-5" />,
       href: '/chats'
     },
     { 
       key: 'calendar', 
       label: t('calendar'), 
-      icon: <CalendarDaysIcon className="w-6 h-6" />,
+      icon: <CalendarDaysIcon className="w-5 h-5" />,
       href: '/calendar'
     },
-    // { 
-    //   key: 'calculator', 
-    //   label: t('calculator'), 
-    //   icon: <CalculatorIcon className="w-6 h-6" />,
-    //   href: '/calculator'
-    // },
   ];
 
   return (
-    <aside className={`bg-white dark:bg-dark-card rounded-2xl h-full md:h-[1070px] flex flex-col md:ml-8 md:mt-8 md:mb-4 border border-transparent dark:border-[#333] transition-all duration-200 ${collapsed ? 'w-16' : 'w-full md:w-[260px] lg:w-[300px]'} pb-8`}>
-      {/* Кнопка згортання/розгортання */}
+    <aside className={`bg-white dark:bg-dark-card rounded-xl h-full flex flex-col border border-gray-200 dark:border-dark-border transition-all duration-200 ${collapsed ? 'w-16' : 'w-full md:w-[240px] lg:w-[280px]'} pb-4`}>
+      {/* Hamburger кнопка */}
       <button
-        className={`hidden md:flex items-center justify-center mt-4 ml-4 w-8 h-8 rounded-full hover:bg-[#ede7ff] transition ${collapsed ? 'rotate-180' : ''}`}
+        className={`flex items-center justify-center mt-3 ml-3 w-8 h-8 rounded-lg hover:bg-primary-light dark:hover:bg-dark-primary-light transition-colors ${collapsed ? 'mx-auto' : ''}`}
         onClick={() => setCollapsed(!collapsed)}
         aria-label={collapsed ? 'Розгорнути меню' : 'Згорнути меню'}
       >
-        {collapsed ? <ChevronRightIcon className="w-5 h-5 text-[#651FFF]" /> : <ChevronLeftIcon className="w-5 h-5 text-[#651FFF]" />}
+        {collapsed ? (
+          <Bars3Icon className="w-5 h-5 text-primary dark:text-dark-primary" />
+        ) : (
+          <XMarkIcon className="w-5 h-5 text-primary dark:text-dark-primary" />
+        )}
       </button>
-      <nav className={`flex flex-col ${collapsed ? 'gap-4 mt-8' : 'gap-6 md:gap-10 mt-8 md:mt-16'} flex-1 items-center`}> 
+      
+      <nav className={`flex flex-col ${collapsed ? 'gap-2 mt-4' : 'gap-3 mt-6'} flex-1 items-center px-2`}> 
         {menuItems.map((item) => {
           const isActive = pathname === item.href;
           return (
             <Link key={item.key} href={item.href} legacyBehavior>
-              <a className={`flex items-center ${collapsed ? 'justify-center' : 'gap-3 md:gap-4'} px-0 md:px-4 py-3 md:py-4 rounded-xl ${collapsed ? 'w-12 h-12' : 'w-full md:w-[220px] lg:w-[260px]'} text-left mx-auto transition text-base md:text-xl font-semibold ${
+              <a className={`flex items-center ${collapsed ? 'justify-center' : 'gap-3'} px-3 py-2.5 rounded-lg ${collapsed ? 'w-10 h-10' : 'w-full'} text-left transition text-sm font-medium ${
                 isActive 
-                  ? 'bg-[#ede7ff] dark:bg-[#292929] text-[#651FFF] dark:text-dark-orange' 
-                  : 'hover:bg-[#f3f0ff] dark:hover:bg-[#232323] text-[#222] dark:text-dark-text'
+                  ? 'bg-primary-light dark:bg-dark-primary-light text-primary dark:text-dark-primary' 
+                  : 'hover:bg-primary-muted dark:hover:bg-dark-primary-muted text-gray-700 dark:text-dark-text-muted'
               }`}>
-                <span className={`flex items-center justify-center ${collapsed ? 'w-7 h-7' : 'w-7 h-7 md:w-8 md:h-8'}`}>
+                <span className={`flex items-center justify-center ${collapsed ? 'w-5 h-5' : 'w-5 h-5'}`}>
                   {React.cloneElement(item.icon, { 
-                    className: `${collapsed ? 'w-7 h-7' : 'w-7 h-7 md:w-8 md:h-8'} ${isActive ? 'text-[#651FFF] dark:text-dark-orange' : 'text-[#222] dark:text-dark-text'}` 
+                    className: `${collapsed ? 'w-5 h-5' : 'w-5 h-5'} ${isActive ? 'text-primary dark:text-dark-primary' : 'text-gray-600 dark:text-dark-text-muted'}` 
                   })}
                 </span>
-                {!collapsed && <span className="truncate w-full">{item.label}</span>}
+                {!collapsed && <span className="truncate">{item.label}</span>}
               </a>
             </Link>
           );
         })}
       </nav>
-      {/* Logout button at bottom */}
-      <div className={`p-2 md:p-4 ${collapsed ? 'flex justify-center' : ''}`}>
+      
+      {/* Logout button */}
+      <div className={`p-2 ${collapsed ? 'flex justify-center' : ''}`}>
         <button 
           onClick={logout}
-          className={`flex items-center ${collapsed ? 'justify-center' : 'gap-3 md:gap-4'} px-0 md:px-4 py-3 md:py-4 rounded-xl ${collapsed ? 'w-12 h-12' : 'w-full md:w-[220px] lg:w-[260px]'} text-left mx-auto hover:bg-[#f3f0ff] dark:hover:bg-[#232323] text-[#222] dark:text-dark-text text-base md:text-xl font-semibold`}
+          className={`flex items-center ${collapsed ? 'justify-center' : 'gap-3'} px-3 py-2.5 rounded-lg ${collapsed ? 'w-10 h-10' : 'w-full'} text-left hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-700 dark:text-dark-text-muted text-sm font-medium transition-colors`}
         >
-          <span className={`flex items-center justify-center ${collapsed ? 'w-7 h-7' : 'w-7 h-7 md:w-8 md:h-8'}`}>
-            <ArrowRightOnRectangleIcon className={`${collapsed ? 'w-7 h-7' : 'w-7 h-7 md:w-8 md:h-8'} text-[#222] dark:text-dark-text`} />
+          <span className={`flex items-center justify-center ${collapsed ? 'w-5 h-5' : 'w-5 h-5'}`}>
+            <ArrowRightOnRectangleIcon className={`${collapsed ? 'w-5 h-5' : 'w-5 h-5'} text-gray-600 dark:text-dark-text-muted`} />
           </span>
-          {!collapsed && <span className="truncate w-full">{t('signOut')}</span>}
+          {!collapsed && <span className="truncate">{t('signOut')}</span>}
         </button>
       </div>
     </aside>

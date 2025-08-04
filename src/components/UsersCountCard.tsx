@@ -22,7 +22,7 @@ export default function UsersCountCard({
       value={value}
       data={data}
       type="bar"
-      icon={<UserGroupIcon className="w-7 h-7 text-[#651FFF]" />}
+      icon={<UserGroupIcon className="w-6 h-6 text-primary dark:text-dark-primary" />}
       percent={percent}
       color="#651FFF"
       yDomain={[0, 20]}

@@ -147,10 +147,10 @@ export default function ChatMessage({ message, onEditMessage, onImproveMessage, 
     <div className={`w-full max-w-4xl mx-auto flex flex-col px-0`}>
       <div className={`flex w-full ${message.role === 'user' ? 'justify-end' : 'justify-start'} mb-2`}>
         <div
-          className={`max-w-[70%] md:max-w-2xl w-auto px-6 py-4 rounded-2xl shadow-sm
+          className={`max-w-[70%] md:max-w-2xl w-auto px-4 py-3 rounded-xl shadow-sm
             ${message.role === 'user'
-              ? 'bg-[#4F46E5] text-white ml-auto'
-              : 'bg-[#F4F5F7] text-[#222] mr-auto'}
+              ? 'bg-primary text-white ml-auto'
+              : 'bg-gray-100 dark:bg-dark-hover text-gray-900 dark:text-dark-text mr-auto'}
           `}
         >
           <div className="text-sm leading-relaxed whitespace-pre-wrap">
@@ -158,7 +158,7 @@ export default function ChatMessage({ message, onEditMessage, onImproveMessage, 
               <div className="flex items-start gap-2">
                 <textarea
                   ref={textareaRef}
-                  className="w-full rounded-lg bg-[#F4F5F7] focus:bg-white focus:ring-2 focus:ring-blue-200 border-none p-2 text-sm resize-none transition-all duration-150 shadow-sm outline-none"
+                  className="w-full rounded-lg bg-white dark:bg-dark-card focus:ring-2 focus:ring-primary/20 dark:focus:ring-dark-primary/20 border-none p-2 text-sm resize-none transition-all duration-150 shadow-sm outline-none"
                   value={editText}
                   onChange={e => setEditText(e.target.value)}
                   rows={1}
@@ -169,14 +169,14 @@ export default function ChatMessage({ message, onEditMessage, onImproveMessage, 
                     t.style.height = t.scrollHeight + 'px';
                   }}
                 />
-                <button onClick={handleEditSave} title="Зберегти" className="ml-1 text-green-600 hover:text-green-800 transition"><Check size={20} strokeWidth={1.5} /></button>
-                <button onClick={() => { setEditing(false); setEditText(message.text); }} title="Скасувати" className="ml-1 text-red-500 hover:text-red-700 transition"><X size={20} strokeWidth={1.5} /></button>
+                <button onClick={handleEditSave} title="Зберегти" className="ml-1 text-green-600 hover:text-green-800 transition"><Check size={18} strokeWidth={1.5} /></button>
+                <button onClick={() => { setEditing(false); setEditText(message.text); }} title="Скасувати" className="ml-1 text-red-500 hover:text-red-700 transition"><X size={18} strokeWidth={1.5} /></button>
               </div>
             ) : message.text}
           </div>
           <div
             className={`text-xs mt-2 ${
-              message.role === 'user' ? 'text-blue-100' : 'text-gray-500'
+              message.role === 'user' ? 'text-blue-100' : 'text-gray-500 dark:text-gray-400'
             }`}
           >
             {formatDate(message.timestamp)}
@@ -184,33 +184,92 @@ export default function ChatMessage({ message, onEditMessage, onImproveMessage, 
         </div>
       </div>
       
-      {/* AI options row — окремо під повідомленням */}
+      {/* AI options row — єдиний стиль для всіх іконок */}
       {message.role === 'ai' && (
-        <div className="flex flex-row gap-4 mt-2 px-2 py-1 bg-transparent w-full">
+        <div className="flex flex-row gap-3 mt-2 px-2 py-1 bg-transparent w-full">
           {/* Оновити */}
-          <button onClick={handleRefresh} title="Оновити" className="hover:text-cyan-500 transition"><RotateCcw size={20} strokeWidth={1.5} /></button>
+          <button 
+            onClick={handleRefresh} 
+            title="Оновити відповідь" 
+            className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-hover transition-colors text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-dark-primary"
+          >
+            <RotateCcw size={16} strokeWidth={1.5} />
+          </button>
+          
           {/* Копіювати */}
-          <button onClick={handleCopy} title="Копіювати" className="hover:text-blue-500 transition"><Copy size={20} strokeWidth={1.5} /></button>
+          <button 
+            onClick={handleCopy} 
+            title="Копіювати текст" 
+            className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-hover transition-colors text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-dark-primary"
+          >
+            <Copy size={16} strokeWidth={1.5} />
+          </button>
+          
           {/* Лайк */}
-          <button onClick={handleLike} title="Лайк" className={liked ? "text-green-500" : "hover:text-green-500 transition"}><ThumbsUp size={20} strokeWidth={1.5} /></button>
+          <button 
+            onClick={handleLike} 
+            title="Лайк" 
+            className={`p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-hover transition-colors ${
+              liked ? 'text-green-600 dark:text-green-400' : 'text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400'
+            }`}
+          >
+            <ThumbsUp size={16} strokeWidth={1.5} />
+          </button>
+          
           {/* Дизлайк */}
-          <button onClick={handleDislike} title="Дизлайк" className={disliked ? "text-red-500" : "hover:text-red-500 transition"}><ThumbsDown size={20} strokeWidth={1.5} /></button>
+          <button 
+            onClick={handleDislike} 
+            title="Дизлайк" 
+            className={`p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-hover transition-colors ${
+              disliked ? 'text-red-600 dark:text-red-400' : 'text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400'
+            }`}
+          >
+            <ThumbsDown size={16} strokeWidth={1.5} />
+          </button>
+          
           {/* Озвучити */}
-          <button onClick={handleSpeak} title="Озвучити" className={speaking ? "text-blue-500 animate-pulse" : "hover:text-blue-500 transition"}><Volume2 size={20} strokeWidth={1.5} /></button>
+          <button 
+            onClick={handleSpeak} 
+            title="Озвучити текст" 
+            className={`p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-hover transition-colors ${
+              speaking ? 'text-blue-600 dark:text-blue-400 animate-pulse' : 'text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400'
+            }`}
+          >
+            <Volume2 size={16} strokeWidth={1.5} />
+          </button>
+          
           {/* Покращити */}
-          <button onClick={handleImprove} title="Покращити" className="hover:text-purple-500 transition"><Sparkles size={20} strokeWidth={1.5} /></button>
+          <button 
+            onClick={handleImprove} 
+            title="Покращити відповідь" 
+            className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-hover transition-colors text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-dark-primary"
+          >
+            <Sparkles size={16} strokeWidth={1.5} />
+          </button>
+          
           {/* Редагувати */}
-          <button onClick={handleEdit} title="Редагувати" className="hover:text-yellow-500 transition"><PencilLine size={20} strokeWidth={1.5} /></button>
-          {/* Ще */}
-          <button title="Ще" className="hover:text-gray-600 transition"><MoreHorizontal size={20} strokeWidth={1.5} /></button>
+          <button 
+            onClick={handleEdit} 
+            title="Редагувати повідомлення" 
+            className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-hover transition-colors text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-dark-primary"
+          >
+            <PencilLine size={16} strokeWidth={1.5} />
+          </button>
+          
           {/* Поділитися */}
-          <button onClick={handleShare} title="Поділитися" className="hover:text-indigo-500 transition"><Share2 size={20} strokeWidth={1.5} /></button>
+          <button 
+            onClick={handleShare} 
+            title="Поділитися" 
+            className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-hover transition-colors text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-dark-primary"
+          >
+            <Share2 size={16} strokeWidth={1.5} />
+          </button>
         </div>
       )}
       
       {/* Toast notification */}
       {showToast && (
-        <div className="fixed bottom-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg z-50 animate-in slide-in-from-bottom-2">
+        <div className="fixed bottom-4 right-4 bg-gray-800 dark:bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg z-50 animate-in slide-in-from-bottom-2">
           {toastMessage}
         </div>
       )}

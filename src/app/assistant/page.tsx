@@ -4,6 +4,7 @@ import ChatInput from '@/components/chat/ChatInput';
 import { examplePrompts } from '@/utils/chatExamples';
 import ChatMessage from '@/components/chat/ChatMessage';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { Trash2, Plus } from 'lucide-react';
 
 const SYSTEM_PROMPT = "Ти — AI-помічник менеджерів з продажу компанії Cieden. Відповідай на будь-які питання чітко, ввічливо, професійно. Допомагай з аналізом продажів, стратегіями, обробкою об'єкцій та покращенням ефективності роботи менеджерів.";
 
@@ -408,61 +409,61 @@ export default function AssistantPage() {
   ];
 
   return (
-    <div className="rounded-2xl min-h-0 flex flex-col md:flex-row w-full max-w-full md:max-w-[2164px] mx-auto p-0" style={{height: '100vh'}}>
+    <div className="rounded-xl min-h-0 flex flex-col md:flex-row w-full max-w-full md:max-w-[2164px] mx-auto p-0" style={{height: '100vh'}}>
       {/* Sidebar для мобільних */}
       <div className="block md:hidden w-full">
         <button
-          className="fixed top-4 left-4 z-30 bg-white border border-gray-200 rounded-full p-2 shadow-md md:hidden"
+          className="fixed top-4 left-4 z-30 bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-full p-2 shadow-md md:hidden"
           onClick={() => setShowSidebar(true)}
           aria-label="Відкрити меню"
         >
-          <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke="#4F46E5" strokeWidth="2" strokeLinecap="round"/></svg>
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
         </button>
         {/* Мобільне меню (offcanvas) */}
         {showSidebar && (
           <div className="fixed inset-0 z-40 bg-black bg-opacity-30 flex">
-            <aside className="w-72 max-w-[90vw] h-full bg-white border-r border-gray-200 rounded-r-2xl flex flex-col animate-slideInLeft">
+            <aside className="w-72 max-w-[90vw] h-full bg-white dark:bg-dark-card border-r border-gray-200 dark:border-dark-border rounded-r-xl flex flex-col animate-slideInLeft">
               {/* Header */}
-              <div className="flex items-center justify-between px-6 py-6 border-b border-gray-200">
-                <h2 className="text-2xl font-bold text-[#222]">{t('history')}</h2>
-                <button onClick={() => setShowSidebar(false)} className="text-gray-400 hover:text-gray-700 p-2 rounded-full">
-                  <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke="#4F46E5" strokeWidth="2" strokeLinecap="round"/></svg>
+              <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200 dark:border-dark-border">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-dark-text">{t('history')}</h2>
+                <button onClick={() => setShowSidebar(false)} className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 p-2 rounded-full">
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
                 </button>
               </div>
               {/* Chat List */}
-              <div className="flex-1 overflow-y-auto px-4 py-4">
+              <div className="flex-1 overflow-y-auto px-3 py-3">
                 {chats.length === 0 ? (
-                  <div className="text-center text-gray-500 mt-8">
-                    <svg className="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="text-center text-gray-500 dark:text-gray-400 mt-6">
+                    <svg className="w-10 h-10 mx-auto mb-3 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>
-                    <p>{t('historyEmpty')}</p>
-                    <p className="text-sm">{t('createFirstChat')}</p>
+                    <p className="text-sm">{t('historyEmpty')}</p>
+                    <p className="text-xs">{t('createFirstChat')}</p>
                   </div>
                 ) : (
                   <div className="space-y-2">
                     {chats.filter(chat => chat.messages.length > 0).map((chat) => (
                       <div
                         key={chat.id}
-                        className={`group relative cursor-pointer rounded-xl p-4 transition-all duration-200 select-none
+                        className={`group relative cursor-pointer rounded-lg p-3 transition-all duration-200 select-none
                           ${activeChatId === chat.id
-                            ? 'bg-[#E0E7FF] border border-[#4F46E5] text-[#4F46E5]'
-                            : 'bg-[#F4F5F7] border border-transparent text-[#222] hover:bg-[#E5E7EB]'}
+                            ? 'bg-primary-light dark:bg-dark-primary-light border border-primary dark:border-dark-primary text-primary dark:text-dark-primary'
+                            : 'bg-gray-50 dark:bg-dark-hover border border-transparent text-gray-900 dark:text-dark-text hover:bg-gray-100 dark:hover:bg-dark-hover'}
                         `}
                         onClick={() => handleSelectChat(chat.id)}
                       >
                         <div className="flex items-start justify-between">
                           <div className="flex-1 min-w-0">
-                            <h3 className={`font-medium truncate text-sm sm:text-base ${
-                              activeChatId === chat.id ? 'text-[#4F46E5]' : 'text-[#222]'
+                            <h3 className={`font-medium truncate text-sm ${
+                              activeChatId === chat.id ? 'text-primary dark:text-dark-primary' : 'text-gray-900 dark:text-dark-text'
                             }`}>
                               {chat.title}
                             </h3>
-                            <p className="text-xs sm:text-sm mt-1 ${activeChatId === chat.id ? 'text-[#4F46E5] opacity-80' : 'text-gray-500'}">
+                            <p className={`text-xs mt-1 ${activeChatId === chat.id ? 'text-primary dark:text-dark-primary opacity-80' : 'text-gray-500 dark:text-gray-400'}`}>
                               {formatDate(chat.updated)}
                             </p>
                             {chat.messages.length > 0 && (
-                              <p className="text-[10px] sm:text-xs text-gray-400 mt-1 truncate">
+                              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1 truncate">
                                 {chat.messages.length} повідомлень
                               </p>
                             )}
@@ -472,7 +473,7 @@ export default function AssistantPage() {
                               e.stopPropagation();
                               handleDeleteChat(chat.id);
                             }}
-                            className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-red-100 rounded"
+                            className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-red-100 dark:hover:bg-red-900/20 rounded"
                           >
                             <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -489,35 +490,36 @@ export default function AssistantPage() {
           </div>
         )}
       </div>
+      
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col bg-white rounded-none md:rounded-l-2xl h-full min-h-0 relative overflow-y-auto">
+      <div className="flex-1 flex flex-col bg-white dark:bg-dark-card rounded-none md:rounded-l-xl h-full min-h-0 relative overflow-y-auto">
         <div className="flex flex-col h-full w-full max-w-full md:max-w-5xl mx-auto min-h-0 flex-1">
           {/* Empty State - Centered Input */}
           {activeChat.messages.length === 0 && (
-            <div className="flex-1 flex flex-col justify-center items-center px-2 sm:px-4 py-6 sm:py-8">
+            <div className="flex-1 flex flex-col justify-center items-center px-3 sm:px-4 py-6 sm:py-8">
               {/* Welcome Section */}
-              <div className="text-center mb-8 sm:mb-10">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 text-gray-900">{t('welcomeCiedenAI')}</h1>
-                <p className="text-base sm:text-lg text-gray-500 max-w-xl mx-auto">{t('assistantDescription')}</p>
+              <div className="text-center mb-6 sm:mb-8">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 text-gray-900 dark:text-dark-text">{t('welcomeCiedenAI')}</h1>
+                <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 max-w-xl mx-auto">{t('assistantDescription')}</p>
               </div>
               {/* Grid of Quick Actions */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 w-full max-w-md sm:max-w-2xl md:max-w-3xl mb-8 sm:mb-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 w-full max-w-md sm:max-w-2xl md:max-w-3xl mb-6 sm:mb-8">
                 {examplePrompts.map((example, idx) => (
                   <button
                     key={idx}
-                    className="flex flex-col items-center justify-center bg-white border border-gray-200 rounded-2xl p-4 sm:p-6 shadow-sm hover:shadow-md hover:border-blue-400 transition group"
+                    className="flex flex-col items-center justify-center bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-3 sm:p-4 shadow-sm hover:shadow-md hover:border-primary dark:hover:border-dark-primary transition group"
                     onClick={() => handlePromptInsert(t(example.promptKey))}
                   >
-                    <span className="mb-2 sm:mb-3 text-blue-500">
-                      <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" fill="#E0E7FF"/><path d="M8 12h8M8 16h5" stroke="#6366F1" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                    <span className="mb-2 sm:mb-3 text-primary dark:text-dark-primary">
+                      <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" fill="currentColor" opacity="0.1"/><path d="M8 12h8M8 16h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
                     </span>
-                    <span className="font-semibold text-gray-900 mb-1 text-sm sm:text-base">{t(example.titleKey)}</span>
-                    <span className="text-gray-500 text-xs sm:text-sm">{t(example.promptKey)}</span>
+                    <span className="font-medium text-gray-900 dark:text-dark-text mb-1 text-sm">{t(example.titleKey)}</span>
+                    <span className="text-gray-500 dark:text-gray-400 text-xs">{t(example.promptKey)}</span>
                   </button>
                 ))}
               </div>
               {/* Chat Input */}
-              <div className="w-full mt-6 sm:mt-8">
+              <div className="w-full mt-4 sm:mt-6">
                 <ChatInput
                   value={input}
                   onChange={setInput}
@@ -529,8 +531,8 @@ export default function AssistantPage() {
                   onVoiceInput={handleVoiceInput}
                 />
                 {attachedFile && (
-                  <div className="mt-2 text-xs sm:text-sm text-gray-600 flex items-center gap-2">
-                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M16.5 13.5V7.75C16.5 5.67893 14.8211 4 12.75 4C10.6789 4 9 5.67893 9 7.75V16.25C9 17.4926 10.0074 18.5 11.25 18.5C12.4926 18.5 13.5 17.4926 13.5 16.25V8.5" stroke="#A3A3A3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  <div className="mt-2 text-xs text-gray-600 dark:text-gray-400 flex items-center gap-2">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M16.5 13.5V7.75C16.5 5.67893 14.8211 4 12.75 4C10.6789 4 9 5.67893 9 7.75V16.25C9 17.4926 10.0074 18.5 11.25 18.5C12.4926 18.5 13.5 17.4926 13.5 16.25V8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     <span>{attachedFile.name}</span>
                     <button className="text-red-400 hover:text-red-600 ml-2" onClick={() => setAttachedFile(null)}>✕</button>
                   </div>
@@ -538,11 +540,12 @@ export default function AssistantPage() {
               </div>
             </div>
           )}
+          
           {/* Chat Messages */}
           {activeChat.messages.length > 0 && (
             <div className="flex flex-col h-full w-full">
               {/* Messages Container */}
-              <div className="flex-1 pt-4 sm:pt-8 pb-4 sm:pb-8 px-2 sm:px-4 md:px-8">
+              <div className="flex-1 pt-4 sm:pt-6 pb-4 sm:pb-6 px-3 sm:px-4 md:px-6">
                 <div className="space-y-3 sm:space-y-4">
                   {activeChat.messages.map((message) => (
                     <ChatMessage 
@@ -555,12 +558,12 @@ export default function AssistantPage() {
                   ))}
                   {loading && (
                     <div className="w-full max-w-full md:max-w-4xl mx-auto flex justify-start">
-                      <div className="max-w-[90%] sm:max-w-[70%] md:max-w-2xl w-auto px-4 sm:px-6 py-3 sm:py-4 rounded-2xl shadow-sm bg-gray-100 text-gray-800">
+                      <div className="max-w-[90%] sm:max-w-[70%] md:max-w-2xl w-auto px-4 sm:px-5 py-3 rounded-xl shadow-sm bg-gray-100 dark:bg-dark-hover text-gray-800 dark:text-dark-text">
                         <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
-                          <span className="text-xs sm:text-sm text-gray-600 ml-2">AI набирає повідомлення...</span>
+                          <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" />
+                          <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
+                          <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+                          <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 ml-2">AI набирає повідомлення...</span>
                         </div>
                       </div>
                     </div>
@@ -569,7 +572,7 @@ export default function AssistantPage() {
                 <div ref={messagesEndRef} />
               </div>
               {/* Input Area — завжди знизу, по сітці */}
-              <div className="pb-4 sm:pb-8 px-2 sm:px-4 md:px-8 sticky bottom-0 bg-white z-10">
+              <div className="pb-4 sm:pb-6 px-3 sm:px-4 md:px-6 sticky bottom-0 bg-white dark:bg-dark-card z-10">
                 <ChatInput
                   value={input}
                   onChange={setInput}
@@ -581,8 +584,8 @@ export default function AssistantPage() {
                   onVoiceInput={handleVoiceInput}
                 />
                 {attachedFile && (
-                  <div className="mt-2 text-xs sm:text-sm text-gray-600 flex items-center gap-2">
-                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M16.5 13.5V7.75C16.5 5.67893 14.8211 4 12.75 4C10.6789 4 9 5.67893 9 7.75V16.25C9 17.4926 10.0074 18.5 11.25 18.5C12.4926 18.5 13.5 17.4926 13.5 16.25V8.5" stroke="#A3A3A3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  <div className="mt-2 text-xs text-gray-600 dark:text-gray-400 flex items-center gap-2">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M16.5 13.5V7.75C16.5 5.67893 14.8211 4 12.75 4C10.6789 4 9 5.67893 9 7.75V16.25C9 17.4926 10.0074 18.5 11.25 18.5C12.4926 18.5 13.5 17.4926 13.5 16.25V8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     <span>{attachedFile.name}</span>
                     <button className="text-red-400 hover:text-red-600 ml-2" onClick={() => setAttachedFile(null)}>✕</button>
                   </div>
@@ -592,62 +595,66 @@ export default function AssistantPage() {
           )}
         </div>
       </div>
+      
       {/* Sidebar для desktop/tablet */}
-      <aside className="hidden md:flex w-full max-w-[340px] h-full bg-white border-l border-gray-200 rounded-r-2xl flex-col">
+      <aside className="hidden md:flex w-full max-w-[320px] h-full bg-white dark:bg-dark-card border-l border-gray-200 dark:border-dark-border rounded-r-xl flex-col">
         {/* Header */}
-        <div className="px-4 sm:px-6 py-4 sm:py-6 border-b border-gray-200">
-          <div className="flex items-center justify-between mb-2 sm:mb-4">
-            <h2 className="text-xl sm:text-2xl font-bold text-[#222]">{t('history')}</h2>
+        <div className="px-4 sm:px-5 py-4 sm:py-5 border-b border-gray-200 dark:border-dark-border">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-dark-text">{t('history')}</h2>
             <button
               onClick={handleNewChat}
-              className="px-3 sm:px-4 py-2 bg-[#4F46E5] text-white rounded-lg hover:bg-[#6366F1] transition-colors font-medium shadow-sm text-sm sm:text-base"
+              className="px-3 sm:px-4 py-2 bg-primary dark:bg-dark-primary text-white rounded-lg hover:bg-primary-hover dark:hover:bg-dark-primary-hover transition-colors font-medium shadow-sm text-sm flex items-center gap-2"
             >
+              <Plus size={16} />
               {t('newChat')}
             </button>
           </div>
           {chats.length > 0 && (
             <button
               onClick={handleClearAllChats}
-              className="text-xs sm:text-sm text-red-500 hover:text-red-700 transition-colors"
+              className="flex items-center gap-2 text-xs sm:text-sm text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors"
             >
+              <Trash2 size={14} />
               {t('clearHistory')}
             </button>
           )}
         </div>
+        
         {/* Chat List */}
-        <div className="flex-1 overflow-y-auto px-2 sm:px-4 py-2 sm:py-4">
+        <div className="flex-1 overflow-y-auto px-3 py-3">
           {chats.length === 0 ? (
-            <div className="text-center text-gray-500 mt-6 sm:mt-8">
-              <svg className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="text-center text-gray-500 dark:text-gray-400 mt-6">
+              <svg className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-3 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
               </svg>
-              <p className="text-xs sm:text-base">{t('historyEmpty')}</p>
-              <p className="text-xs sm:text-sm">{t('createFirstChat')}</p>
+              <p className="text-xs sm:text-sm">{t('historyEmpty')}</p>
+              <p className="text-xs">{t('createFirstChat')}</p>
             </div>
           ) : (
             <div className="space-y-2">
               {chats.filter(chat => chat.messages.length > 0).map((chat) => (
                 <div
                   key={chat.id}
-                  className={`group relative cursor-pointer rounded-xl p-3 sm:p-4 transition-all duration-200 select-none
+                  className={`group relative cursor-pointer rounded-lg p-3 transition-all duration-200 select-none
                     ${activeChatId === chat.id
-                      ? 'bg-[#E0E7FF] border border-[#4F46E5] text-[#4F46E5]'
-                      : 'bg-[#F4F5F7] border border-transparent text-[#222] hover:bg-[#E5E7EB]'}
+                      ? 'bg-primary-light dark:bg-dark-primary-light border border-primary dark:border-dark-primary text-primary dark:text-dark-primary'
+                      : 'bg-gray-50 dark:bg-dark-hover border border-transparent text-gray-900 dark:text-dark-text hover:bg-gray-100 dark:hover:bg-dark-hover'}
                   `}
                   onClick={() => handleSelectChat(chat.id)}
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1 min-w-0">
-                      <h3 className={`font-medium truncate text-sm sm:text-base ${
-                        activeChatId === chat.id ? 'text-[#4F46E5]' : 'text-[#222]'
+                      <h3 className={`font-medium truncate text-sm ${
+                        activeChatId === chat.id ? 'text-primary dark:text-dark-primary' : 'text-gray-900 dark:text-dark-text'
                       }`}>
                         {chat.title}
                       </h3>
-                      <p className="text-xs sm:text-sm mt-1 ${activeChatId === chat.id ? 'text-[#4F46E5] opacity-80' : 'text-gray-500'}">
+                      <p className={`text-xs mt-1 ${activeChatId === chat.id ? 'text-primary dark:text-dark-primary opacity-80' : 'text-gray-500 dark:text-gray-400'}`}>
                         {formatDate(chat.updated)}
                       </p>
                       {chat.messages.length > 0 && (
-                        <p className="text-[10px] sm:text-xs text-gray-400 mt-1 truncate">
+                        <p className="text-xs text-gray-400 dark:text-gray-500 mt-1 truncate">
                           {chat.messages.length} повідомлень
                         </p>
                       )}
@@ -657,7 +664,7 @@ export default function AssistantPage() {
                         e.stopPropagation();
                         handleDeleteChat(chat.id);
                       }}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-red-100 rounded"
+                      className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-red-100 dark:hover:bg-red-900/20 rounded"
                     >
                       <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />

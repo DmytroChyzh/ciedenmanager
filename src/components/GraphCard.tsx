@@ -23,44 +23,45 @@ export default function GraphCard({ title, value, data, type = 'line', icon, per
   const up = percent >= 0;
   
   const periods = [
-    { key: 'week', label: t('week') },
-    { key: 'month', label: t('month') },
-    { key: 'year', label: t('year') }
+    { key: 'week', label: 'W', tooltip: t('week') },
+    { key: 'month', label: 'M', tooltip: t('month') },
+    { key: 'year', label: 'Y', tooltip: t('year') }
   ];
 
   const currentIndex = periods.findIndex(p => p.key === currentPeriod);
 
   // Визначаємо колір для графіка
   let chartColor = theme === 'dark' ? '#FF9102' : '#651FFF';
-  // Стиль заголовка — завжди однаковий для всіх карток, тепер чорний
-  let titleClass = 'text-[#222] font-bold text-lg md:text-xl';
-  const axisColor = theme === 'dark' ? '#fff' : '#212121';
-  const gridColor = theme === 'dark' ? '#fff' : '#c3cbd4';
-  const gridOpacity = theme === 'dark' ? 0.2 : 0.3;
+  // Стиль заголовка — завжди однаковий для всіх карток
+  let titleClass = 'text-gray-900 dark:text-dark-text font-bold text-base md:text-lg';
+  const axisColor = theme === 'dark' ? '#a0a0a0' : '#6b7280';
+  const gridColor = theme === 'dark' ? '#404040' : '#e5e7eb';
+  const gridOpacity = theme === 'dark' ? 0.3 : 0.5;
 
-  const periodButtonClass = `w-20 h-8 px-2 text-xs font-medium transition-colors duration-200 focus:outline-none rounded-none`;
+  const periodButtonClass = `w-8 h-8 px-2 text-xs font-medium transition-colors duration-200 focus:outline-none rounded-lg`;
 
   return (
-    <div className="bg-white dark:bg-dark-card rounded-2xl flex flex-col p-8 min-w-[260px] min-h-[260px]">
-      <div className="flex items-center justify-between mb-2 mt-2">
-        <div className="flex items-center gap-2 pl-1">
-          <span className="w-7 h-7 flex items-center justify-center">{icon}</span>
-          <span className="text-[#222] dark:text-dark-text font-bold text-lg md:text-xl">{title}</span>
+    <div className="bg-white dark:bg-dark-card rounded-xl flex flex-col p-4 md:p-6 min-w-[240px] min-h-[240px]">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <span className="w-6 h-6 flex items-center justify-center">{icon}</span>
+          <span className="text-gray-900 dark:text-dark-text font-bold text-base md:text-lg">{title}</span>
         </div>
-        {/* Красивий повзунок-переключувач */}
+        {/* Компактний переключувач періодів */}
         {onPeriodChange && (
-          <div className="flex rounded-lg overflow-hidden border border-[#651FFF] dark:border-[#FF9102] bg-white dark:bg-[#232323]">
+          <div className="flex rounded-lg overflow-hidden border border-primary dark:border-dark-primary bg-white dark:bg-dark-card">
             {periods.map((period) => {
               const isActive = currentPeriod === period.key;
               return (
                 <button
                   key={period.key}
                   onClick={() => onPeriodChange(period.key as 'week' | 'month' | 'year')}
+                  title={period.tooltip}
                   className={
                     periodButtonClass +
                     (isActive
-                      ? ' bg-[#651FFF] text-white dark:bg-[#FF9102] dark:text-white'
-                      : ' bg-transparent text-[#222] dark:text-white hover:bg-[#ede7ff] dark:hover:bg-[#333]')
+                      ? ' bg-primary dark:bg-dark-primary text-white'
+                      : ' bg-transparent text-gray-700 dark:text-gray-300 hover:bg-primary-light dark:hover:bg-dark-primary-light')
                   }
                 >
                   {period.label}
@@ -70,50 +71,64 @@ export default function GraphCard({ title, value, data, type = 'line', icon, per
           </div>
         )}
       </div>
-      <div className="flex items-end gap-3 mb-2">
-        <span className="text-3xl md:text-4xl font-extrabold text-[#222] dark:text-dark-text">{value}</span>
-        <span className={`flex items-center gap-1 text-base font-semibold ${percent >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+      
+      <div className="flex items-end gap-2 mb-3">
+        <span className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-dark-text">{value}</span>
+        <span className={`flex items-center gap-1 text-sm font-semibold ${percent >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
           {percent >= 0 ? (
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>
           ) : (
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
           )}
-          {Math.abs(percent)}% <span className="text-[#8B97B0] font-normal ml-1">{t('per')} {t(currentPeriod)}</span>
+          {Math.abs(percent)}% <span className="text-gray-500 dark:text-gray-400 font-normal ml-1">{t('per')} {t(currentPeriod)}</span>
         </span>
       </div>
-      <div className="w-full min-h-[180px] animate-fadeIn">
-        <ResponsiveContainer width="100%" height={180}>
+      
+      <div className="w-full min-h-[160px] animate-fadeIn">
+        <ResponsiveContainer width="100%" height={160}>
           {type === 'bar' ? (
             <BarChart data={data} margin={{ top: 8, right: 0, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="4 4" stroke={gridColor} vertical={true} horizontal={true} style={{ opacity: gridOpacity }} />
               <XAxis dataKey="day" axisLine={false} tickLine={false} 
-                tick={{ fontSize: 12, fill: axisColor, fontWeight: 500, textAnchor: 'middle', ...(typeof window !== 'undefined' && document.documentElement.classList.contains('dark') ? { fill: '#fff' } : {}) }} 
+                tick={{ fontSize: 11, fill: axisColor, fontWeight: 500, textAnchor: 'middle' }} 
                 tickFormatter={d => {
                   const shortDays = ['monShort','tueShort','wedShort','thuShort','friShort','satShort','sunShort'];
                   return shortDays.includes(d) ? t(d) : t(d);
                 }}
-                tickMargin={8} tickSize={0} padding={{ left: 24, right: 24 }}
-                height={32}
+                tickMargin={6} tickSize={0} padding={{ left: 16, right: 16 }}
+                height={28}
               />
-              <YAxis domain={yDomain} ticks={yTicks} interval={0} axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: axisColor, fontWeight: 400, ...(typeof window !== 'undefined' && document.documentElement.classList.contains('dark') ? { fill: '#fff' } : {}) }} />
-              <Tooltip contentStyle={{ background: '#fff', border: '1px solid #ede7ff', borderRadius: 12, color: color, ...(typeof window !== 'undefined' && document.documentElement.classList.contains('dark') ? { background: '#292929', color: '#fff', border: '1px solid #333' } : {}) }} />
-              <Bar dataKey="value" fill={chartColor} radius={[8, 8, 0, 0]} className="transition-colors duration-200" />
+              <YAxis domain={yDomain} ticks={yTicks} interval={0} axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: axisColor, fontWeight: 400 }} />
+              <Tooltip contentStyle={{ 
+                background: theme === 'dark' ? '#2a2a2a' : '#fff', 
+                border: theme === 'dark' ? '1px solid #404040' : '1px solid #e5e7eb', 
+                borderRadius: 8, 
+                color: theme === 'dark' ? '#fff' : '#374151',
+                fontSize: '12px'
+              }} />
+              <Bar dataKey="value" fill={chartColor} radius={[4, 4, 0, 0]} className="transition-colors duration-200" />
             </BarChart>
           ) : (
             <LineChart data={data} margin={{ top: 8, right: 0, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="4 4" stroke={gridColor} vertical={true} horizontal={true} style={{ opacity: gridOpacity }} />
               <XAxis dataKey="day" axisLine={false} tickLine={false} 
-                tick={{ fontSize: 12, fill: axisColor, fontWeight: 500, textAnchor: 'middle' }} 
+                tick={{ fontSize: 11, fill: axisColor, fontWeight: 500, textAnchor: 'middle' }} 
                 tickFormatter={d => {
                   const shortDays = ['monShort','tueShort','wedShort','thuShort','friShort','satShort','sunShort'];
                   return shortDays.includes(d) ? t(d) : t(d);
                 }}
-                tickMargin={8} tickSize={0} padding={{ left: 24, right: 24 }}
-                height={32}
+                tickMargin={6} tickSize={0} padding={{ left: 16, right: 16 }}
+                height={28}
               />
-              <YAxis domain={yDomain} ticks={yTicks} interval={0} axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: axisColor, fontWeight: 400 }} />
-              <Tooltip contentStyle={{ background: '#fff', border: '1px solid #ede7ff', borderRadius: 12, color: color }} />
-              <Line type="monotone" dataKey="value" stroke={chartColor} strokeWidth={2} dot={{ r: 4, fill: chartColor }} className="transition-colors duration-200" />
+              <YAxis domain={yDomain} ticks={yTicks} interval={0} axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: axisColor, fontWeight: 400 }} />
+              <Tooltip contentStyle={{ 
+                background: theme === 'dark' ? '#2a2a2a' : '#fff', 
+                border: theme === 'dark' ? '1px solid #404040' : '1px solid #e5e7eb', 
+                borderRadius: 8, 
+                color: theme === 'dark' ? '#fff' : '#374151',
+                fontSize: '12px'
+              }} />
+              <Line type="monotone" dataKey="value" stroke={chartColor} strokeWidth={2} dot={{ r: 3, fill: chartColor }} className="transition-colors duration-200" />
             </LineChart>
           )}
         </ResponsiveContainer>

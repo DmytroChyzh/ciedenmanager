@@ -18,57 +18,57 @@ export default function Header() {
   const photoURL = user?.photoURL;
 
   return (
-    <header className="w-auto bg-white dark:bg-dark-card rounded-2xl mt-2 sm:mt-4 md:mt-8 mx-2 sm:mx-4 md:mx-8 px-2 sm:px-4 md:px-8 flex items-center justify-between min-h-[56px] sm:min-h-[72px] md:min-h-[96px] border border-transparent dark:border-[#333]">
-      <div className="flex items-center gap-2 sm:gap-4">
-        <img src={theme === 'dark' ? '/logowhite.svg' : '/logo1.svg'} alt="Logo" className="w-24 sm:w-32 md:w-40 h-10 sm:h-14 md:h-16 object-contain" />
+    <header className="w-auto bg-white dark:bg-dark-card rounded-xl mt-2 sm:mt-3 md:mt-6 mx-2 sm:mx-3 md:mx-6 px-3 sm:px-4 md:px-6 flex items-center justify-between min-h-[48px] sm:min-h-[56px] md:min-h-[64px] border border-gray-200 dark:border-dark-border">
+      <div className="flex items-center gap-2 sm:gap-3">
+        <img src={theme === 'dark' ? '/logowhite.svg' : '/logo1.svg'} alt="Logo" className="w-20 sm:w-24 md:w-28 h-8 sm:h-10 md:h-12 object-contain" />
       </div>
-      <div className="flex items-center gap-2 sm:gap-4">
+      <div className="flex items-center gap-2 sm:gap-3">
         <button 
           onClick={toggleTheme}
-          className="p-2 rounded-full hover:bg-[#ede7ff] dark:hover:bg-[#292929] transition"
+          className="p-1.5 sm:p-2 rounded-lg hover:bg-primary-light dark:hover:bg-dark-primary-light transition-colors"
         >
           {theme === 'light' ? 
-            <MoonIcon className="w-5 h-5 sm:w-6 sm:h-6 text-[#651FFF] dark:text-dark-orange"/> : 
-            <SunIcon className="w-5 h-5 sm:w-6 sm:h-6 text-[#651FFF] dark:text-dark-orange"/>
+            <MoonIcon className="w-5 h-5 text-primary dark:text-dark-primary"/> : 
+            <SunIcon className="w-5 h-5 text-primary dark:text-dark-primary"/>
           }
         </button>
         <div className="relative">
           <button 
             onClick={() => setLangDropdownOpen(!langDropdownOpen)} 
-            className="flex items-center gap-1 px-2 sm:px-3 py-1 rounded-lg border border-gray-200 dark:border-[#333] bg-white dark:bg-dark-card text-[#651FFF] font-semibold text-sm sm:text-base"
+            className="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-lg border border-gray-200 dark:border-dark-border bg-white dark:bg-dark-card text-primary dark:text-dark-primary font-medium text-sm"
           >
             {language === 'ua' ? t('langUA') : t('langEN')}
-            <ChevronDownIcon className="w-4 h-4 dark:text-dark-orange" />
+            <ChevronDownIcon className="w-4 h-4" />
           </button>
           {langDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-20 bg-white dark:bg-dark-card border border-gray-200 dark:border-[#333] rounded-lg shadow-lg z-10">
+            <div className="absolute right-0 mt-2 w-20 bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-lg shadow-lg z-10">
               <button 
                 onClick={() => { setLanguage('ua'); setLangDropdownOpen(false); }} 
-                className={`block w-full px-3 py-2 text-left ${language === 'ua' ? 'bg-[#ede7ff] dark:bg-[#292929] font-bold' : ''}`}
+                className={`block w-full px-3 py-2 text-left text-sm ${language === 'ua' ? 'bg-primary-light dark:bg-dark-primary-light font-medium' : 'hover:bg-gray-50 dark:hover:bg-dark-hover'}`}
               >
                 {t('langUA')}
               </button>
               <button 
                 onClick={() => { setLanguage('en'); setLangDropdownOpen(false); }} 
-                className={`block w-full px-3 py-2 text-left ${language === 'en' ? 'bg-[#ede7ff] dark:bg-[#292929] font-bold' : ''}`}
+                className={`block w-full px-3 py-2 text-left text-sm ${language === 'en' ? 'bg-primary-light dark:bg-dark-primary-light font-medium' : 'hover:bg-gray-50 dark:hover:bg-dark-hover'}`}
               >
                 {t('langEN')}
               </button>
             </div>
           )}
         </div>
-        <div className="flex items-center gap-1 sm:gap-2 p-2">
+        <div className="flex items-center gap-1 sm:gap-2 p-1.5 sm:p-2">
           {photoURL && !imgError ? (
             <img 
               src={photoURL} 
               alt={displayName}
-              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full"
+              className="w-6 h-6 sm:w-7 sm:h-7 rounded-full"
               onError={() => setImgError(true)}
             />
           ) : (
-            <UserCircleIcon className="w-7 h-7 sm:w-8 sm:h-8 text-[#651FFF] dark:text-dark-orange" />
+            <UserCircleIcon className="w-6 h-6 sm:w-7 sm:h-7 text-primary dark:text-dark-primary" />
           )}
-          <span className="text-[#222] dark:text-dark-text font-semibold text-sm sm:text-base">{displayName}</span>
+          <span className="text-gray-900 dark:text-dark-text font-medium text-sm">{displayName}</span>
         </div>
       </div>
     </header>

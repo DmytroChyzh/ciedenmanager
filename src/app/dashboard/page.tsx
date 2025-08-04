@@ -14,7 +14,7 @@ import ChatsCountCard from '@/components/ChatsCountCard';
 import TargetsTrackerCard from '@/components/ActiveChatsCard';
 import ChatViewMini from '@/components/ChatViewMini';
 
-const ICON_CLASSES = 'w-6 h-6 text-[#651FFF]';
+const ICON_CLASSES = 'w-5 h-5 text-primary dark:text-dark-primary';
 
 export default function Dashboard() {
   useEffect(() => {
@@ -176,14 +176,15 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="w-full h-full flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#651FFF]"></div>
+        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary dark:border-dark-primary"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-0 flex-1 flex flex-col gap-4 md:gap-8 overflow-hidden bg-[#F7F8F9] dark:bg-dark-bg" style={{height: '100vh'}}>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 flex-shrink-0">
+    <div className="min-h-0 flex-1 flex flex-col gap-3 md:gap-6 overflow-hidden bg-gray-50 dark:bg-dark-bg" style={{height: '100vh'}}>
+      {/* Картки метрик */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 flex-shrink-0">
         <UsersCountCard 
           value={totalUsers} 
           data={getMetricData(chats, 'users', usersPeriod)} 
@@ -205,9 +206,12 @@ export default function Dashboard() {
           currentPeriod={targetsPeriod}
         />
       </div>
-      <div className="flex flex-col md:flex-row gap-4 md:gap-8 w-full min-h-0 flex-1">
+      
+      {/* Основна область з таблицею та чатом */}
+      <div className="flex flex-col lg:flex-row gap-3 md:gap-6 w-full min-h-0 flex-1">
+        {/* Таблиця чат-сесій */}
         <div className="flex-1 flex flex-col h-full min-h-0">
-          <div className="flex-1 flex flex-col min-h-0 pb-8">
+          <div className="flex-1 flex flex-col min-h-0 pb-4">
             <div className="h-full overflow-y-auto min-h-0">
               <ChatSessionsTable 
                 sessions={filteredChats} 
@@ -218,15 +222,17 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-        <div className="w-full md:w-[606px] flex flex-col h-full min-h-0">
-          <div className="flex-1 flex flex-col min-h-0 pb-8">
+        
+        {/* Область чату */}
+        <div className="w-full lg:w-[500px] xl:w-[600px] flex flex-col h-full min-h-0">
+          <div className="flex-1 flex flex-col min-h-0 pb-4">
             <div className="h-full overflow-y-auto min-h-0">
               {showDetails && selectedSessionId ? (
                 <SalesChatView sessionId={selectedSessionId} />
               ) : selectedSessionId ? (
                 <ChatViewMini sessionId={selectedSessionId} />
               ) : (
-                <div className="bg-white dark:bg-dark-card rounded-2xl p-4 md:p-8 h-full flex items-center justify-center text-gray-400 dark:text-dark-text min-h-[80px] md:min-h-[120px] text-sm md:text-base text-center">
+                <div className="bg-white dark:bg-dark-card rounded-xl p-4 md:p-6 h-full flex items-center justify-center text-gray-400 dark:text-dark-text-muted min-h-[80px] md:min-h-[120px] text-sm md:text-base text-center">
                   {t('selectSession')}
                 </div>
               )}
