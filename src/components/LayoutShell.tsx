@@ -15,7 +15,7 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-dark-bg relative">
+    <div className="h-screen flex flex-col bg-gray-50 dark:bg-dark-bg relative overflow-hidden">
       <Header />
       {/* Sidebar для мобільних */}
       <div className="block md:hidden w-full">
@@ -41,11 +41,11 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
           </div>
         )}
       </div>
-      <div className="flex flex-col md:flex-row w-full min-w-0 flex-1 pb-0">
+      <div className="flex flex-col md:flex-row w-full min-w-0 flex-1 overflow-hidden">
         <div className="hidden md:block">
           <Sidebar />
         </div>
-        <main className="flex-1 flex flex-col p-2 sm:p-3 md:p-6 pb-0 w-full min-w-0 max-h-[1170px] overflow-y-auto">{children}</main>
+        <main className="flex-1 flex flex-col p-2 sm:p-3 md:p-6 w-full min-w-0 overflow-hidden">{children}</main>
       </div>
     </div>
   );
