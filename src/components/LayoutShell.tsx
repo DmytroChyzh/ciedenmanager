@@ -45,7 +45,7 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
         <div className="hidden md:block">
           <Sidebar />
         </div>
-        <main className="flex-1 flex flex-col p-2 sm:p-3 md:p-6 pb-0 w-full min-w-0 max-h-[1160px] overflow-y-auto">{children}</main>
+        <main className="flex-1 flex flex-col p-2 sm:p-3 md:p-6 pb-0 w-full min-w-0 max-h-[1170px] overflow-y-auto">{children}</main>
       </div>
       
       {/* Біла лінія внизу екрану */}
