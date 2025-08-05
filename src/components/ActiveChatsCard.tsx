@@ -1,22 +1,36 @@
-import { BoltIcon } from '@heroicons/react/24/solid';
+"use client";
 import React from 'react';
+import { BoltIcon } from '@heroicons/react/24/solid';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export default function TargetsTrackerCard({ value, percent, onPeriodChange, currentPeriod = 'week' }: { value: number, percent: number, onPeriodChange?: (period: 'week' | 'month' | 'year') => void, currentPeriod?: 'week' | 'month' | 'year' }) {
   const { t } = useLanguage();
-  const weeklyGoal = currentPeriod === 'week' ? 20 : currentPeriod === 'month' ? 80 : 240; // Цілі для різних періодів
-  const current = value;
-  const remaining = Math.max(0, weeklyGoal - current);
-  const progressPercent = Math.min((current / weeklyGoal) * 100, 100);
-  
+  const { theme } = useTheme();
+
+  // Мокані дані для графіка прогресу
+  const progressData = [
+    { day: 'monShort', value: 0 },
+    { day: 'tueShort', value: 15 },
+    { day: 'wedShort', value: 25 },
+    { day: 'thuShort', value: 40 },
+    { day: 'friShort', value: 60 },
+    { day: 'satShort', value: 75 },
+    { day: 'sunShort', value: 92 },
+  ];
+
   const periods = [
     { key: 'week', label: 'W', tooltip: t('week') },
     { key: 'month', label: 'M', tooltip: t('month') },
-    { key: 'year', label: 'Y', tooltip: t('year') }
+    { key: 'year', label: 'Y', tooltip: t('year') },
   ];
 
-  const currentIndex = periods.findIndex(p => p.key === currentPeriod);
-  
+  const current = value;
+  const weeklyGoal = 20;
+  const progressPercent = Math.min((current / weeklyGoal) * 100, 100);
+  const remaining = Math.max(weeklyGoal - current, 0);
+
   // Мотиваційні повідомлення
   const getMotivationalMessage = () => {
     if (progressPercent >= 100) return '🎉 ' + t('goalReached');
@@ -77,38 +91,35 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
         </span>
       </div>
       
-      {/* Прогрес-бар */}
-      <div className="w-full mb-3">
-        <div className="bg-gray-100 dark:bg-gray-800 rounded-full h-2 overflow-hidden">
-          <div 
-            className="bg-gradient-to-r from-primary to-primary-hover dark:from-dark-primary dark:to-dark-primary-hover h-full rounded-full transition-all duration-500"
-            style={{ width: `${progressPercent}%` }}
-          />
-        </div>
-        <div className="mt-1 flex justify-between text-xs text-gray-500 dark:text-gray-400">
-          <span>0%</span>
-          <span>100%</span>
-        </div>
-      </div>
-
-      {/* Деталі */}
-      <div className="flex flex-col gap-1 text-sm">
-        <div className="flex justify-between">
-          <span className="text-gray-500 dark:text-gray-400">{t('goalFor')} {t(currentPeriod)}:</span>
-          <span className="font-medium text-gray-900 dark:text-dark-text">{weeklyGoal} {t('chats')}</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-gray-500 dark:text-gray-400">{t('current')}:</span>
-          <span className="font-medium text-gray-900 dark:text-dark-text">{current}</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-gray-500 dark:text-gray-400">{t('left')}:</span>
-          <span className="font-medium text-gray-900 dark:text-dark-text">{remaining}</span>
-        </div>
+      {/* Графік прогресу */}
+      <div className="w-full flex-1 min-h-0">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={progressData} margin={{ top: 8, right: 0, left: 0, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="4 4" stroke={theme === 'dark' ? '#404040' : '#e5e7eb'} vertical={true} horizontal={true} style={{ opacity: theme === 'dark' ? 0.3 : 0.5 }} />
+            <XAxis dataKey="day" axisLine={false} tickLine={false} 
+              tick={{ fontSize: 11, fill: theme === 'dark' ? '#a0a0a0' : '#6b7280', fontWeight: 500, textAnchor: 'middle' }} 
+              tickFormatter={d => {
+                const shortDays = ['monShort','tueShort','wedShort','thuShort','friShort','satShort','sunShort'];
+                return shortDays.includes(d) ? t(d) : t(d);
+              }}
+              tickMargin={6} tickSize={0} padding={{ left: 16, right: 16 }}
+              height={28}
+            />
+            <YAxis domain={[0, 100]} ticks={[0, 25, 50, 75, 100]} interval={0} axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: theme === 'dark' ? '#a0a0a0' : '#6b7280', fontWeight: 400 }} />
+            <Tooltip contentStyle={{ 
+              background: theme === 'dark' ? '#2a2a2a' : '#fff', 
+              border: theme === 'dark' ? '1px solid #404040' : '1px solid #e5e7eb', 
+              borderRadius: 8, 
+              color: theme === 'dark' ? '#fff' : '#374151',
+              fontSize: '12px'
+            }} />
+            <Line type="monotone" dataKey="value" stroke="#651FFF" strokeWidth={2} dot={{ r: 3, fill: '#651FFF' }} className="transition-colors duration-200" />
+          </LineChart>
+        </ResponsiveContainer>
       </div>
 
       {/* Мотиваційне повідомлення */}
-      <div className="mt-3 text-center">
+      <div className="mt-2 text-center">
         <span className="text-xs font-medium text-primary dark:text-dark-primary bg-primary-light dark:bg-dark-primary-light px-2 py-1 rounded-full">
           {getMotivationalMessage()}
         </span>

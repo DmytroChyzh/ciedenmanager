@@ -8,7 +8,6 @@ import ChatSessionsTable from '@/components/ChatSessionsTable';
 import SalesChatView from '@/components/SalesChatView';
 import GraphCard from '@/components/GraphCard';
 import UsersCountCard from '@/components/UsersCountCard';
-import ChatsCountCard from '@/components/ChatsCountCard';
 import ActiveChatsCard from '@/components/ActiveChatsCard';
 import ChatViewMini from '@/components/ChatViewMini';
 import { db } from '@/lib/firebase';
@@ -28,7 +27,6 @@ export default function Dashboard() {
   
   // Стани періодів для кожної картки
   const [usersPeriod, setUsersPeriod] = useState<'week' | 'month' | 'year'>('week');
-  const [chatsPeriod, setChatsPeriod] = useState<'week' | 'month' | 'year'>('week');
   const [targetsPeriod, setTargetsPeriod] = useState<'week' | 'month' | 'year'>('week');
 
   useEffect(() => {
@@ -178,17 +176,6 @@ export default function Dashboard() {
             onPeriodChange={setUsersPeriod}
             currentPeriod={usersPeriod}
           />
-          <ChatsCountCard 
-            value={totalChats} 
-            data={getMetricData(chats, 'chats', chatsPeriod)} 
-            percent={getGrowth(getMetricData(chats, 'chats', chatsPeriod))}
-            onPeriodChange={setChatsPeriod}
-            currentPeriod={chatsPeriod}
-          />
-        </div>
-        
-        {/* Прогрес до цілей - окремий блок на мобільних */}
-        <div className="h-[200px] sm:h-[220px] md:h-[240px] lg:h-[260px] xl:h-[280px] 2xl:h-[302px] flex-shrink-0">
           <ActiveChatsCard 
             value={totalChats} 
             percent={getGrowth(getMetricData(chats, 'chats', targetsPeriod))}
