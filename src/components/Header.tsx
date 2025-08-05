@@ -18,9 +18,9 @@ export default function Header() {
   const photoURL = user?.photoURL;
 
   return (
-    <header className="w-auto bg-white dark:bg-dark-card rounded-xl mt-2 sm:mt-3 md:mt-6 mx-2 sm:mx-3 md:mx-6 px-3 sm:px-4 md:px-6 flex items-center justify-between min-h-[48px] sm:min-h-[56px] md:min-h-[64px] ml-6">
-      <div className="flex items-center gap-2 sm:gap-3">
-        <img src={theme === 'dark' ? '/logowhite.svg' : '/logo1.svg'} alt="Logo" className="w-20 sm:w-24 md:w-28 h-8 sm:h-10 md:h-12 object-contain" />
+    <header className="w-auto bg-white dark:bg-dark-card rounded-xl mt-1 xs:mt-2 sm:mt-3 md:mt-4 lg:mt-5 xl:mt-6 mx-1 xs:mx-2 sm:mx-3 md:mx-4 lg:mx-5 xl:mx-6 px-2 xs:px-3 sm:px-4 md:px-5 lg:px-6 flex items-center justify-between min-h-[40px] xs:min-h-[44px] sm:min-h-[48px] md:min-h-[52px] lg:min-h-[56px] xl:min-h-[60px] 2xl:min-h-[64px] ml-1 xs:ml-2 sm:ml-3 md:ml-4 lg:ml-5 xl:ml-6">
+      <div className="flex items-center gap-1 xs:gap-2 sm:gap-3">
+        <img src={theme === 'dark' ? '/logowhite.svg' : '/logo1.svg'} alt="Logo" className="w-16 xs:w-18 sm:w-20 md:w-22 lg:w-24 xl:w-26 2xl:w-28 h-6 xs:h-7 sm:h-8 md:h-9 lg:h-10 xl:h-11 2xl:h-12 object-contain" />
       </div>
       <div className="flex items-center gap-2 sm:gap-3">
         <button 

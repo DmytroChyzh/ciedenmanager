@@ -42,7 +42,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className={`bg-white dark:bg-dark-card rounded-xl h-[calc(100vh-80px)] sm:h-[calc(100vh-88px)] md:h-[calc(100vh-96px)] flex flex-col transition-all duration-200 ${collapsed ? 'w-12 sm:w-14 md:w-16' : 'w-full sm:w-[180px] md:w-[200px] lg:w-[220px] xl:w-[240px] 2xl:w-[260px]'} pb-0 ml-2 sm:ml-3 md:ml-4 lg:ml-5 xl:ml-6 mt-2 sm:mt-3 md:mt-4 lg:mt-5 xl:mt-6`}>
+    <aside className={`bg-white dark:bg-dark-card rounded-xl h-[calc(100vh-60px)] xs:h-[calc(100vh-70px)] sm:h-[calc(100vh-80px)] md:h-[calc(100vh-90px)] lg:h-[calc(100vh-96px)] flex flex-col transition-all duration-200 ${collapsed ? 'w-10 xs:w-12 sm:w-14 md:w-16' : 'w-full xs:w-[160px] sm:w-[180px] md:w-[200px] lg:w-[220px] xl:w-[240px] 2xl:w-[260px]'} pb-0 ml-1 xs:ml-2 sm:ml-3 md:ml-4 lg:ml-5 xl:ml-6 mt-1 xs:mt-2 sm:mt-3 md:mt-4 lg:mt-5 xl:mt-6`}>
       {/* Пошук з кнопкою згортання - тільки коли розгорнуто */}
       {!collapsed && (
         <div className="p-4 border-b border-gray-100 dark:border-dark-border">
