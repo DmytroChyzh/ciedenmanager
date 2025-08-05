@@ -15,7 +15,7 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-dark-bg">
+    <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-dark-bg relative">
       <Header />
       {/* Sidebar для мобільних */}
       <div className="block md:hidden w-full">
@@ -41,12 +41,15 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
           </div>
         )}
       </div>
-      <div className="flex flex-col md:flex-row w-full min-w-0">
+      <div className="flex flex-col md:flex-row w-full min-w-0 flex-1">
         <div className="hidden md:block">
           <Sidebar />
         </div>
         <main className="flex-1 flex flex-col p-2 sm:p-3 md:p-6 pb-6 w-full min-w-0">{children}</main>
       </div>
+      
+      {/* Біла лінія внизу екрану */}
+      <div className="fixed bottom-0 left-0 right-0 h-6 bg-white dark:bg-white z-50"></div>
     </div>
   );
 } 
