@@ -28,7 +28,7 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
   };
 
   const up = percent >= 0;
-  const periodButtonClass = `w-8 h-8 px-2 text-xs font-medium transition-colors duration-200 focus:outline-none rounded-lg`;
+  const periodButtonClass = `w-10 h-8 px-3 text-xs font-medium transition-colors duration-200 focus:outline-none rounded-lg`;
   
   return (
     <div className="bg-white dark:bg-dark-card rounded-xl flex flex-col p-4 md:p-6 min-w-[240px] h-[302px]">
@@ -41,7 +41,7 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
         </div>
         {/* Компактний переключувач періодів */}
         {onPeriodChange && (
-          <div className="flex rounded-lg overflow-hidden border border-primary dark:border-dark-primary bg-white dark:bg-dark-card">
+          <div className="flex rounded-lg overflow-hidden bg-white dark:bg-dark-card">
             {periods.map((period) => {
               const isActive = currentPeriod === period.key;
               return (
