@@ -190,7 +190,7 @@ export default function Dashboard() {
           </div>
           
           {/* Таблиця чат-сесій */}
-          <div className="flex-1 flex flex-col min-h-0">
+          <div className="h-[840px] flex flex-col min-h-0">
             <div className="flex-1 flex flex-col min-h-0">
               <div className="h-full overflow-y-auto min-h-0">
                 <ChatSessionsTable 
@@ -207,7 +207,7 @@ export default function Dashboard() {
         {/* Права група: прогрес + деталі сесій */}
         <div className="w-full lg:w-[500px] xl:w-[600px] flex flex-col gap-6 min-h-0">
           {/* Прогрес до цілей */}
-          <div className="flex-shrink-0">
+          <div className="h-[302px] flex-shrink-0">
             <ActiveChatsCard 
               value={totalChats} 
               percent={getGrowth(getMetricData(chats, 'chats', targetsPeriod))}
@@ -217,7 +217,7 @@ export default function Dashboard() {
           </div>
           
           {/* Деталі сесій */}
-          <div className="flex-1 flex flex-col min-h-0">
+          <div className="h-[840px] flex flex-col min-h-0">
             <div className="flex-1 flex flex-col min-h-0">
               <div className="h-full overflow-y-auto min-h-0">
                 {showDetails && selectedSessionId ? (
