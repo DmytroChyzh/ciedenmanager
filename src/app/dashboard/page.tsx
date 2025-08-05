@@ -194,7 +194,7 @@ export default function Dashboard() {
       {/* Основна область з таблицею та чатом */}
       <div className="flex flex-col lg:flex-row gap-6 flex-1 min-h-0">
         {/* Таблиця чат-сесій */}
-        <div className="flex-1 flex flex-col h-full min-h-0">
+        <div className="flex-1 flex flex-col h-[500px] min-h-0">
           <div className="flex-1 flex flex-col min-h-0">
             <div className="h-full overflow-y-auto min-h-0">
               <ChatSessionsTable 
@@ -208,7 +208,7 @@ export default function Dashboard() {
         </div>
         
         {/* Область чату */}
-        <div className="w-full lg:w-[500px] xl:w-[600px] flex flex-col h-full min-h-0">
+        <div className="w-full lg:w-[500px] xl:w-[600px] flex flex-col h-[500px] min-h-0">
           <div className="flex-1 flex flex-col min-h-0">
             <div className="h-full overflow-y-auto min-h-0">
               {showDetails && selectedSessionId ? (
