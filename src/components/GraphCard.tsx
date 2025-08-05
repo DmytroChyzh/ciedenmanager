@@ -41,7 +41,7 @@ export default function GraphCard({ title, value, data, type = 'line', icon, per
   const periodButtonClass = `w-10 h-8 px-3 text-xs font-medium transition-colors duration-200 focus:outline-none rounded-lg`;
 
   return (
-    <div className="bg-white dark:bg-dark-card rounded-xl flex flex-col p-4 md:p-6 min-w-[240px] min-h-[240px]">
+    <div className="bg-white dark:bg-dark-card rounded-xl flex flex-col p-3 sm:p-4 md:p-6 min-w-[240px] min-h-[240px]">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <span className="w-6 h-6 flex items-center justify-center">{icon}</span>

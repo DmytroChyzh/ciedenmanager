@@ -168,11 +168,11 @@ export default function Dashboard() {
   return (
     <div className="h-full flex flex-col">
       {/* Основна область з двома групами */}
-      <div className="flex flex-col lg:flex-row gap-6 flex-1 min-h-0">
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 flex-1 min-h-0">
         {/* Ліва група: 2 графіки + таблиця сесій */}
-        <div className="flex-1 flex flex-col gap-6 min-h-0">
+        <div className="flex-1 flex flex-col gap-4 lg:gap-6 min-h-0">
           {/* Верхні графіки */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-shrink-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 flex-shrink-0">
             <UsersCountCard 
               value={totalUsers} 
               data={getMetricData(chats, 'users', usersPeriod)} 
@@ -190,7 +190,7 @@ export default function Dashboard() {
           </div>
           
           {/* Таблиця чат-сесій */}
-          <div className="h-[840px] flex flex-col min-h-0">
+          <div className="h-[800px] lg:h-[840px] flex flex-col min-h-0">
             <div className="flex-1 flex flex-col min-h-0">
               <div className="h-full overflow-y-auto min-h-0">
                 <ChatSessionsTable 
@@ -205,9 +205,9 @@ export default function Dashboard() {
         </div>
         
         {/* Права група: прогрес + деталі сесій */}
-        <div className="w-full lg:w-[500px] xl:w-[600px] flex flex-col gap-6 min-h-0">
+        <div className="w-full lg:w-[450px] xl:w-[500px] 2xl:w-[600px] flex flex-col gap-4 lg:gap-6 min-h-0">
           {/* Прогрес до цілей */}
-          <div className="h-[302px] flex-shrink-0">
+          <div className="h-[280px] lg:h-[302px] flex-shrink-0">
             <ActiveChatsCard 
               value={totalChats} 
               percent={getGrowth(getMetricData(chats, 'chats', targetsPeriod))}
@@ -217,7 +217,7 @@ export default function Dashboard() {
           </div>
           
           {/* Деталі сесій */}
-          <div className="h-[840px] flex flex-col min-h-0">
+          <div className="h-[800px] lg:h-[840px] flex flex-col min-h-0">
             <div className="flex-1 flex flex-col min-h-0">
               <div className="h-full overflow-y-auto min-h-0">
                 {showDetails && selectedSessionId ? (

@@ -45,7 +45,7 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
         <div className="hidden md:block">
           <Sidebar />
         </div>
-        <main className="flex-1 flex flex-col p-2 sm:p-3 md:p-6 w-full min-w-0 overflow-hidden">{children}</main>
+        <main className="flex-1 flex flex-col p-2 sm:p-3 md:p-4 lg:p-6 w-full min-w-0 overflow-hidden">{children}</main>
       </div>
     </div>
   );

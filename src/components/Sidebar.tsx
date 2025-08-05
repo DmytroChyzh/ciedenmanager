@@ -42,7 +42,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className={`bg-white dark:bg-dark-card rounded-xl h-[1170px] flex flex-col transition-all duration-200 ${collapsed ? 'w-16' : 'w-full md:w-[240px] lg:w-[280px]'} pb-0 ml-6 mt-6`}>
+    <aside className={`bg-white dark:bg-dark-card rounded-xl h-[1170px] flex flex-col transition-all duration-200 ${collapsed ? 'w-16' : 'w-full md:w-[220px] lg:w-[260px] xl:w-[280px]'} pb-0 ml-3 lg:ml-6 mt-3 lg:mt-6`}>
       {/* Пошук з кнопкою згортання - тільки коли розгорнуто */}
       {!collapsed && (
         <div className="p-4 border-b border-gray-100 dark:border-dark-border">
