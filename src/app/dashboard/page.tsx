@@ -167,59 +167,69 @@ export default function Dashboard() {
 
   return (
     <div className="h-full flex flex-col">
-      {/* Картки метрик */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6 flex-shrink-0">
-        <UsersCountCard 
-          value={totalUsers} 
-          data={getMetricData(chats, 'users', usersPeriod)} 
-          percent={getGrowth(getMetricData(chats, 'users', usersPeriod))}
-          onPeriodChange={setUsersPeriod}
-          currentPeriod={usersPeriod}
-        />
-        <ChatsCountCard 
-          value={totalChats} 
-          data={getMetricData(chats, 'chats', chatsPeriod)} 
-          percent={getGrowth(getMetricData(chats, 'chats', chatsPeriod))}
-          onPeriodChange={setChatsPeriod}
-          currentPeriod={chatsPeriod}
-        />
-        <ActiveChatsCard 
-          value={totalChats} 
-          percent={getGrowth(getMetricData(chats, 'chats', targetsPeriod))}
-          onPeriodChange={setTargetsPeriod}
-          currentPeriod={targetsPeriod}
-        />
-      </div>
-      
-      {/* Основна область з таблицею та чатом */}
+      {/* Основна область з двома групами */}
       <div className="flex flex-col lg:flex-row gap-6 flex-1 min-h-0">
-        {/* Таблиця чат-сесій */}
-        <div className="flex-1 flex flex-col h-[840px] min-h-0">
+        {/* Ліва група: 2 графіки + таблиця сесій */}
+        <div className="flex-1 flex flex-col gap-6 min-h-0">
+          {/* Верхні графіки */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-shrink-0">
+            <UsersCountCard 
+              value={totalUsers} 
+              data={getMetricData(chats, 'users', usersPeriod)} 
+              percent={getGrowth(getMetricData(chats, 'users', usersPeriod))}
+              onPeriodChange={setUsersPeriod}
+              currentPeriod={usersPeriod}
+            />
+            <ChatsCountCard 
+              value={totalChats} 
+              data={getMetricData(chats, 'chats', chatsPeriod)} 
+              percent={getGrowth(getMetricData(chats, 'chats', chatsPeriod))}
+              onPeriodChange={setChatsPeriod}
+              currentPeriod={chatsPeriod}
+            />
+          </div>
+          
+          {/* Таблиця чат-сесій */}
           <div className="flex-1 flex flex-col min-h-0">
-            <div className="h-full overflow-y-auto min-h-0">
-              <ChatSessionsTable 
-                sessions={filteredChats} 
-                selectedSessionId={selectedSessionId} 
-                onSelect={handleRowSelect} 
-                onGenerateReport={handleGenerateReport}
-              />
+            <div className="flex-1 flex flex-col min-h-0">
+              <div className="h-full overflow-y-auto min-h-0">
+                <ChatSessionsTable 
+                  sessions={filteredChats} 
+                  selectedSessionId={selectedSessionId} 
+                  onSelect={handleRowSelect} 
+                  onGenerateReport={handleGenerateReport}
+                />
+              </div>
             </div>
           </div>
         </div>
         
-        {/* Область чату */}
-        <div className="w-full lg:w-[500px] xl:w-[600px] flex flex-col h-[840px] min-h-0">
+        {/* Права група: прогрес + деталі сесій */}
+        <div className="w-full lg:w-[500px] xl:w-[600px] flex flex-col gap-6 min-h-0">
+          {/* Прогрес до цілей */}
+          <div className="flex-shrink-0">
+            <ActiveChatsCard 
+              value={totalChats} 
+              percent={getGrowth(getMetricData(chats, 'chats', targetsPeriod))}
+              onPeriodChange={setTargetsPeriod}
+              currentPeriod={targetsPeriod}
+            />
+          </div>
+          
+          {/* Деталі сесій */}
           <div className="flex-1 flex flex-col min-h-0">
-            <div className="h-full overflow-y-auto min-h-0">
-              {showDetails && selectedSessionId ? (
-                <SalesChatView sessionId={selectedSessionId} />
-              ) : selectedSessionId ? (
-                <ChatViewMini sessionId={selectedSessionId} />
-              ) : (
-                <div className="bg-white dark:bg-dark-card rounded-xl p-4 md:p-6 h-full flex items-center justify-center text-gray-400 dark:text-dark-text-muted min-h-[80px] md:min-h-[120px] text-sm md:text-base text-center">
-                  {t('selectSession')}
-                </div>
-              )}
+            <div className="flex-1 flex flex-col min-h-0">
+              <div className="h-full overflow-y-auto min-h-0">
+                {showDetails && selectedSessionId ? (
+                  <SalesChatView sessionId={selectedSessionId} />
+                ) : selectedSessionId ? (
+                  <ChatViewMini sessionId={selectedSessionId} />
+                ) : (
+                  <div className="bg-white dark:bg-dark-card rounded-xl p-4 md:p-6 h-full flex items-center justify-center text-gray-400 dark:text-dark-text-muted min-h-[80px] md:min-h-[120px] text-sm md:text-base text-center">
+                    {t('selectSession')}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
