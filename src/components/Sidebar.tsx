@@ -1,17 +1,19 @@
 "use client";
 import React from 'react';
-import { HomeIcon, ChatBubbleLeftRightIcon, CalendarDaysIcon, CalculatorIcon, SparklesIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/solid';
+import { HomeIcon, ChatBubbleLeftRightIcon, CalendarDaysIcon, CalculatorIcon, SparklesIcon, ArrowRightOnRectangleIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid';
+import { ChevronRightIcon, Bars3Icon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { useTheme } from '@/contexts/ThemeContext';
 import { useState } from 'react';
 
 export default function Sidebar() {
   const pathname = usePathname();
   const { language, t } = useLanguage();
   const { logout } = useAuth();
+  const { theme } = useTheme();
   const [collapsed, setCollapsed] = useState(false);
 
   const menuItems = [
@@ -43,20 +45,48 @@ export default function Sidebar() {
 
   return (
     <aside className={`bg-white dark:bg-dark-card rounded-xl h-[1170px] flex flex-col transition-all duration-200 ${collapsed ? 'w-16' : 'w-full md:w-[240px] lg:w-[280px]'} pb-0 ml-6 mt-6`}>
-      {/* Hamburger кнопка */}
-      <button
-        className={`flex items-center justify-center mt-3 ml-3 w-8 h-8 rounded-lg hover:bg-primary-light dark:hover:bg-dark-primary-light transition-colors ${collapsed ? 'mx-auto' : ''}`}
-        onClick={() => setCollapsed(!collapsed)}
-        aria-label={collapsed ? 'Розгорнути меню' : 'Згорнути меню'}
-      >
-        {collapsed ? (
-          <Bars3Icon className="w-5 h-5 text-primary dark:text-dark-primary" />
-        ) : (
-          <XMarkIcon className="w-5 h-5 text-primary dark:text-dark-primary" />
-        )}
-      </button>
+      {/* Логотип - тільки коли розгорнуто */}
+      {!collapsed && (
+        <div className="flex items-center gap-2 p-4 border-b border-gray-100 dark:border-dark-border">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-lg">C</span>
+            </div>
+            <span className="text-gray-900 dark:text-dark-text font-semibold text-lg">CIEDEN</span>
+          </div>
+        </div>
+      )}
+
+      {/* Пошук - тільки коли розгорнуто */}
+      {!collapsed && (
+        <div className="p-4 border-b border-gray-100 dark:border-dark-border">
+          <div className="relative">
+            <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search"
+              className="w-full pl-10 pr-4 py-2 bg-gray-50 dark:bg-dark-hover border border-gray-200 dark:border-dark-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-dark-primary"
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Кнопка згортання/розгортання */}
+      <div className="flex justify-end p-2">
+        <button
+          className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-primary-light dark:hover:bg-dark-primary-light transition-colors"
+          onClick={() => setCollapsed(!collapsed)}
+          aria-label={collapsed ? 'Розгорнути меню' : 'Згорнути меню'}
+        >
+          {collapsed ? (
+            <ChevronRightIcon className="w-5 h-5 text-primary dark:text-dark-primary" />
+          ) : (
+            <Bars3Icon className="w-5 h-5 text-primary dark:text-dark-primary" />
+          )}
+        </button>
+      </div>
       
-      <nav className={`flex flex-col ${collapsed ? 'gap-2 mt-4' : 'gap-3 mt-6'} flex-1 items-center px-2`}> 
+      <nav className={`flex flex-col ${collapsed ? 'gap-2 mt-2' : 'gap-3 mt-4'} flex-1 items-center px-2`}> 
         {menuItems.map((item) => {
           const isActive = pathname === item.href;
           return (
