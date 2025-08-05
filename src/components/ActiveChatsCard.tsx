@@ -28,10 +28,10 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
   };
 
   const up = percent >= 0;
-  const periodButtonClass = `w-10 h-8 px-3 text-xs font-medium transition-colors duration-200 focus:outline-none rounded-lg`;
+  const periodButtonClass = `w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-8 px-1 sm:px-2 md:px-2 lg:px-3 text-xs font-medium transition-colors duration-200 focus:outline-none rounded-lg`;
   
   return (
-    <div className="bg-white dark:bg-dark-card rounded-xl flex flex-col p-3 sm:p-4 md:p-6 min-w-[240px] h-[302px]">
+    <div className="bg-white dark:bg-dark-card rounded-xl flex flex-col p-2 sm:p-3 md:p-4 lg:p-5 xl:p-6 min-w-[200px] sm:min-w-[220px] md:min-w-[240px] h-[302px]">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <span className="w-6 h-6 flex items-center justify-center">
