@@ -84,14 +84,14 @@ export default function Sidebar() {
           const isActive = pathname === item.href;
           return (
             <Link key={item.key} href={item.href} legacyBehavior>
-              <a className={`flex items-center ${collapsed ? 'justify-center' : 'gap-3'} px-3 py-2.5 rounded-lg ${collapsed ? 'w-10 h-10' : 'w-full'} text-left transition text-sm font-medium ${
+              <a className={`flex items-center ${collapsed ? 'justify-center' : 'gap-3'} px-3 py-2.5 rounded-lg ${collapsed ? 'w-10 h-10' : 'w-full'} text-left transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-dark-primary focus:ring-offset-2 dark:focus:ring-offset-dark-card ${
                 isActive 
-                  ? 'bg-primary-light dark:bg-dark-primary-light text-primary dark:text-dark-primary' 
-                  : 'hover:bg-primary-muted dark:hover:bg-dark-primary-muted text-gray-700 dark:text-dark-text-muted'
+                  ? 'bg-primary-light dark:bg-dark-primary-light text-primary dark:text-dark-primary shadow-sm' 
+                  : 'hover:bg-primary-muted dark:hover:bg-dark-primary-muted text-gray-700 dark:text-dark-text-muted hover:text-primary dark:hover:text-dark-primary active:bg-primary-light/50 dark:active:bg-dark-primary-light/50'
               }`}>
                 <span className={`flex items-center justify-center ${collapsed ? 'w-5 h-5' : 'w-5 h-5'}`}>
                   {React.cloneElement(item.icon, { 
-                    className: `${collapsed ? 'w-5 h-5' : 'w-5 h-5'} ${isActive ? 'text-primary dark:text-dark-primary' : 'text-gray-600 dark:text-dark-text-muted'}` 
+                    className: `${collapsed ? 'w-5 h-5' : 'w-5 h-5'} transition-colors ${isActive ? 'text-primary dark:text-dark-primary' : 'text-gray-600 dark:text-dark-text-muted group-hover:text-primary dark:group-hover:text-dark-primary'}` 
                   })}
                 </span>
                 {!collapsed && <span className="truncate">{item.label}</span>}
@@ -105,10 +105,10 @@ export default function Sidebar() {
       <div className={`p-2 ${collapsed ? 'flex justify-center' : ''}`}>
         <button 
           onClick={logout}
-          className={`flex items-center ${collapsed ? 'justify-center' : 'gap-3'} px-3 py-2.5 rounded-lg ${collapsed ? 'w-10 h-10' : 'w-full'} text-left hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-700 dark:text-dark-text-muted text-sm font-medium transition-colors`}
+          className={`flex items-center ${collapsed ? 'justify-center' : 'gap-3'} px-3 py-2.5 rounded-lg ${collapsed ? 'w-10 h-10' : 'w-full'} text-left hover:bg-red-50 dark:hover:bg-red-900/20 active:bg-red-100 dark:active:bg-red-800/30 focus:outline-none focus:ring-2 focus:ring-red-500 dark:focus:ring-red-400 focus:ring-offset-2 dark:focus:ring-offset-dark-card text-gray-700 dark:text-dark-text-muted hover:text-red-700 dark:hover:text-red-400 text-sm font-medium transition-all duration-200`}
         >
           <span className={`flex items-center justify-center ${collapsed ? 'w-5 h-5' : 'w-5 h-5'}`}>
-            <ArrowRightOnRectangleIcon className={`${collapsed ? 'w-5 h-5' : 'w-5 h-5'} text-gray-600 dark:text-dark-text-muted`} />
+            <ArrowRightOnRectangleIcon className={`${collapsed ? 'w-5 h-5' : 'w-5 h-5'} text-gray-600 dark:text-dark-text-muted group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors`} />
           </span>
           {!collapsed && <span className="truncate">{t('signOut')}</span>}
         </button>
