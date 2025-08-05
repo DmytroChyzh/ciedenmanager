@@ -132,6 +132,16 @@ export default function GraphCard({ title, value, data, type = 'line', icon, per
             </LineChart>
           )}
         </ResponsiveContainer>
+        
+        {/* Дати під графіком */}
+        <div className="mt-2 flex justify-between text-xs text-gray-500 dark:text-gray-400 px-4">
+          {data.length > 0 && (
+            <>
+              <span>{data[0].date}</span>
+              <span>{data[data.length - 1].date}</span>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

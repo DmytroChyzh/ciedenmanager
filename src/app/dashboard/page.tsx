@@ -75,10 +75,18 @@ export default function Dashboard() {
     const timeData = [];
     
     if (period === 'week') {
-      for (let i = 6; i >= 0; i--) {
-        const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
+      // Завжди показуємо з понеділка по неділю
+      const weekDays = ['monShort','tueShort','wedShort','thuShort','friShort','satShort','sunShort'];
+      
+      // Знаходимо понеділок поточного тижня
+      const currentDay = now.getDay(); // 0 = неділя, 1 = понеділок, ...
+      const mondayOffset = currentDay === 0 ? 6 : currentDay - 1; // Скільки днів назад понеділок
+      const monday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - mondayOffset);
+      
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + i);
         timeData.push({
-          day: ['monShort','tueShort','wedShort','thuShort','friShort','satShort','sunShort'][d.getDay() === 0 ? 6 : d.getDay() - 1],
+          day: weekDays[i], // Завжди понеділок-неділя
           date: d.toLocaleDateString(),
           value: 0
         });
