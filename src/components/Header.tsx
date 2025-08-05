@@ -18,7 +18,7 @@ export default function Header() {
   const photoURL = user?.photoURL;
 
   return (
-    <header className="w-auto bg-white dark:bg-dark-card rounded-xl mt-2 sm:mt-3 md:mt-6 mx-2 sm:mx-3 md:mx-6 px-3 sm:px-4 md:px-6 flex items-center justify-between min-h-[48px] sm:min-h-[56px] md:min-h-[64px] border border-gray-200 dark:border-dark-border">
+    <header className="w-auto bg-white dark:bg-dark-card rounded-xl mt-2 sm:mt-3 md:mt-6 mx-2 sm:mx-3 md:mx-6 px-3 sm:px-4 md:px-6 flex items-center justify-between min-h-[48px] sm:min-h-[56px] md:min-h-[64px] border border-gray-200 dark:border-dark-border ml-8">
       <div className="flex items-center gap-2 sm:gap-3">
         <img src={theme === 'dark' ? '/logowhite.svg' : '/logo1.svg'} alt="Logo" className="w-20 sm:w-24 md:w-28 h-8 sm:h-10 md:h-12 object-contain" />
       </div>
