@@ -47,9 +47,6 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
         </div>
         <main className="flex-1 flex flex-col p-2 sm:p-3 md:p-6 pb-0 w-full min-w-0 max-h-[1170px] overflow-y-auto">{children}</main>
       </div>
-      
-      {/* Біла лінія внизу екрану */}
-      <div className="fixed bottom-0 left-0 right-0 h-6 bg-white dark:bg-white z-50"></div>
     </div>
   );
 } 

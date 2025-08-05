@@ -166,7 +166,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="h-[1170px] ml-6 mr-6 mt-6 mb-6 bg-white dark:bg-dark-card rounded-xl p-6">
+    <div className="h-[1170px]">
       {/* Картки метрик */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
         <UsersCountCard 
