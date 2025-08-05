@@ -1,19 +1,17 @@
 "use client";
 import React from 'react';
 import { HomeIcon, ChatBubbleLeftRightIcon, CalendarDaysIcon, CalculatorIcon, SparklesIcon, ArrowRightOnRectangleIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid';
-import { ChevronRightIcon, Bars3Icon } from '@heroicons/react/24/outline';
+import { ChevronLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
-import { useTheme } from '@/contexts/ThemeContext';
 import { useState } from 'react';
 
 export default function Sidebar() {
   const pathname = usePathname();
   const { language, t } = useLanguage();
   const { logout } = useAuth();
-  const { theme } = useTheme();
   const [collapsed, setCollapsed] = useState(false);
 
   const menuItems = [
@@ -45,18 +43,6 @@ export default function Sidebar() {
 
   return (
     <aside className={`bg-white dark:bg-dark-card rounded-xl h-[1170px] flex flex-col transition-all duration-200 ${collapsed ? 'w-16' : 'w-full md:w-[240px] lg:w-[280px]'} pb-0 ml-6 mt-6`}>
-      {/* Логотип - тільки коли розгорнуто */}
-      {!collapsed && (
-        <div className="flex items-center gap-2 p-4 border-b border-gray-100 dark:border-dark-border">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">C</span>
-            </div>
-            <span className="text-gray-900 dark:text-dark-text font-semibold text-lg">CIEDEN</span>
-          </div>
-        </div>
-      )}
-
       {/* Пошук - тільки коли розгорнуто */}
       {!collapsed && (
         <div className="p-4 border-b border-gray-100 dark:border-dark-border">
@@ -79,9 +65,9 @@ export default function Sidebar() {
           aria-label={collapsed ? 'Розгорнути меню' : 'Згорнути меню'}
         >
           {collapsed ? (
-            <ChevronRightIcon className="w-5 h-5 text-primary dark:text-dark-primary" />
+            <ChevronLeftIcon className="w-5 h-5 text-primary dark:text-dark-primary" />
           ) : (
-            <Bars3Icon className="w-5 h-5 text-primary dark:text-dark-primary" />
+            <ChevronLeftIcon className="w-5 h-5 text-primary dark:text-dark-primary" />
           )}
         </button>
       </div>
