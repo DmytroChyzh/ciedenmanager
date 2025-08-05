@@ -41,11 +41,11 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
           </div>
         )}
       </div>
-      <div className="flex flex-col md:flex-row w-full min-w-0 flex-1 pb-6">
+      <div className="flex flex-col md:flex-row w-full min-w-0 flex-1 pb-0">
         <div className="hidden md:block">
           <Sidebar />
         </div>
-        <main className="flex-1 flex flex-col p-2 sm:p-3 md:p-6 w-full min-w-0">{children}</main>
+        <main className="flex-1 flex flex-col p-2 sm:p-3 md:p-6 pb-0 w-full min-w-0">{children}</main>
       </div>
       
       {/* Біла лінія внизу екрану */}
