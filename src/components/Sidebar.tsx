@@ -42,7 +42,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className={`bg-white dark:bg-dark-card rounded-xl h-[1000px] flex flex-col border border-gray-200 dark:border-dark-border transition-all duration-200 ${collapsed ? 'w-16' : 'w-full md:w-[240px] lg:w-[280px]'} pb-4 ml-6 mt-6`}>
+    <aside className={`bg-white dark:bg-dark-card rounded-xl h-[calc(100vh-120px)] flex flex-col border border-gray-200 dark:border-dark-border transition-all duration-200 ${collapsed ? 'w-16' : 'w-full md:w-[240px] lg:w-[280px]'} pb-4 ml-6 mt-6`}>
       {/* Hamburger кнопка */}
       <button
         className={`flex items-center justify-center mt-3 ml-3 w-8 h-8 rounded-lg hover:bg-primary-light dark:hover:bg-dark-primary-light transition-colors ${collapsed ? 'mx-auto' : ''}`}
