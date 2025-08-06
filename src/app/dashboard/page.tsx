@@ -200,36 +200,19 @@ export default function Dashboard() {
           />
         </div>
         
-        {/* Таблиця та Session Details - два стовпці */}
-        <div className="flex flex-col xl:flex-row gap-3 sm:gap-4 md:gap-5 lg:gap-6 flex-1 min-h-0">
-          {/* Таблиця чат-сесій - зліва */}
-          <div className="flex-1 h-[840px] flex flex-col min-h-0">
-            <div className="flex-1 flex flex-col min-h-0">
-              <div className="h-full overflow-y-auto min-h-0">
-                <ChatSessionsTable 
-                  sessions={filteredChats} 
-                  selectedSessionId={selectedSessionId} 
-                  onSelect={handleRowSelect} 
-                  onGenerateReport={handleGenerateReport}
-                />
-              </div>
+        {/* Таблиця чат-сесій - повна ширина */}
+        <div className="flex-1 h-[840px] flex flex-col min-h-0">
+          <div className="flex-1 flex flex-col min-h-0">
+            <div className="h-full overflow-y-auto min-h-0">
+              <ChatSessionsTable 
+                sessions={filteredChats} 
+                selectedSessionId={selectedSessionId} 
+                onSelect={handleRowSelect} 
+                onGenerateReport={handleGenerateReport}
+                showDetails={showDetails}
+              />
             </div>
           </div>
-
-          {/* Session Details - справа */}
-          {selectedSessionId && (
-            <div className="w-full xl:w-[400px] 2xl:w-[500px] 3xl:w-[600px] h-[840px] flex flex-col min-h-0">
-              <div className="flex-1 flex flex-col min-h-0">
-                <div className="h-full overflow-y-auto min-h-0">
-                  {showDetails ? (
-                    <SalesChatView sessionId={selectedSessionId} />
-                  ) : (
-                    <ChatViewMini sessionId={selectedSessionId} />
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
         </div>
 
 
