@@ -79,8 +79,8 @@ export default function ChatList({ selectedSessionId, onSelect, hideHeader }: Ch
                   </div>
                 </div>
                 <div className="flex-1 min-w-0 overflow-hidden">
-                  <div className="font-semibold truncate text-sm">{session.metadata.userName || '—'}</div>
-                  <div className="text-xs text-gray-500 truncate">{session.metadata.userEmail || '—'}</div>
+                  <div className="font-semibold text-sm">{session.metadata.userName || '—'}</div>
+                  <div className="text-xs text-gray-500">{session.metadata.userEmail || '—'}</div>
                   <div className="text-xs text-gray-400">{session.messages?.length ?? 0} повідомлень</div>
                 </div>
                 <div className="flex-shrink-0">
