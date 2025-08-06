@@ -33,7 +33,7 @@ export default function ChatSessionsTable({ sessions, selectedSessionId, onSelec
   const now = Date.now();
 
   return (
-    <div className="bg-white dark:bg-dark-card rounded-xl p-4 md:p-6 h-[calc(100vh-400px)] min-h-0 flex flex-col">
+    <div className="bg-white dark:bg-dark-card rounded-xl p-4 md:p-6 h-[calc(100vh-500px)] min-h-0 flex flex-col">
       {/* Заголовок і пошук */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <h2 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-dark-text">
