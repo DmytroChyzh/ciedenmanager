@@ -506,6 +506,10 @@ const translations = {
     planningPrompt: 'Help create a weekly work plan for a sales manager',
     
     // Session Details Popup
+    sessionInformation: 'Session Information',
+    sessionId: 'Session ID',
+    clientName: 'Client',
+    messagesCount: 'Messages count',
     sessionDetails: 'Session Details',
     createdDate: 'Created',
     totalMessages: 'Total messages',
