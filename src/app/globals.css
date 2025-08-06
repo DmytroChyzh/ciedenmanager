@@ -230,11 +230,85 @@
     color: #9ca3af !important;
   }
   
+  /* Покращені кольори для імен клієнтів */
+  .dark .text-gray-900,
+  html.dark .text-gray-900 {
+    color: #FF9102 !important;
+  }
+  
+  /* Білий текст для інструкцій */
+  .dark .text-gray-800,
+  html.dark .text-gray-800 {
+    color: #ffffff !important;
+  }
+  
+  /* Покращені кольори для статусів */
+  .dark .text-green-600,
+  .dark .text-green-700,
+  html.dark .text-green-600,
+  html.dark .text-green-700 {
+    color: #10B981 !important;
+    background-color: rgba(16, 185, 129, 0.1) !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+    padding: 2px 8px !important;
+    border-radius: 4px !important;
+  }
+  
+  .dark .text-red-600,
+  .dark .text-red-700,
+  html.dark .text-red-600,
+  html.dark .text-red-700 {
+    color: #EF4444 !important;
+    background-color: rgba(239, 68, 68, 0.1) !important;
+    border: 1px solid rgba(239, 68, 68, 0.3) !important;
+    padding: 2px 8px !important;
+    border-radius: 4px !important;
+  }
+  
+  /* Прибрати білу лінію скролбару */
+  .dark ::-webkit-scrollbar-track,
+  html.dark ::-webkit-scrollbar-track {
+    background: transparent !important;
+  }
+  
+  .dark ::-webkit-scrollbar,
+  html.dark ::-webkit-scrollbar {
+    width: 6px !important;
+    height: 6px !important;
+  }
+  
+  .dark ::-webkit-scrollbar-thumb,
+  html.dark ::-webkit-scrollbar-thumb {
+    background: #4b5563 !important;
+    border-radius: 3px !important;
+  }
+  
+  .dark ::-webkit-scrollbar-thumb:hover,
+  html.dark ::-webkit-scrollbar-thumb:hover {
+    background: #6b7280 !important;
+  }
+  
   /* Покращені кольори для іконок */
   .dark .bg-purple-500,
   .dark .bg-purple-600,
   .dark .bg-purple-700 {
     background-color: #4F46E5 !important;
+  }
+  
+  /* Білий текст для інструкцій та заголовків */
+  .dark .text-gray-800,
+  .dark .text-gray-900,
+  html.dark .text-gray-800,
+  html.dark .text-gray-900 {
+    color: #ffffff !important;
+  }
+  
+  /* Оранжевий колір для імен клієнтів */
+  .dark .text-primary,
+  .dark .text-dark-primary,
+  html.dark .text-primary,
+  html.dark .text-dark-primary {
+    color: #FF9102 !important;
   }
   
   .dark .text-purple-500,
