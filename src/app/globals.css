@@ -58,11 +58,11 @@
   }
   
   body.dark .text-gray-700 {
-    color: #e5e7eb !important;
+    color: #ffffff !important;
   }
   
   body.dark .text-gray-600 {
-    color: #d1d5db !important;
+    color: #e5e7eb !important;
   }
   
   body.dark .border-gray-200 {
@@ -142,6 +142,76 @@
   
   html.dark .bg-white {
     background-color: #2a2a2a !important;
+  }
+  
+  /* Кращі кольори для тексту в темній темі */
+  .dark .text-gray-500 {
+    color: #d1d5db !important;
+  }
+  
+  .dark .text-gray-400 {
+    color: #9ca3af !important;
+  }
+  
+  .dark .text-gray-300 {
+    color: #d1d5db !important;
+  }
+  
+  /* Помаранчеві акценти для темної теми */
+  .dark .text-primary {
+    color: #FF9102 !important;
+  }
+  
+  .dark .text-dark-primary {
+    color: #FF9102 !important;
+  }
+  
+  /* Кращі кольори для іконок чатів */
+  .dark .bg-primary {
+    background-color: #FF9102 !important;
+  }
+  
+  .dark .text-primary {
+    color: #FF9102 !important;
+  }
+  
+  /* Покращені кольори для іконок аватарок */
+  .dark .bg-purple-500 {
+    background-color: #FF9102 !important;
+  }
+  
+  .dark .bg-purple-600 {
+    background-color: #ffa726 !important;
+  }
+  
+  .dark .bg-purple-700 {
+    background-color: #ff8a00 !important;
+  }
+  
+  /* Покращені кольори для тексту */
+  .dark .text-gray-700 {
+    color: #ffffff !important;
+  }
+  
+  .dark .text-gray-600 {
+    color: #e5e7eb !important;
+  }
+  
+  .dark .text-gray-500 {
+    color: #d1d5db !important;
+  }
+  
+  /* Покращені кольори для іконок */
+  .dark .bg-purple-500,
+  .dark .bg-purple-600,
+  .dark .bg-purple-700 {
+    background-color: #FF9102 !important;
+  }
+  
+  .dark .text-purple-500,
+  .dark .text-purple-600,
+  .dark .text-purple-700 {
+    color: #ffffff !important;
   }
   
   /* Додаткові градієнти для різних кутів */
