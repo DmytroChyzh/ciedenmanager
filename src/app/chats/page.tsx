@@ -338,8 +338,7 @@ ${sessionData.notes}
     setShowDetails(false);
     setLoadingDetails(false);
     setIsAnalyzing(false);
-    // Очищуємо згенеровані звіти при зміні сесії
-    setGeneratedReports({});
+    // НЕ очищуємо згенеровані звіти при зміні сесії - вони мають зберігатися
   }, [selectedSessionId]);
 
   const [showSidebar, setShowSidebar] = useState(false);
@@ -406,18 +405,17 @@ ${sessionData.notes}
                     </div>
                   </div>
                   <div className="flex items-center min-w-[120px] sm:min-w-[180px] justify-end">
-                    {selectedSessionId && (
-                      <button
-                        className={`px-3 sm:px-4 lg:px-6 py-2 rounded-lg transition-colors text-xs sm:text-sm lg:text-base font-semibold shadow-sm ${
-                          generatedReports[selectedSessionId] 
-                            ? 'bg-green-600 hover:bg-green-700 text-white' 
-                            : 'bg-[#651FFF] hover:bg-[#5A1BE0] text-white'
-                        }`}
-                        onClick={handleGenerateReport}
-                      >
-                        {generatedReports[selectedSessionId] ? t('showReport') : t('generateReport')}
-                      </button>
-                    )}
+                    <button
+                      className={`px-3 sm:px-4 lg:px-6 py-2 rounded-lg transition-colors text-xs sm:text-sm lg:text-base font-semibold shadow-sm ${
+                        generatedReports[selectedSessionId || ''] 
+                          ? 'bg-green-600 hover:bg-green-700 text-white' 
+                          : 'bg-[#651FFF] hover:bg-[#5A1BE0] text-white'
+                      }`}
+                      onClick={handleGenerateReport}
+                      disabled={!selectedSessionId}
+                    >
+                      {generatedReports[selectedSessionId || ''] ? t('showReport') : t('generateReport')}
+                    </button>
                   </div>
                 </div>
                 {/* Чат */}
