@@ -351,19 +351,19 @@ ${sessionData.notes}
       {/* Sidebar для мобільних */}
       <div className="block md:hidden w-full">
         <button
-          className="fixed top-4 left-4 z-30 bg-white border border-gray-200 rounded-full p-2 shadow-md md:hidden"
+          className="fixed top-3 left-3 z-30 bg-white border border-gray-200 rounded-full p-2 shadow-md md:hidden"
           onClick={() => setShowSidebar(true)}
           aria-label="Відкрити меню"
         >
-          <Bars3Icon className="w-7 h-7 text-[#651FFF]" />
+          <Bars3Icon className="w-6 h-6 text-[#651FFF]" />
         </button>
         {showSidebar && (
           <div className="fixed inset-0 z-40 bg-black bg-opacity-30 flex">
-            <aside className="w-72 max-w-[90vw] h-full bg-white border-r border-gray-200 flex flex-col animate-slideInLeft">
-              <div className="flex items-center justify-between px-6 py-6 border-b border-gray-200">
-                <span className="font-bold text-xl text-[#651FFF]">{t('chats')}</span>
+            <aside className="w-80 max-w-[85vw] h-full bg-white border-r border-gray-200 flex flex-col animate-slideInLeft">
+              <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200">
+                <span className="font-bold text-lg text-[#651FFF]">{t('chats')}</span>
                 <button onClick={() => setShowSidebar(false)} className="text-gray-400 hover:text-gray-700 p-2 rounded-full">
-                  <XMarkIcon className="w-6 h-6" />
+                  <XMarkIcon className="w-5 h-5" />
                 </button>
               </div>
               <div className="flex-1 overflow-y-auto">
@@ -380,27 +380,27 @@ ${sessionData.notes}
           <div className="bg-white rounded-2xl flex flex-col h-full min-h-0 w-full overflow-hidden">
             <div className="flex flex-col md:flex-row flex-1 min-h-0 h-full w-full">
               {/* Sidebar для desktop/tablet */}
-              <div className="hidden md:block h-full border-r border-gray-200 flex-shrink-0 min-w-[350px] max-w-[500px] w-[400px]">
+              <div className="hidden md:block h-full border-r border-gray-200 flex-shrink-0 min-w-[280px] max-w-[400px] w-[320px] lg:w-[350px] xl:w-[400px]">
                 <ChatList selectedSessionId={selectedSessionId} onSelect={id => { setSelectedSessionId(id); setShowDetails(false); }} hideHeader />
               </div>
               <div className="flex-1 flex flex-col min-w-0 h-full min-h-0">
                 {/* Виправлений хедер */}
-                <div className="flex items-center justify-between w-full border-b border-gray-200 px-4 sm:px-6 py-4 sm:py-6 gap-4 sm:gap-6 bg-white" style={{minHeight: '72px'}}>
-                  <div className="flex items-center gap-2 min-w-[120px] sm:min-w-[180px]">
+                <div className="flex items-center justify-between w-full border-b border-gray-200 px-3 sm:px-4 lg:px-6 py-3 sm:py-4 lg:py-6 gap-2 sm:gap-4 lg:gap-6 bg-white" style={{minHeight: '72px'}}>
+                  <div className="flex items-center gap-2 min-w-[80px] sm:min-w-[120px] lg:min-w-[180px]">
                     {selectedSession && (
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-[#651FFF] flex items-center justify-center">
-                          <UserCircleIcon className="w-6 h-6 text-white" />
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#651FFF] flex items-center justify-center">
+                          <UserCircleIcon className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                         </div>
                         <div className="hidden sm:block">
-                          <div className="font-semibold text-sm text-gray-900">{selectedSession.metadata?.userName || '—'}</div>
-                          <div className="text-xs text-gray-500">{selectedSession.metadata?.userEmail || '—'}</div>
+                          <div className="font-semibold text-xs sm:text-sm text-gray-900 truncate max-w-[120px] lg:max-w-none">{selectedSession.metadata?.userName || '—'}</div>
+                          <div className="text-xs text-gray-500 truncate max-w-[120px] lg:max-w-none">{selectedSession.metadata?.userEmail || '—'}</div>
                         </div>
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-col items-center flex-1 min-w-0">
-                    <div className="font-bold text-base sm:text-lg text-[#651FFF] truncate w-full text-center">
+                  <div className="flex flex-col items-center flex-1 min-w-0 px-2">
+                    <div className="font-bold text-sm sm:text-base lg:text-lg text-[#651FFF] truncate w-full text-center">
                       {selectedSession ? `${t('chatWith')} ${selectedSession.metadata?.userName || '—'}` : t('selectChat')}
                     </div>
                     <div className="text-xs text-gray-500 truncate w-full text-center">
@@ -409,7 +409,7 @@ ${sessionData.notes}
                   </div>
                   <div className="flex items-center min-w-[120px] sm:min-w-[180px] justify-end">
                     <button
-                      className={`px-4 sm:px-6 py-2 rounded-lg transition-colors text-sm sm:text-base font-semibold shadow-sm disabled:opacity-50 disabled:cursor-not-allowed ${
+                      className={`px-3 sm:px-4 lg:px-6 py-2 rounded-lg transition-colors text-xs sm:text-sm lg:text-base font-semibold shadow-sm disabled:opacity-50 disabled:cursor-not-allowed ${
                         generatedReports[selectedSessionId || ''] 
                           ? 'bg-green-600 hover:bg-green-700 text-white' 
                           : 'bg-[#651FFF] hover:bg-[#5A1BE0] text-white'
@@ -428,7 +428,281 @@ ${sessionData.notes}
               </div>
               {/* Session Details блок */}
               {showDetails && selectedSessionId && (
-                <div className="hidden md:flex h-full flex-col w-[450px] lg:w-[550px] xl:w-[650px] max-w-[90vw] flex-shrink-0 border-l border-[#ede7ff] bg-white">
+                <>
+                  {/* Desktop версія */}
+                  <div className="hidden md:flex h-full flex-col w-[320px] lg:w-[400px] xl:w-[500px] 2xl:w-[600px] max-w-[90vw] flex-shrink-0 border-l border-[#ede7ff] bg-white">
+                    <div className="p-6 h-full flex flex-col">
+                      <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                          Session Details
+                        </h2>
+                        <button 
+                          onClick={() => setShowDetails(false)}
+                          className="p-2 text-gray-600 hover:text-red-500 dark:text-dark-text-muted dark:hover:text-red-400 transition-colors"
+                        >
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+
+                      {isAnalyzing ? (
+                        // Лоадинг анімація
+                        <div className="flex-1 flex flex-col items-center justify-center space-y-6">
+                          <div className="relative">
+                            <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                              </svg>
+                            </div>
+                          </div>
+                          <div className="text-center space-y-2">
+                            <h3 className="text-xl font-semibold text-gray-900 dark:text-white">{t('analyzingSession')}</h3>
+                            <p className="text-gray-600 dark:text-dark-text-muted">{t('generatingSummaryAndEstimate')}</p>
+                          </div>
+                          <div className="flex space-x-2">
+                            <div className="w-2 h-2 bg-purple-600 rounded-full animate-bounce"></div>
+                            <div className="w-2 h-2 bg-purple-600 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                            <div className="w-2 h-2 bg-purple-600 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                          </div>
+                        </div>
+                      ) : (
+                        // Результати аналізу
+                        <div className="flex-1 overflow-y-auto space-y-6 animate-fadeIn">
+                          {/* Session Info */}
+                          <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-dark-bg dark:to-dark-hover rounded-xl p-4 border border-purple-100 dark:border-dark-border">
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+                              <svg className="w-5 h-5 mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              {t('sessionInformation')}
+                            </h3>
+                            <div className="space-y-2 text-sm">
+                              <div className="flex justify-between items-center py-2 border-b border-purple-100 dark:border-dark-border">
+                                <span className="text-gray-600 dark:text-dark-text-muted font-medium">{t('sessionId')}:</span>
+                                <span className="font-mono text-gray-900 dark:text-white bg-gray-100 dark:bg-dark-hover px-2 py-1 rounded">{selectedSession?.id}</span>
+                              </div>
+                              <div className="flex justify-between items-center py-2 border-b border-purple-100 dark:border-dark-border">
+                                <span className="text-gray-600 dark:text-dark-text-muted font-medium">{t('clientName')}:</span>
+                                <span className="text-gray-900 dark:text-white font-medium">{selectedSession?.metadata?.userName}</span>
+                              </div>
+                              <div className="flex justify-between items-center py-2 border-b border-purple-100 dark:border-dark-border">
+                                <span className="text-gray-600 dark:text-dark-text-muted font-medium">{t('email')}:</span>
+                                <span className="text-gray-900 dark:text-white">{selectedSession?.metadata?.userEmail}</span>
+                              </div>
+                              <div className="flex justify-between items-center py-2 border-b border-purple-100 dark:border-dark-border">
+                                <span className="text-gray-600 dark:text-dark-text-muted font-medium">{t('createdDate')}:</span>
+                                <span className="text-gray-900 dark:text-white">
+                                  {selectedSession?.createdAt?.toDate?.() ? selectedSession.createdAt.toDate().toLocaleString() : '—'}
+                                </span>
+                              </div>
+                              <div className="flex justify-between items-center py-2">
+                                <span className="text-gray-600 dark:text-dark-text-muted font-medium">{t('totalMessages')}:</span>
+                                <span className="bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-400 px-3 py-1 rounded-full font-medium">
+                                  {selectedSession?.messages?.length || 0}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Auto-summary */}
+                          <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
+                            <h3 className="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3 flex items-center">
+                              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                              </svg>
+                              {t('autoSummary')}
+                            </h3>
+                            <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-dark-bg dark:to-dark-hover rounded-lg p-4 min-h-[80px] border-l-4 border-purple-500">
+                              <p className="text-gray-700 dark:text-dark-text leading-relaxed">
+                                {analyzeMessages(selectedSession?.messages || [], t).summary}
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* Estimate */}
+                          <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
+                            <h3 className="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3 flex items-center">
+                              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                              </svg>
+                              {t('estimate')}
+                            </h3>
+                            <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-dark-bg dark:to-dark-hover rounded-lg p-4 min-h-[80px] border-l-4 border-green-500">
+                              <p className="text-gray-700 dark:text-dark-text leading-relaxed">
+                                {analyzeMessages(selectedSession?.messages || [], t).estimate}
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* Research Highlights */}
+                          <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
+                            <h3 className="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3 flex items-center">
+                              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                              </svg>
+                              {t('researchHighlights')}
+                            </h3>
+                            <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-dark-bg dark:to-dark-hover rounded-lg p-4 min-h-[80px] border-l-4 border-yellow-500">
+                              <p className="text-gray-700 dark:text-dark-text whitespace-pre-line leading-relaxed">
+                                {analyzeMessages(selectedSession?.messages || [], t).highlights}
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* AI Notes */}
+                          <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
+                            <h3 className="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3 flex items-center">
+                              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                              </svg>
+                              AI Notes
+                            </h3>
+                            <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-dark-bg dark:to-dark-hover rounded-lg p-4 min-h-[80px] border-l-4 border-purple-500">
+                              <p className="text-gray-700 dark:text-dark-text whitespace-pre-line leading-relaxed">
+                                {analyzeMessages(selectedSession?.messages || [], t).notes}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Export Buttons */}
+                      {!isAnalyzing && (
+                        <div className="mt-6 pt-4 border-t border-gray-200 dark:border-dark-border animate-fadeIn">
+                          <div className="flex gap-3 flex-wrap">
+                            <button onClick={exportToPDF} className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:scale-105 shadow-lg">
+                              <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                              </svg>
+                              {t('exportPDF')}
+                            </button>
+                            <button onClick={exportToCSV} className="border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-hover px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:scale-105">
+                              <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                              </svg>
+                              {t('exportCSV')}
+                            </button>
+                            <button onClick={exportToExcel} className="border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-hover px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:scale-105">
+                              <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                              </svg>
+                              {t('exportExcel')}
+                            </button>
+                            <button onClick={generateEmailDraft} className="border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-hover px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:scale-105">
+                              <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                              </svg>
+                              {t('generateEmailDraft')}
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Мобільна версія */}
+                  <div className="md:hidden fixed inset-0 z-50 bg-black bg-opacity-50">
+                    <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl max-h-[90vh] overflow-hidden">
+                      <div className="p-4 border-b border-gray-200">
+                        <div className="flex justify-between items-center">
+                          <h2 className="text-xl font-bold text-gray-900">Session Details</h2>
+                          <button 
+                            onClick={() => setShowDetails(false)}
+                            className="p-2 text-gray-600 hover:text-red-500 transition-colors"
+                          >
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                      <div className="p-4 overflow-y-auto max-h-[calc(90vh-80px)]">
+                        {isAnalyzing ? (
+                          <div className="flex flex-col items-center justify-center py-8 space-y-4">
+                            <div className="relative">
+                              <div className="w-12 h-12 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                </svg>
+                              </div>
+                            </div>
+                            <div className="text-center space-y-2">
+                              <h3 className="text-lg font-semibold text-gray-900">{t('analyzingSession')}</h3>
+                              <p className="text-gray-600 text-sm">{t('generatingSummaryAndEstimate')}</p>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="space-y-4">
+                            {/* Session Info */}
+                            <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl p-4 border border-purple-100">
+                              <h3 className="text-base font-semibold text-gray-900 mb-3 flex items-center">
+                                <svg className="w-4 h-4 mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                {t('sessionInformation')}
+                              </h3>
+                              <div className="space-y-2 text-sm">
+                                <div className="flex justify-between items-center py-2 border-b border-purple-100">
+                                  <span className="text-gray-600 font-medium">{t('sessionId')}:</span>
+                                  <span className="font-mono text-gray-900 bg-gray-100 px-2 py-1 rounded text-xs">{selectedSession?.id}</span>
+                                </div>
+                                <div className="flex justify-between items-center py-2 border-b border-purple-100">
+                                  <span className="text-gray-600 font-medium">{t('clientName')}:</span>
+                                  <span className="text-gray-900 font-medium">{selectedSession?.metadata?.userName}</span>
+                                </div>
+                                <div className="flex justify-between items-center py-2 border-b border-purple-100">
+                                  <span className="text-gray-600 font-medium">{t('email')}:</span>
+                                  <span className="text-gray-900 text-xs">{selectedSession?.metadata?.userEmail}</span>
+                                </div>
+                                <div className="flex justify-between items-center py-2">
+                                  <span className="text-gray-600 font-medium">{t('totalMessages')}:</span>
+                                  <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full font-medium">
+                                    {selectedSession?.messages?.length || 0}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Auto-summary */}
+                            <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+                              <h3 className="text-base font-semibold text-purple-600 mb-3 flex items-center">
+                                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                {t('autoSummary')}
+                              </h3>
+                              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-3 border-l-4 border-purple-500">
+                                <p className="text-gray-700 text-sm leading-relaxed">
+                                  {analyzeMessages(selectedSession?.messages || [], t).summary}
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Export Buttons */}
+                            <div className="grid grid-cols-2 gap-3">
+                              <button onClick={exportToPDF} className="bg-gradient-to-r from-purple-600 to-purple-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200">
+                                <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                {t('exportPDF')}
+                              </button>
+                              <button onClick={exportToCSV} className="border border-gray-300 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200">
+                                <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                {t('exportCSV')}
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
                   <div className="p-6 h-full flex flex-col">
                     <div className="flex justify-between items-center mb-6">
                       <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
