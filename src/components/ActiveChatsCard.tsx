@@ -128,8 +128,8 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
       </div>
       
       {/* Основна статистика */}
-      <div className="flex items-end gap-3 mb-3">
-        <span className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-dark-text">{currentValue}</span>
+      <div className="flex items-end gap-2 mb-3">
+        <span className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-dark-text">{currentValue}</span>
         <span className="text-lg text-gray-500 dark:text-gray-400 mb-1">з {currentGoal}</span>
         <span className={`flex items-center gap-1 text-sm font-semibold ${getProgressColor()} mb-1`}>
           {up ? (
@@ -146,9 +146,9 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
       </div>
 
       {/* Покращений графік з більшою областю */}
-      <div className="flex-1 min-h-0">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={getProgressData(currentPeriod)} margin={{ top: 15, right: 15, left: 15, bottom: 15 }}>
+      <div className="w-full min-h-[160px] animate-fadeIn">
+        <ResponsiveContainer width="100%" height={160}>
+          <LineChart data={getProgressData(currentPeriod)} margin={{ top: 8, right: 0, left: 0, bottom: 0 }}>
             <defs>
               <linearGradient id="progressGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#651FFF" stopOpacity={0.8}/>
