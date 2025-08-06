@@ -107,7 +107,7 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
   const periodButtonClass = `w-8 h-8 px-3 text-xs font-medium transition-colors duration-200 focus:outline-none rounded-lg`;
   
   return (
-    <div className="bg-white dark:bg-dark-card rounded-xl flex flex-col p-4 md:p-6 min-w-[200px] md:min-w-[240px] h-[324px]">
+    <div className="bg-white dark:bg-dark-card rounded-xl flex flex-col p-4 md:p-6 min-w-[200px] md:min-w-[240px] h-[380px]">
       {/* Заголовок */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
@@ -193,7 +193,7 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
               domain={[0, 100]}
               ticks={[0, 25, 50, 75, 100]}
               tickFormatter={(value) => `${value}%`}
-              padding={{ top: 10, bottom: 10 }}
+              padding={{ top: 15, bottom: 15 }}
               allowDecimals={false}
               interval={0}
             />
