@@ -88,6 +88,8 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
   const currentGoal = getGoalByPeriod(currentPeriod);
   const progressPercent = currentProgress;
   const up = progressPercent > 0; // Змінюємо логіку - вгору тільки якщо прогрес > 0
+  
+  console.log('Debug:', { currentProgress, progressPercent, up, currentValue, currentGoal });
 
   const periodButtonClass = `w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 xl:w-9 lg:h-9 2xl:w-10 2xl:h-8 px-1 sm:px-2 md:px-2 lg:px-3 text-xs font-medium transition-colors duration-200 focus:outline-none rounded-lg`;
   
@@ -125,7 +127,7 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
       <div className="flex items-end gap-2 mb-3">
         <span className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-dark-text">{currentValue}</span>
         <span className="text-lg text-gray-500 dark:text-gray-400 mb-1">з {currentGoal}</span>
-        <span className={`flex items-center gap-1 text-sm font-semibold ${up ? 'text-green-600 !important dark:text-green-400 !important' : 'text-red-600 !important dark:text-red-400 !important'} mb-1`}>
+        <span className="flex items-center gap-1 text-sm font-semibold mb-1" style={{ color: up ? '#16a34a' : '#dc2626' }}>
           {up ? (
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
@@ -135,7 +137,7 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
             </svg>
           )}
-          <span className={up ? 'text-green-600 !important dark:text-green-400 !important' : 'text-red-600 !important dark:text-red-400 !important'}>
+          <span style={{ color: up ? '#16a34a' : '#dc2626' }}>
             {Math.round(progressPercent)}%
           </span>
           <span className="text-gray-500 dark:text-gray-400 font-normal ml-1">за {t(currentPeriod)}</span>
