@@ -79,23 +79,23 @@ export default function Dashboard() {
   };
 
   const handleGenerateReport = async (sessionId: string) => {
+    // Знаходимо сесію
+    const session = chats.find(chat => chat.id === sessionId);
+    setSelectedChatSession(session);
+    setSelectedSessionId(sessionId);
+    
     // Якщо звіт вже згенерований для цієї сесії, просто показуємо його
     if (generatedReports[sessionId]) {
-      setSelectedSessionId(sessionId);
       setShowDetails(true);
+      setShowChatPopup(true);
       return;
     }
     
-    setSelectedSessionId(sessionId);
     setShowDetails(true);
     
     // Показуємо лоадинг
     setIsAnalyzing(true);
     setShowChatPopup(true);
-    
-    // Знаходимо сесію
-    const session = chats.find(chat => chat.id === sessionId);
-    setSelectedChatSession(session);
     
     // Симулюємо аналіз (2 секунди)
     setTimeout(() => {
