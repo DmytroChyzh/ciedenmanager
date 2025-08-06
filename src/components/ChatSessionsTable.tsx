@@ -1,18 +1,15 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import SalesChatView from './SalesChatView';
-import ChatViewMini from './ChatViewMini';
 
 interface ChatSessionsTableProps {
   sessions: any[];
   selectedSessionId?: string | null;
   onSelect?: (id: string) => void;
   onGenerateReport?: (id: string) => void;
-  showDetails?: boolean;
 }
 
-export default function ChatSessionsTable({ sessions, selectedSessionId, onSelect, onGenerateReport, showDetails }: ChatSessionsTableProps) {
+export default function ChatSessionsTable({ sessions, selectedSessionId, onSelect, onGenerateReport }: ChatSessionsTableProps) {
   const { t } = useLanguage();
   const [filter, setFilter] = useState({ email: '' });
 
@@ -49,92 +46,81 @@ export default function ChatSessionsTable({ sessions, selectedSessionId, onSelec
         </div>
       </div>
       
-      {/* Основний контент - таблиця та Session Details */}
-      <div className="flex flex-col xl:flex-row gap-4 flex-1 min-h-0">
-        {/* Таблиця зі скролінгом - зліва */}
-        <div className="flex-1 min-h-0 overflow-hidden">
-          <div className="h-full overflow-y-auto">
-            <table className="min-w-full text-sm rounded-lg overflow-hidden bg-white dark:bg-dark-card text-gray-900 dark:text-dark-text">
-              <thead className="sticky top-0 z-10">
-                <tr className="bg-gray-50 dark:bg-dark-hover text-primary dark:text-dark-primary text-sm">
-                  <th className="px-3 py-3 text-left font-medium">{t('name')}</th>
-                  <th className="px-3 py-3 text-left font-medium">{t('email')}</th>
-                  <th className="px-3 py-3 text-left font-medium">{t('status')}</th>
-                  <th className="px-3 py-3 text-left font-medium">{t('createdAt')}</th>
-                  <th className="px-3 py-3 text-left font-medium">{t('messages')}</th>
-                  <th className="px-3 py-3"></th>
+      {/* Таблиця зі скролінгом */}
+      <div className="flex-1 min-h-0 overflow-hidden">
+        <div className="h-full overflow-y-auto max-h-[calc(100vh-300px)]">
+          <table className="min-w-full text-sm rounded-lg overflow-hidden bg-white dark:bg-dark-card text-gray-900 dark:text-dark-text">
+            <thead className="sticky top-0 z-10">
+              <tr className="bg-gray-50 dark:bg-dark-hover text-primary dark:text-dark-primary text-sm">
+                <th className="px-3 py-3 text-left font-medium">{t('name')}</th>
+                <th className="px-3 py-3 text-left font-medium">{t('email')}</th>
+                <th className="px-3 py-3 text-left font-medium">{t('status')}</th>
+                <th className="px-3 py-3 text-left font-medium">{t('createdAt')}</th>
+                <th className="px-3 py-3 text-left font-medium">{t('messages')}</th>
+                <th className="px-3 py-3"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="text-center py-8 text-gray-500 dark:text-gray-400">
+                    {t('noSessions')}
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {filtered.length === 0 ? (
-                  <tr>
-                    <td colSpan={6} className="text-center py-8 text-gray-500 dark:text-gray-400">
-                      {t('noSessions')}
-                    </td>
-                  </tr>
-                ) : (
-                  filtered.map(session => {
-                    const updated = session.updatedAt?.toDate?.() || session.createdAt?.toDate?.();
-                    const isActive = updated && (now - updated.getTime() < 5 * 60 * 1000); // 5 хвилин
-                    const isSelected = selectedSessionId === session.id;
-                    
-                    return (
-                      <tr
-                        key={session.id}
-                        className={`border-b border-gray-200 dark:border-dark-border hover:bg-primary-muted dark:hover:bg-dark-primary-muted transition-colors cursor-pointer ${
-                          isSelected ? 'bg-primary-light dark:bg-dark-primary-light' : ''
-                        }`}
-                        onClick={() => onSelect && onSelect(session.id)}
-                      >
-                        <td className={`px-3 py-3 ${isSelected ? 'text-primary dark:text-dark-primary font-medium' : ''}`}>
-                          {session.metadata?.userName || '—'}
-                        </td>
-                        <td className={`px-3 py-3 ${isSelected ? 'text-primary dark:text-dark-primary' : ''}`}>
-                          {session.metadata?.userEmail || '—'}
-                        </td>
-                        <td className={`px-3 py-3 ${isSelected ? 'text-primary dark:text-dark-primary' : ''}`}>
-                          <span
-                            className={`px-2 py-1 rounded-full text-xs font-medium transition-colors duration-200 ${getStatusColor(isActive)}`}
-                          >
-                            {getStatusText(isActive)}
-                          </span>
-                        </td>
-                        <td className={`px-3 py-3 ${isSelected ? 'text-primary dark:text-dark-primary' : ''}`}>
-                          {session.metadata?.startedAt?.toDate?.().toLocaleString('uk-UA') || '—'}
-                        </td>
-                        <td className={`px-3 py-3 ${isSelected ? 'text-primary dark:text-dark-primary' : ''}`}>
-                          {session.metadata?.totalMessages ?? session.messages?.length ?? 0}
-                        </td>
-                        <td className={`px-3 py-3 ${isSelected ? 'text-primary dark:text-dark-primary' : ''}`}>
-                          <button
-                            className="border border-primary dark:border-dark-primary text-primary dark:text-dark-primary font-medium text-xs uppercase tracking-wider bg-white dark:bg-dark-card px-3 py-2 rounded-lg flex items-center justify-center gap-2 transition-colors duration-200 hover:bg-primary hover:text-white dark:hover:bg-dark-primary dark:hover:text-white group"
-                            onClick={e => { 
-                              e.stopPropagation(); 
-                              onGenerateReport && onGenerateReport(session.id); 
-                            }}
-                          >
-                            {t('generateReport')}
-                            <svg className="w-4 h-4 transition-colors duration-200 group-hover:text-white text-primary dark:text-dark-primary" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                            </svg>
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })
-                )}
-              </tbody>
-            </table>
-          </div>
+              ) : (
+                filtered.map(session => {
+                  const updated = session.updatedAt?.toDate?.() || session.createdAt?.toDate?.();
+                  const isActive = updated && (now - updated.getTime() < 5 * 60 * 1000); // 5 хвилин
+                  const isSelected = selectedSessionId === session.id;
+                  
+                  return (
+                    <tr
+                      key={session.id}
+                      className={`border-b border-gray-200 dark:border-dark-border hover:bg-primary-muted dark:hover:bg-dark-primary-muted transition-colors cursor-pointer ${
+                        isSelected ? 'bg-primary-light dark:bg-dark-primary-light' : ''
+                      }`}
+                      onClick={() => onSelect && onSelect(session.id)}
+                    >
+                      <td className={`px-3 py-3 ${isSelected ? 'text-primary dark:text-dark-primary font-medium' : ''}`}>
+                        {session.metadata?.userName || '—'}
+                      </td>
+                      <td className={`px-3 py-3 ${isSelected ? 'text-primary dark:text-dark-primary' : ''}`}>
+                        {session.metadata?.userEmail || '—'}
+                      </td>
+                      <td className={`px-3 py-3 ${isSelected ? 'text-primary dark:text-dark-primary' : ''}`}>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-medium transition-colors duration-200 ${getStatusColor(isActive)}`}
+                        >
+                          {getStatusText(isActive)}
+                        </span>
+                      </td>
+                      <td className={`px-3 py-3 ${isSelected ? 'text-primary dark:text-dark-primary' : ''}`}>
+                        {session.metadata?.startedAt?.toDate?.().toLocaleString('uk-UA') || '—'}
+                      </td>
+                      <td className={`px-3 py-3 ${isSelected ? 'text-primary dark:text-dark-primary' : ''}`}>
+                        {session.metadata?.totalMessages ?? session.messages?.length ?? 0}
+                      </td>
+                      <td className={`px-3 py-3 ${isSelected ? 'text-primary dark:text-dark-primary' : ''}`}>
+                        <button
+                          className="border border-primary dark:border-dark-primary text-primary dark:text-dark-primary font-medium text-xs uppercase tracking-wider bg-white dark:bg-dark-card px-3 py-2 rounded-lg flex items-center justify-center gap-2 transition-colors duration-200 hover:bg-primary hover:text-white dark:hover:bg-dark-primary dark:hover:text-white group"
+                          onClick={e => { 
+                            e.stopPropagation(); 
+                            onGenerateReport && onGenerateReport(session.id); 
+                          }}
+                        >
+                          {t('generateReport')}
+                          <svg className="w-4 h-4 transition-colors duration-200 group-hover:text-white text-primary dark:text-dark-primary" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
         </div>
-
-        {/* Session Details - справа */}
-        {showDetails && selectedSessionId && (
-          <div className="w-full xl:w-96 bg-white dark:bg-dark-card rounded-xl p-4 md:p-6 h-full min-h-0 flex flex-col">
-            <h3 className="text-lg font-semibold text-primary dark:text-dark-primary mb-4">{t('sessionDetails')}</h3>
-            <SalesChatView sessionId={selectedSessionId} />
-          </div>
-        )}
       </div>
     </div>
   );

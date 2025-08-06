@@ -209,7 +209,6 @@ export default function Dashboard() {
                 selectedSessionId={selectedSessionId} 
                 onSelect={handleRowSelect} 
                 onGenerateReport={handleGenerateReport}
-                showDetails={showDetails}
               />
             </div>
           </div>
