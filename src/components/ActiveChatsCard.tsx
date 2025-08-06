@@ -146,8 +146,8 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
       </div>
 
       {/* Покращений графік з більшою областю */}
-      <div className="w-full min-h-[140px] animate-fadeIn">
-        <ResponsiveContainer width="100%" height={140}>
+      <div className="w-full min-h-[180px] animate-fadeIn">
+        <ResponsiveContainer width="100%" height={180}>
           <LineChart data={getProgressData(currentPeriod)} margin={{ top: 8, right: 0, left: 0, bottom: 0 }}>
             <defs>
               <linearGradient id="progressGradient" x1="0" y1="0" x2="0" y2="1">
@@ -202,8 +202,8 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
               dataKey="progress" 
               stroke="#651FFF" 
               strokeWidth={1} 
-              dot={{ r: 5, fill: '#651FFF', strokeWidth: 3, stroke: '#fff' }}
-              activeDot={{ r: 7, fill: '#651FFF', strokeWidth: 3, stroke: '#fff' }}
+              dot={{ r: 6, fill: '#651FFF', strokeWidth: 3, stroke: '#fff' }}
+              activeDot={{ r: 8, fill: '#651FFF', strokeWidth: 3, stroke: '#fff' }}
               className="transition-all duration-300"
               strokeLinecap="round"
               strokeLinejoin="round"
