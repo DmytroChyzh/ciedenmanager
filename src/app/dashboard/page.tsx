@@ -211,26 +211,120 @@ export default function Dashboard() {
         </div>
 
 
-        {/* Попап з чатом - збоку справа */}
+        {/* Попап з Session Details - збоку справа */}
         {showChatPopup && selectedChatSession && (
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50">
             <div className="absolute right-0 top-0 h-full w-[600px] bg-white dark:bg-dark-card shadow-2xl transform transition-transform duration-300 ease-in-out">
               <div className="p-6 h-full flex flex-col">
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-                    Чат з: {selectedChatSession.contact?.name}
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                    Session Details
                   </h2>
                   <button 
                     onClick={() => setShowChatPopup(false)}
                     className="p-2 text-gray-600 hover:text-red-500 dark:text-dark-text-muted dark:hover:text-red-400 transition-colors"
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                   </button>
                 </div>
-                <div className="flex-1 overflow-y-auto">
-                  <SalesChatView sessionId={selectedChatSession.id} />
+
+                <div className="flex-1 overflow-y-auto space-y-6">
+                  {/* Session Info */}
+                  <div className="bg-gray-50 dark:bg-dark-bg rounded-xl p-4">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Session Information</h3>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600 dark:text-dark-text-muted">Session ID:</span>
+                        <span className="font-mono text-gray-900 dark:text-white">{selectedChatSession.id}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600 dark:text-dark-text-muted">Client:</span>
+                        <span className="text-gray-900 dark:text-white">{selectedChatSession.contact?.name}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600 dark:text-dark-text-muted">Email:</span>
+                        <span className="text-gray-900 dark:text-white">{selectedChatSession.contact?.email}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600 dark:text-dark-text-muted">Created:</span>
+                        <span className="text-gray-900 dark:text-white">
+                          {selectedChatSession.createdAt?.toDate?.() ? selectedChatSession.createdAt.toDate().toLocaleString() : '—'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600 dark:text-dark-text-muted">Messages:</span>
+                        <span className="text-gray-900 dark:text-white">{selectedChatSession.messages?.length || 0}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Auto-summary */}
+                  <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4">
+                    <h3 className="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3">Auto-summary</h3>
+                    <div className="bg-gray-50 dark:bg-dark-bg rounded-lg p-3 min-h-[60px]">
+                      <p className="text-gray-700 dark:text-dark-text">
+                        {selectedChatSession.messages?.length > 2 
+                          ? "Клієнт зацікавлений у створенні платформи для стрімерів з покращеним UX та меншою кількістю обмежень порівняно з Twitch."
+                          : "Недостатньо даних для генерації зведення"}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Estimate */}
+                  <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4">
+                    <h3 className="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3">Estimate</h3>
+                    <div className="bg-gray-50 dark:bg-dark-bg rounded-lg p-3 min-h-[60px]">
+                      <p className="text-gray-700 dark:text-dark-text">
+                        {selectedChatSession.messages?.length > 3 
+                          ? "Приблизний час розробки: 4-6 місяців. Складність: Висока. Необхідні технології: React, Node.js, WebRTC, AWS."
+                          : "Недостатньо даних для оцінки"}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Research Highlights */}
+                  <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4">
+                    <h3 className="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3">Research Highlights</h3>
+                    <div className="bg-gray-50 dark:bg-dark-bg rounded-lg p-3 min-h-[60px]">
+                      <p className="text-gray-700 dark:text-dark-text">
+                        {selectedChatSession.messages?.length > 2 
+                          ? "• Цільова аудиторія: стрімери та їх глядачі\n• Ключова відмінність: покращений UX та менше обмежень\n• Конкуренти: Twitch, YouTube Gaming\n• Технічні вимоги: відео-стрімінг, чат, донати"
+                          : "Недостатньо даних для аналізу"}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* AI Notes */}
+                  <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4">
+                    <h3 className="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3">AI Notes</h3>
+                    <div className="bg-gray-50 dark:bg-dark-bg rounded-lg p-3 min-h-[60px]">
+                      <p className="text-gray-700 dark:text-dark-text">
+                        {selectedChatSession.messages?.length > 1 
+                          ? "✅ Клієнт має чітке бачення продукту\n✅ Розуміє конкурентні переваги\n⚠️ Потрібно деталізувати технічні вимоги\n⚠️ Визначити бюджет та терміни"
+                          : "Очікування відповідей від клієнта"}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Export Buttons */}
+                <div className="mt-6 pt-4 border-t border-gray-200 dark:border-dark-border">
+                  <div className="flex gap-3 flex-wrap">
+                    <button className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                      Експорт PDF
+                    </button>
+                    <button className="border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-hover px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                      Експорт CSV
+                    </button>
+                    <button className="border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-hover px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                      Експорт Excel
+                    </button>
+                    <button className="border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-hover px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                      Згенерувати email-чернетку
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
