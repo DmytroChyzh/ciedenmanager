@@ -42,31 +42,106 @@
   
   /* Темні кольори для карток та панелей */
   body.dark .bg-white {
-    background-color: #2a2a2a;
+    background-color: #2a2a2a !important;
   }
   
   body.dark .bg-gray-50 {
-    background-color: #212121;
+    background-color: #212121 !important;
   }
   
   body.dark .bg-gray-100 {
-    background-color: #2a2a2a;
+    background-color: #2a2a2a !important;
   }
   
   body.dark .text-gray-900 {
-    color: #ffffff;
+    color: #ffffff !important;
   }
   
   body.dark .text-gray-700 {
-    color: #e5e7eb;
+    color: #e5e7eb !important;
   }
   
   body.dark .text-gray-600 {
-    color: #d1d5db;
+    color: #d1d5db !important;
   }
   
   body.dark .border-gray-200 {
-    border-color: #404040;
+    border-color: #404040 !important;
+  }
+  
+  /* Додаткові темні кольори */
+  .dark .bg-white {
+    background-color: #2a2a2a !important;
+  }
+  
+  .dark .bg-gray-50 {
+    background-color: #212121 !important;
+  }
+  
+  .dark .bg-gray-100 {
+    background-color: #2a2a2a !important;
+  }
+  
+  .dark .text-gray-900 {
+    color: #ffffff !important;
+  }
+  
+  .dark .text-gray-700 {
+    color: #e5e7eb !important;
+  }
+  
+  .dark .text-gray-600 {
+    color: #d1d5db !important;
+  }
+  
+  .dark .border-gray-200 {
+    border-color: #404040 !important;
+  }
+  
+  /* Додаткові темні кольори для основних елементів */
+  .dark main {
+    background-color: #212121 !important;
+  }
+  
+  .dark .bg-white {
+    background-color: #2a2a2a !important;
+  }
+  
+  .dark .bg-gray-50 {
+    background-color: #212121 !important;
+  }
+  
+  .dark .bg-gray-100 {
+    background-color: #2a2a2a !important;
+  }
+  
+  .dark .text-gray-900 {
+    color: #ffffff !important;
+  }
+  
+  .dark .text-gray-700 {
+    color: #e5e7eb !important;
+  }
+  
+  .dark .text-gray-600 {
+    color: #d1d5db !important;
+  }
+  
+  .dark .border-gray-200 {
+    border-color: #404040 !important;
+  }
+  
+  /* Примусове застосування темної теми */
+  html.dark body {
+    background-color: #212121 !important;
+  }
+  
+  html.dark main {
+    background-color: #212121 !important;
+  }
+  
+  html.dark .bg-white {
+    background-color: #2a2a2a !important;
   }
   
   /* Додаткові градієнти для різних кутів */
