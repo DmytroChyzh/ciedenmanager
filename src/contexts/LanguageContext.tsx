@@ -199,6 +199,93 @@ const translations = {
     negotiationPrompt: 'Які техніки ведення переговорів найефективніші?',
     planningTitle: 'Планування',
     planningPrompt: 'Допоможи скласти план роботи на тиждень для менеджера з продажу',
+    
+    // Session Details Popup
+    sessionDetails: 'Session Details',
+    sessionInformation: 'Session Information',
+    sessionId: 'Session ID',
+    clientName: 'Client',
+    createdDate: 'Created',
+    totalMessages: 'Total messages',
+    analyzingSession: 'Аналізуємо сесію...',
+    generatingSummaryAndEstimate: 'Генеруємо зведення та оцінку проекту',
+    
+    // Analysis Results
+    insufficientDataForSummary: 'Недостатньо даних для генерації зведення',
+    insufficientDataForEstimate: 'Недостатньо даних для оцінки',
+    insufficientDataForAnalysis: 'Недостатньо даних для аналізу',
+    waitingForClientResponses: 'Очікування відповідей від клієнта',
+    
+    // Project Types
+    mobileApp: 'мобільний додаток',
+    mobileAppDevelopment: 'розробка мобільного додатку для iOS та/або Android',
+    website: 'веб-сайт',
+    websiteDevelopment: 'створення веб-сайту або веб-додатку',
+    streamingPlatform: 'платформа для стрімерів',
+    streamingPlatformDevelopment: 'розробка платформи для відео-стрімінгу та взаємодії з аудиторією',
+    ecommercePlatform: 'e-commerce платформа',
+    ecommercePlatformDevelopment: 'створення онлайн-магазину з системою платежів',
+    aiMlProject: 'AI/ML проект',
+    aiMlDevelopment: 'розробка системи з використанням штучного інтелекту',
+    softwareProduct: 'програмний продукт',
+    softwareDevelopment: 'розробка програмного рішення',
+    
+    // Complexity Levels
+    medium: 'Середня',
+    high: 'Висока',
+    veryHigh: 'Дуже висока',
+    
+    // Time Estimates
+    timeEstimate2to3: '2-3 місяці',
+    timeEstimate3to4: '3-4 місяці',
+    timeEstimate3to5: '3-5 місяців',
+    timeEstimate4to6: '4-6 місяців',
+    timeEstimate6to9: '6-9 місяців',
+    timeEstimate8to12: '8-12 місяців',
+    
+    // Services
+    servicesUxUiDevelopmentTesting: 'UX/UI дизайн, розробка, тестування',
+    servicesAiMlUxUiIntegrationTesting: 'AI/ML розробка, UX/UI дизайн, інтеграція, тестування',
+    servicesVideoUxUiServerTesting: 'Відео-розробка, UX/UI дизайн, серверна частина, тестування',
+    servicesFinancialUxUiSecurityTesting: 'Фінансова розробка, UX/UI дизайн, безпека, тестування',
+    servicesMobileUxUiTestingPublishing: 'Мобільна розробка, UX/UI дизайн, тестування, публікація',
+    servicesEcommerceUxUiPaymentIntegration: 'E-commerce розробка, UX/UI дизайн, інтеграція платежів',
+    
+    // Analysis Text
+    clientInterestedIn: 'Клієнт зацікавлений у',
+    specialAttentionToUxUi: 'Особлива увага до UX/UI дизайну та користувацького досвіду.',
+    competitiveAdvantagesDefined: 'Визначені конкурентні переваги та цільова аудиторія.',
+    projectHasScalingPotential: 'Проект має потенціал для масштабування.',
+    approximateDevelopmentTime: 'Приблизний час розробки',
+    complexity: 'Складність',
+    budget: 'Бюджет',
+    services: 'Послуги',
+    
+    // Highlights
+    targetAudienceDefined: 'Визначена цільова аудиторія та користувачі',
+    competitorAnalysisConducted: 'Проведений аналіз конкурентів та ринку',
+    technicalArchitectureDefined: 'Визначена технічна архітектура та вимоги',
+    budgetDiscussed: 'Обговорений бюджет та фінансові аспекти',
+    timelineDefined: 'Визначені терміни та етапи розробки',
+    scalingPlanDefined: 'План масштабування та розвитку продукту',
+    specialAttentionToDesign: 'Особлива увага до дизайну та користувацького досвіду',
+    needToDetailRequirements: 'Потрібно деталізувати вимоги та цілі проекту',
+    
+    // AI Notes
+    clientActivelyInteracts: 'Клієнт активно взаємодіє та надає детальну інформацію',
+    hasClearVision: 'Має чітке бачення продукту та його призначення',
+    understandsCompetitiveAdvantages: 'Розуміє конкурентні переваги та цільову аудиторію',
+    valuesQualityDesign: 'Цінує якісний дизайн та користувацький досвід',
+    thinksAboutFuture: 'Думає про майбутнє та масштабування проекту',
+    needToDiscussBudget: 'Потрібно обговорити бюджет та фінансування',
+    needToDefineTimeline: 'Визначити терміни та етапи проекту',
+    needMoreInformation: 'Потрібно більше інформації для детального аналізу',
+    
+    // Export Buttons
+    exportPDF: 'Експорт PDF',
+    exportCSV: 'Експорт CSV',
+    exportExcel: 'Експорт Excel',
+    generateEmailDraft: 'Згенерувати email-чернетку',
   },
   en: {
     // Header
@@ -388,6 +475,93 @@ const translations = {
     negotiationPrompt: 'What are the most effective negotiation techniques?',
     planningTitle: 'Planning',
     planningPrompt: 'Help create a weekly work plan for a sales manager',
+    
+    // Session Details Popup
+    sessionDetails: 'Session Details',
+    sessionInformation: 'Session Information',
+    sessionId: 'Session ID',
+    clientName: 'Client',
+    createdDate: 'Created',
+    totalMessages: 'Total messages',
+    analyzingSession: 'Analyzing session...',
+    generatingSummaryAndEstimate: 'Generating summary and project estimate',
+    
+    // Analysis Results
+    insufficientDataForSummary: 'Insufficient data for summary generation',
+    insufficientDataForEstimate: 'Insufficient data for estimate',
+    insufficientDataForAnalysis: 'Insufficient data for analysis',
+    waitingForClientResponses: 'Waiting for client responses',
+    
+    // Project Types
+    mobileApp: 'mobile app',
+    mobileAppDevelopment: 'development of mobile app for iOS and/or Android',
+    website: 'website',
+    websiteDevelopment: 'creation of website or web application',
+    streamingPlatform: 'streaming platform',
+    streamingPlatformDevelopment: 'development of video streaming platform and audience interaction',
+    ecommercePlatform: 'e-commerce platform',
+    ecommercePlatformDevelopment: 'creation of online store with payment system',
+    aiMlProject: 'AI/ML project',
+    aiMlDevelopment: 'development of system using artificial intelligence',
+    softwareProduct: 'software product',
+    softwareDevelopment: 'development of software solution',
+    
+    // Complexity Levels
+    medium: 'Medium',
+    high: 'High',
+    veryHigh: 'Very High',
+    
+    // Time Estimates
+    timeEstimate2to3: '2-3 months',
+    timeEstimate3to4: '3-4 months',
+    timeEstimate3to5: '3-5 months',
+    timeEstimate4to6: '4-6 months',
+    timeEstimate6to9: '6-9 months',
+    timeEstimate8to12: '8-12 months',
+    
+    // Services
+    servicesUxUiDevelopmentTesting: 'UX/UI design, development, testing',
+    servicesAiMlUxUiIntegrationTesting: 'AI/ML development, UX/UI design, integration, testing',
+    servicesVideoUxUiServerTesting: 'Video development, UX/UI design, server-side, testing',
+    servicesFinancialUxUiSecurityTesting: 'Financial development, UX/UI design, security, testing',
+    servicesMobileUxUiTestingPublishing: 'Mobile development, UX/UI design, testing, publishing',
+    servicesEcommerceUxUiPaymentIntegration: 'E-commerce development, UX/UI design, payment integration',
+    
+    // Analysis Text
+    clientInterestedIn: 'Client is interested in',
+    specialAttentionToUxUi: 'Special attention to UX/UI design and user experience.',
+    competitiveAdvantagesDefined: 'Competitive advantages and target audience defined.',
+    projectHasScalingPotential: 'Project has scaling potential.',
+    approximateDevelopmentTime: 'Approximate development time',
+    complexity: 'Complexity',
+    budget: 'Budget',
+    services: 'Services',
+    
+    // Highlights
+    targetAudienceDefined: 'Target audience and users defined',
+    competitorAnalysisConducted: 'Competitor and market analysis conducted',
+    technicalArchitectureDefined: 'Technical architecture and requirements defined',
+    budgetDiscussed: 'Budget and financial aspects discussed',
+    timelineDefined: 'Timeline and development stages defined',
+    scalingPlanDefined: 'Product scaling and development plan',
+    specialAttentionToDesign: 'Special attention to design and user experience',
+    needToDetailRequirements: 'Need to detail requirements and project goals',
+    
+    // AI Notes
+    clientActivelyInteracts: 'Client actively interacts and provides detailed information',
+    hasClearVision: 'Has clear vision of the product and its purpose',
+    understandsCompetitiveAdvantages: 'Understands competitive advantages and target audience',
+    valuesQualityDesign: 'Values quality design and user experience',
+    thinksAboutFuture: 'Thinks about the future and project scaling',
+    needToDiscussBudget: 'Need to discuss budget and financing',
+    needToDefineTimeline: 'Need to define timeline and project stages',
+    needMoreInformation: 'Need more information for detailed analysis',
+    
+    // Export Buttons
+    exportPDF: 'Export PDF',
+    exportCSV: 'Export CSV',
+    exportExcel: 'Export Excel',
+    generateEmailDraft: 'Generate email draft',
   }
 };
 

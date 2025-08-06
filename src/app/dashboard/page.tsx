@@ -185,100 +185,98 @@ export default function Dashboard() {
   const analyzeMessages = (messages: any[]) => {
     if (!messages || messages.length === 0) {
       return {
-        summary: "Недостатньо даних для генерації зведення",
-        estimate: "Недостатньо даних для оцінки",
-        highlights: "Недостатньо даних для аналізу",
-        notes: "Очікування відповідей від клієнта"
+        summary: t('insufficientDataForSummary'),
+        estimate: t('insufficientDataForEstimate'),
+        highlights: t('insufficientDataForAnalysis'),
+        notes: t('waitingForClientResponses')
       };
     }
 
-    // Аналізуємо текст повідомлень
     const allText = messages.map(msg => msg.content || msg.text || msg.message || '').join(' ').toLowerCase();
     
-    // Визначаємо тип проекту
     let projectType = '';
     let projectDescription = '';
     
     if (allText.includes('мобільн') || allText.includes('app') || allText.includes('додаток') || allText.includes('ios') || allText.includes('android')) {
-      projectType = 'мобільний додаток';
-      projectDescription = 'розробка мобільного додатку для iOS та/або Android';
+      projectType = t('mobileApp');
+      projectDescription = t('mobileAppDevelopment');
     } else if (allText.includes('веб') || allText.includes('сайт') || allText.includes('web') || allText.includes('інтернет')) {
-      projectType = 'веб-сайт';
-      projectDescription = 'створення веб-сайту або веб-додатку';
+      projectType = t('website');
+      projectDescription = t('websiteDevelopment');
     } else if (allText.includes('платформ') || allText.includes('стрімер') || allText.includes('twitch') || allText.includes('streaming')) {
-      projectType = 'платформа для стрімерів';
-      projectDescription = 'розробка платформи для відео-стрімінгу та взаємодії з аудиторією';
+      projectType = t('streamingPlatform');
+      projectDescription = t('streamingPlatformDevelopment');
     } else if (allText.includes('ecommerce') || allText.includes('магазин') || allText.includes('онлайн') || allText.includes('продаж')) {
-      projectType = 'e-commerce платформа';
-      projectDescription = 'створення онлайн-магазину з системою платежів';
+      projectType = t('ecommercePlatform');
+      projectDescription = t('ecommercePlatformDevelopment');
     } else if (allText.includes('ai') || allText.includes('машинн') || allText.includes('ml') || allText.includes('штучн')) {
-      projectType = 'AI/ML проект';
-      projectDescription = 'розробка системи з використанням штучного інтелекту';
+      projectType = t('aiMlProject');
+      projectDescription = t('aiMlDevelopment');
     } else {
-      projectType = 'програмний продукт';
-      projectDescription = 'розробка програмного рішення';
+      projectType = t('softwareProduct');
+      projectDescription = t('softwareDevelopment');
     }
 
     // Визначаємо складність та оцінку
-    let complexity = 'Середня';
-    let timeEstimate = '2-3 місяці';
+    let complexity = t('medium');
+    let timeEstimate = t('timeEstimate2to3');
     let budget = '15,000 - 25,000 USD';
-    let services = 'UX/UI дизайн, розробка, тестування';
+    let services = t('servicesUxUiDevelopmentTesting');
 
     if (allText.includes('ai') || allText.includes('машинн') || allText.includes('ml') || allText.includes('штучн')) {
-      complexity = 'Дуже висока';
-      timeEstimate = '8-12 місяців';
+      complexity = t('veryHigh');
+      timeEstimate = t('timeEstimate8to12');
       budget = '50,000 - 100,000 USD';
-      services = 'AI/ML розробка, UX/UI дизайн, інтеграція, тестування';
+      services = t('servicesAiMlUxUiIntegrationTesting');
     } else if (allText.includes('відео') || allText.includes('стрім') || allText.includes('streaming') || allText.includes('twitch')) {
-      complexity = 'Висока';
-      timeEstimate = '6-9 місяців';
+      complexity = t('high');
+      timeEstimate = t('timeEstimate6to9');
       budget = '35,000 - 60,000 USD';
-      services = 'Відео-розробка, UX/UI дизайн, серверна частина, тестування';
+      services = t('servicesVideoUxUiServerTesting');
     } else if (allText.includes('платіж') || allText.includes('банк') || allText.includes('фінанс') || allText.includes('stripe')) {
-      complexity = 'Висока';
-      timeEstimate = '4-6 місяців';
+      complexity = t('high');
+      timeEstimate = t('timeEstimate4to6');
       budget = '25,000 - 45,000 USD';
-      services = 'Фінансова розробка, UX/UI дизайн, безпека, тестування';
+      services = t('servicesFinancialUxUiSecurityTesting');
     } else if (allText.includes('мобільн') || allText.includes('app') || allText.includes('ios') || allText.includes('android')) {
-      complexity = 'Висока';
-      timeEstimate = '3-5 місяців';
+      complexity = t('high');
+      timeEstimate = t('timeEstimate3to5');
       budget = '20,000 - 40,000 USD';
-      services = 'Мобільна розробка, UX/UI дизайн, тестування, публікація';
+      services = t('servicesMobileUxUiTestingPublishing');
     } else if (allText.includes('ecommerce') || allText.includes('магазин') || allText.includes('онлайн')) {
-      complexity = 'Середня';
-      timeEstimate = '3-4 місяці';
+      complexity = t('medium');
+      timeEstimate = t('timeEstimate3to4');
       budget = '18,000 - 30,000 USD';
-      services = 'E-commerce розробка, UX/UI дизайн, інтеграція платежів';
+      services = t('servicesEcommerceUxUiPaymentIntegration');
     }
 
     // Генеруємо детальне зведення
-    const summary = `Клієнт зацікавлений у ${projectDescription}. ${allText.includes('ux') || allText.includes('дизайн') || allText.includes('ui') ? 'Особлива увага до UX/UI дизайну та користувацького досвіду.' : ''} ${allText.includes('конкурент') || allText.includes('twitch') || allText.includes('youtube') ? 'Визначені конкурентні переваги та цільова аудиторія.' : ''} ${allText.includes('масштаб') || allText.includes('велик') ? 'Проект має потенціал для масштабування.' : ''}`;
+    const summary = `${t('clientInterestedIn')} ${projectDescription}. ${allText.includes('ux') || allText.includes('дизайн') || allText.includes('ui') ? t('specialAttentionToUxUi') : ''} ${allText.includes('конкурент') || allText.includes('twitch') || allText.includes('youtube') ? t('competitiveAdvantagesDefined') : ''} ${allText.includes('масштаб') || allText.includes('велик') ? t('projectHasScalingPotential') : ''}`;
 
     // Генеруємо детальну оцінку
-    const estimate = `Приблизний час розробки: ${timeEstimate}. Складність: ${complexity}. Бюджет: ${budget}. Послуги: ${services}.`;
+    const estimate = `${t('approximateDevelopmentTime')}: ${timeEstimate}. ${t('complexity')}: ${complexity}. ${t('budget')}: ${budget}. ${t('services')}: ${services}.`;
 
     // Генеруємо ключові моменти
     const highlights = [];
-    if (allText.includes('аудиторі') || allText.includes('користувач') || allText.includes('цільов')) highlights.push('• Визначена цільова аудиторія та користувачі');
-    if (allText.includes('конкурент') || allText.includes('twitch') || allText.includes('youtube') || allText.includes('ринок')) highlights.push('• Проведений аналіз конкурентів та ринку');
-    if (allText.includes('технічн') || allText.includes('технологі') || allText.includes('архітектур')) highlights.push('• Визначена технічна архітектура та вимоги');
-    if (allText.includes('бюджет') || allText.includes('кошт') || allText.includes('фінанс')) highlights.push('• Обговорений бюджет та фінансові аспекти');
-    if (allText.includes('термін') || allText.includes('час') || allText.includes('deadline')) highlights.push('• Визначені терміни та етапи розробки');
-    if (allText.includes('масштаб') || allText.includes('рост') || allText.includes('розвиток')) highlights.push('• План масштабування та розвитку продукту');
-    if (allText.includes('дизайн') || allText.includes('ui') || allText.includes('ux')) highlights.push('• Особлива увага до дизайну та користувацького досвіду');
-    if (highlights.length === 0) highlights.push('• Потрібно деталізувати вимоги та цілі проекту');
+    if (allText.includes('аудиторі') || allText.includes('користувач') || allText.includes('цільов')) highlights.push(`• ${t('targetAudienceDefined')}`);
+    if (allText.includes('конкурент') || allText.includes('twitch') || allText.includes('youtube') || allText.includes('ринок')) highlights.push(`• ${t('competitorAnalysisConducted')}`);
+    if (allText.includes('технічн') || allText.includes('технологі') || allText.includes('архітектур')) highlights.push(`• ${t('technicalArchitectureDefined')}`);
+    if (allText.includes('бюджет') || allText.includes('кошт') || allText.includes('фінанс')) highlights.push(`• ${t('budgetDiscussed')}`);
+    if (allText.includes('термін') || allText.includes('час') || allText.includes('deadline')) highlights.push(`• ${t('timelineDefined')}`);
+    if (allText.includes('масштаб') || allText.includes('рост') || allText.includes('розвиток')) highlights.push(`• ${t('scalingPlanDefined')}`);
+    if (allText.includes('дизайн') || allText.includes('ui') || allText.includes('ux')) highlights.push(`• ${t('specialAttentionToDesign')}`);
+    if (highlights.length === 0) highlights.push(`• ${t('needToDetailRequirements')}`);
 
     // Генеруємо розумні замітки AI
     const notes = [];
-    if (messages.length > 5) notes.push('✅ Клієнт активно взаємодіє та надає детальну інформацію');
-    if (allText.includes('баченн') || allText.includes('ідея') || allText.includes('концепці')) notes.push('✅ Має чітке бачення продукту та його призначення');
-    if (allText.includes('конкурент') || allText.includes('ринок') || allText.includes('аудиторі')) notes.push('✅ Розуміє конкурентні переваги та цільову аудиторію');
-    if (allText.includes('дизайн') || allText.includes('ui') || allText.includes('ux')) notes.push('✅ Цінує якісний дизайн та користувацький досвід');
-    if (allText.includes('масштаб') || allText.includes('рост') || allText.includes('розвиток')) notes.push('✅ Думає про майбутнє та масштабування проекту');
-    if (!allText.includes('бюджет') && !allText.includes('кошт') && !allText.includes('фінанс')) notes.push('⚠️ Потрібно обговорити бюджет та фінансування');
-    if (!allText.includes('термін') && !allText.includes('час') && !allText.includes('deadline')) notes.push('⚠️ Визначити терміни та етапи проекту');
-    if (messages.length < 3) notes.push('⚠️ Потрібно більше інформації для детального аналізу');
+    if (messages.length > 5) notes.push(`✅ ${t('clientActivelyInteracts')}`);
+    if (allText.includes('баченн') || allText.includes('ідея') || allText.includes('концепці')) notes.push(`✅ ${t('hasClearVision')}`);
+    if (allText.includes('конкурент') || allText.includes('ринок') || allText.includes('аудиторі')) notes.push(`✅ ${t('understandsCompetitiveAdvantages')}`);
+    if (allText.includes('дизайн') || allText.includes('ui') || allText.includes('ux')) notes.push(`✅ ${t('valuesQualityDesign')}`);
+    if (allText.includes('масштаб') || allText.includes('рост') || allText.includes('розвиток')) notes.push(`✅ ${t('thinksAboutFuture')}`);
+    if (!allText.includes('бюджет') && !allText.includes('кошт') && !allText.includes('фінанс')) notes.push(`⚠️ ${t('needToDiscussBudget')}`);
+    if (!allText.includes('термін') && !allText.includes('час') && !allText.includes('deadline')) notes.push(`⚠️ ${t('needToDefineTimeline')}`);
+    if (messages.length < 3) notes.push(`⚠️ ${t('needMoreInformation')}`);
 
     return {
       summary,
@@ -465,8 +463,8 @@ ${sessionData.notes}
                       </div>
                     </div>
                     <div className="text-center space-y-2">
-                      <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Аналізуємо сесію...</h3>
-                      <p className="text-gray-600 dark:text-dark-text-muted">Генеруємо зведення та оцінку проекту</p>
+                      <h3 className="text-xl font-semibold text-gray-900 dark:text-white">{t('analyzingSession')}</h3>
+                      <p className="text-gray-600 dark:text-dark-text-muted">{t('generatingSummaryAndEstimate')}</p>
                     </div>
                     <div className="flex space-x-2">
                       <div className="w-2 h-2 bg-purple-600 rounded-full animate-bounce"></div>
@@ -483,29 +481,29 @@ ${sessionData.notes}
                         <svg className="w-5 h-5 mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        Session Information
+                        {t('sessionInformation')}
                       </h3>
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between items-center py-2 border-b border-purple-100 dark:border-dark-border">
-                          <span className="text-gray-600 dark:text-dark-text-muted font-medium">Session ID:</span>
+                          <span className="text-gray-600 dark:text-dark-text-muted font-medium">{t('sessionId')}:</span>
                           <span className="font-mono text-gray-900 dark:text-white bg-gray-100 dark:bg-dark-hover px-2 py-1 rounded">{selectedChatSession.id}</span>
                         </div>
                         <div className="flex justify-between items-center py-2 border-b border-purple-100 dark:border-dark-border">
-                          <span className="text-gray-600 dark:text-dark-text-muted font-medium">Client:</span>
+                          <span className="text-gray-600 dark:text-dark-text-muted font-medium">{t('clientName')}:</span>
                           <span className="text-gray-900 dark:text-white font-medium">{selectedChatSession.contact?.name}</span>
                         </div>
                         <div className="flex justify-between items-center py-2 border-b border-purple-100 dark:border-dark-border">
-                          <span className="text-gray-600 dark:text-dark-text-muted font-medium">Email:</span>
+                          <span className="text-gray-600 dark:text-dark-text-muted font-medium">{t('email')}:</span>
                           <span className="text-gray-900 dark:text-white">{selectedChatSession.contact?.email}</span>
                         </div>
                         <div className="flex justify-between items-center py-2 border-b border-purple-100 dark:border-dark-border">
-                          <span className="text-gray-600 dark:text-dark-text-muted font-medium">Created:</span>
+                          <span className="text-gray-600 dark:text-dark-text-muted font-medium">{t('createdDate')}:</span>
                           <span className="text-gray-900 dark:text-white">
                             {selectedChatSession.createdAt?.toDate?.() ? selectedChatSession.createdAt.toDate().toLocaleString() : '—'}
                           </span>
                         </div>
                         <div className="flex justify-between items-center py-2">
-                          <span className="text-gray-600 dark:text-dark-text-muted font-medium">Messages:</span>
+                          <span className="text-gray-600 dark:text-dark-text-muted font-medium">{t('totalMessages')}:</span>
                           <span className="bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-400 px-3 py-1 rounded-full font-medium">
                             {selectedChatSession.messages?.length || 0}
                           </span>
@@ -519,7 +517,7 @@ ${sessionData.notes}
                         <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
-                        Auto-summary
+                        {t('autoSummary')}
                       </h3>
                       <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-dark-bg dark:to-dark-hover rounded-lg p-4 min-h-[80px] border-l-4 border-purple-500">
                         <p className="text-gray-700 dark:text-dark-text leading-relaxed">
@@ -534,7 +532,7 @@ ${sessionData.notes}
                         <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
                         </svg>
-                        Estimate
+                        {t('estimate')}
                       </h3>
                       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-dark-bg dark:to-dark-hover rounded-lg p-4 min-h-[80px] border-l-4 border-green-500">
                         <p className="text-gray-700 dark:text-dark-text leading-relaxed">
@@ -549,7 +547,7 @@ ${sessionData.notes}
                         <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                         </svg>
-                        Research Highlights
+                        {t('researchHighlights')}
                       </h3>
                       <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-dark-bg dark:to-dark-hover rounded-lg p-4 min-h-[80px] border-l-4 border-yellow-500">
                         <p className="text-gray-700 dark:text-dark-text whitespace-pre-line leading-relaxed">
@@ -583,25 +581,25 @@ ${sessionData.notes}
                         <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
-                        Експорт PDF
+                        {t('exportPDF')}
                       </button>
                       <button onClick={exportToCSV} className="border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-hover px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:scale-105">
                         <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
-                        Експорт CSV
+                        {t('exportCSV')}
                       </button>
                       <button onClick={exportToExcel} className="border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-hover px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:scale-105">
                         <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
-                        Експорт Excel
+                        {t('exportExcel')}
                       </button>
                       <button onClick={generateEmailDraft} className="border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-hover px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:scale-105">
                         <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
-                        Згенерувати email-чернетку
+                        {t('generateEmailDraft')}
                       </button>
                     </div>
                   </div>

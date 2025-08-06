@@ -78,39 +78,39 @@ export default function ChatSessionsTable({ sessions, selectedSessionId, onSelec
                     <tr
                       key={session.id}
                       className={`border-b border-gray-200 dark:border-dark-border transition-all duration-200 ${
-                        isSelected ? 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-700' : ''
+                        isSelected ? 'bg-primary-light dark:bg-dark-primary-light border-primary dark:border-dark-primary' : ''
                       } ${onRowClick ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-dark-hover hover:shadow-sm' : ''}`}
                       onClick={() => onRowClick && onRowClick(session.id)}
                     >
-                      <td className={`px-3 py-3 transition-colors duration-200 ${isSelected ? 'text-purple-700 dark:text-purple-300 font-medium' : ''}`}>
+                      <td className={`px-3 py-3 transition-colors duration-200 ${isSelected ? 'text-primary dark:text-dark-primary font-medium' : ''}`}>
                         {session.metadata?.userName || '—'}
                       </td>
-                      <td className={`px-3 py-3 transition-colors duration-200 ${isSelected ? 'text-purple-700 dark:text-purple-300' : ''}`}>
+                      <td className={`px-3 py-3 transition-colors duration-200 ${isSelected ? 'text-primary dark:text-dark-primary' : ''}`}>
                         {session.metadata?.userEmail || '—'}
                       </td>
-                      <td className={`px-3 py-3 transition-colors duration-200 ${isSelected ? 'text-purple-700 dark:text-purple-300' : ''}`}>
+                      <td className={`px-3 py-3 transition-colors duration-200 ${isSelected ? 'text-primary dark:text-dark-primary' : ''}`}>
                         <span
                           className={`px-2 py-1 rounded-full text-xs font-medium transition-colors duration-200 ${getStatusColor(isActive)}`}
                         >
                           {getStatusText(isActive)}
                         </span>
                       </td>
-                      <td className={`px-3 py-3 transition-colors duration-200 ${isSelected ? 'text-purple-700 dark:text-purple-300' : ''}`}>
+                      <td className={`px-3 py-3 transition-colors duration-200 ${isSelected ? 'text-primary dark:text-dark-primary' : ''}`}>
                         {session.metadata?.startedAt?.toDate?.().toLocaleString('uk-UA') || '—'}
                       </td>
-                      <td className={`px-3 py-3 transition-colors duration-200 ${isSelected ? 'text-purple-700 dark:text-purple-300' : ''}`}>
+                      <td className={`px-3 py-3 transition-colors duration-200 ${isSelected ? 'text-primary dark:text-dark-primary' : ''}`}>
                         {session.metadata?.totalMessages ?? session.messages?.length ?? 0}
                       </td>
                       <td className={`px-3 py-3 ${isSelected ? 'text-primary dark:text-dark-primary' : ''}`}>
                         <button
-                          className="border border-purple-600 dark:border-purple-400 text-purple-600 dark:text-purple-400 font-medium text-xs uppercase tracking-wider bg-white dark:bg-dark-card px-3 py-2 rounded-lg flex items-center justify-center gap-2 transition-all duration-200 hover:bg-purple-600 hover:text-white dark:hover:bg-purple-400 dark:hover:text-white group hover:scale-105 shadow-sm hover:shadow-md"
+                          className="border border-primary dark:border-dark-primary text-primary dark:text-dark-primary font-medium text-xs uppercase tracking-wider bg-white dark:bg-dark-card px-3 py-2 rounded-lg flex items-center justify-center gap-2 transition-all duration-200 hover:bg-primary hover:text-white dark:hover:bg-dark-primary dark:hover:text-white group hover:scale-105 shadow-sm hover:shadow-md"
                           onClick={e => { 
                             e.stopPropagation(); 
                             onGenerateReport && onGenerateReport(session.id); 
                           }}
                         >
                           {t('generateReport')}
-                          <svg className="w-4 h-4 transition-colors duration-200 group-hover:text-white text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                          <svg className="w-4 h-4 transition-colors duration-200 group-hover:text-white text-primary dark:text-dark-primary" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                           </svg>
                         </button>
