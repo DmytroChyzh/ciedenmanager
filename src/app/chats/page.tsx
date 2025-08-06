@@ -205,12 +205,27 @@ export default function ChatsPage() {
   const [showDetails, setShowDetails] = useState(false);
   const [loadingDetails, setLoadingDetails] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [generatedReports, setGeneratedReports] = useState<{[key: string]: boolean}>({});
   
   const handleGenerateReport = () => {
+    if (!selectedSessionId) return;
+    
+    // Якщо звіт вже згенерований для цієї сесії, просто показуємо його
+    if (generatedReports[selectedSessionId]) {
+      setShowDetails(true);
+      return;
+    }
+    
+    // Інакше генеруємо новий звіт
     setIsAnalyzing(true);
     setShowDetails(true);
     setTimeout(() => {
       setIsAnalyzing(false);
+      // Позначаємо що звіт згенерований для цієї сесії
+      setGeneratedReports(prev => ({
+        ...prev,
+        [selectedSessionId]: true
+      }));
     }, 2000);
   };
 
@@ -323,6 +338,8 @@ ${sessionData.notes}
     setShowDetails(false);
     setLoadingDetails(false);
     setIsAnalyzing(false);
+    // Очищуємо згенеровані звіти при зміні сесії
+    setGeneratedReports({});
   }, [selectedSessionId]);
 
   const [showSidebar, setShowSidebar] = useState(false);
@@ -392,11 +409,15 @@ ${sessionData.notes}
                   </div>
                   <div className="flex items-center min-w-[120px] sm:min-w-[180px] justify-end">
                     <button
-                      className="bg-[#651FFF] text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-[#5A1BE0] transition-colors text-sm sm:text-base font-semibold shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                      className={`px-4 sm:px-6 py-2 rounded-lg transition-colors text-sm sm:text-base font-semibold shadow-sm disabled:opacity-50 disabled:cursor-not-allowed ${
+                        generatedReports[selectedSessionId || ''] 
+                          ? 'bg-green-600 hover:bg-green-700 text-white' 
+                          : 'bg-[#651FFF] hover:bg-[#5A1BE0] text-white'
+                      }`}
                       onClick={handleGenerateReport}
                       disabled={!selectedSessionId}
                     >
-                      {t('generateReport')}
+                      {generatedReports[selectedSessionId || ''] ? t('showReport') : t('generateReport')}
                     </button>
                   </div>
                 </div>
