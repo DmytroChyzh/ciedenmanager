@@ -105,12 +105,12 @@ export default function Sidebar() {
       <div className={`p-2 ${collapsed ? 'flex justify-center' : ''}`}>
         <button 
           onClick={logout}
-          className={`flex items-center ${collapsed ? 'justify-center' : 'gap-3'} px-3 py-2.5 rounded-lg ${collapsed ? 'w-10 h-10' : 'w-full'} text-left hover:bg-red-50 dark:hover:bg-red-900/20 active:bg-red-100 dark:active:bg-red-800/30 focus:outline-none focus:ring-2 focus:ring-red-500 dark:focus:ring-red-400 focus:ring-offset-2 dark:focus:ring-offset-dark-card text-gray-700 dark:text-dark-text-muted hover:text-red-700 dark:hover:text-red-400 text-sm font-medium transition-all duration-200`}
+          className={`flex items-center ${collapsed ? 'justify-center' : 'gap-3'} px-3 py-2.5 rounded-lg ${collapsed ? 'w-10 h-10' : 'w-full'} text-left hover:bg-red-50 dark:hover:bg-red-900/20 active:bg-red-100 dark:active:bg-red-800/30 focus:outline-none focus:ring-2 focus:ring-red-500 dark:focus:ring-red-400 focus:ring-offset-2 dark:focus:ring-offset-dark-card text-gray-700 dark:text-dark-text-muted hover:text-red-700 dark:hover:text-red-400 text-sm font-medium transition-all duration-200 group`}
         >
           <span className={`flex items-center justify-center ${collapsed ? 'w-5 h-5' : 'w-5 h-5'}`}>
             <ArrowRightOnRectangleIcon className={`${collapsed ? 'w-5 h-5' : 'w-5 h-5'} text-gray-600 dark:text-dark-text-muted group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors`} />
           </span>
-          {!collapsed && <span className="truncate">{t('signOut')}</span>}
+          {!collapsed && <span className="truncate group-hover:text-red-700 dark:group-hover:text-red-400">{t('signOut')}</span>}
         </button>
       </div>
     </aside>
