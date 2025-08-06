@@ -45,7 +45,7 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
   const periodButtonClass = `w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 xl:w-9 lg:h-9 2xl:w-10 2xl:h-8 px-1 sm:px-2 md:px-2 lg:px-3 text-xs font-medium transition-colors duration-200 focus:outline-none rounded-lg`;
   
   return (
-    <div className="bg-white dark:bg-dark-card rounded-xl flex flex-col p-2 sm:p-3 md:p-4 lg:p-5 xl:p-6 min-w-[180px] sm:min-w-[200px] md:min-w-[220px] lg:min-w-[240px] h-[302px]">
+    <div className="bg-white dark:bg-dark-card rounded-xl flex flex-col p-2 sm:p-3 md:p-4 lg:p-5 xl:p-6 min-w-[180px] sm:min-w-[200px] md:min-w-[220px] lg:min-w-[240px] h-[324px]">
       <div className="flex items-center justify-between mb-2 sm:mb-3">
         <div className="flex items-center gap-1 sm:gap-2">
           <span className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center">
