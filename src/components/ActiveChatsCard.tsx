@@ -89,12 +89,6 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
   const progressPercent = currentProgress;
   const up = currentValue > 0;
 
-  const getProgressColor = () => {
-    if (progressPercent >= 80) return "text-green-500";
-    if (progressPercent >= 60) return "text-yellow-500";
-    return "text-red-500";
-  };
-
   const periodButtonClass = `w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 xl:w-9 lg:h-9 2xl:w-10 2xl:h-8 px-1 sm:px-2 md:px-2 lg:px-3 text-xs font-medium transition-colors duration-200 focus:outline-none rounded-lg`;
   
   return (
@@ -131,7 +125,7 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
       <div className="flex items-end gap-2 mb-3">
         <span className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-dark-text">{currentValue}</span>
         <span className="text-lg text-gray-500 dark:text-gray-400 mb-1">з {currentGoal}</span>
-        <span className={`flex items-center gap-1 text-sm font-semibold ${getProgressColor()} mb-1`}>
+        <span className={`flex items-center gap-1 text-sm font-semibold ${up ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'} mb-1`}>
           {up ? (
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
@@ -202,8 +196,8 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
               dataKey="progress" 
               stroke="#651FFF" 
               strokeWidth={1} 
-              dot={{ r: 6, fill: '#651FFF', strokeWidth: 3, stroke: '#fff' }}
-              activeDot={{ r: 8, fill: '#651FFF', strokeWidth: 3, stroke: '#fff' }}
+              dot={{ r: 3, fill: '#651FFF', strokeWidth: 2, stroke: '#fff' }}
+              activeDot={{ r: 4, fill: '#651FFF', strokeWidth: 2, stroke: '#fff' }}
               className="transition-all duration-300"
               strokeLinecap="round"
               strokeLinejoin="round"
