@@ -9,76 +9,61 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
   const { t } = useLanguage();
   const { theme } = useTheme();
 
-  // Спрощені дані для графіка - показуємо реальний прогрес
+  // Спрощені дані для графіка - показуємо відсотки прогресу
   const getProgressData = (period: string) => {
     const baseData = [
       { day: 1, progress: 0 },
-      { day: 2, progress: 2 },
-      { day: 3, progress: 5 },
-      { day: 4, progress: 8 },
-      { day: 5, progress: 12 },
-      { day: 6, progress: 16 },
-      { day: 7, progress: 20 },
-      { day: 8, progress: 24 },
-      { day: 9, progress: 28 },
-      { day: 10, progress: 32 },
-      { day: 11, progress: 36 },
-      { day: 12, progress: 40 },
-      { day: 13, progress: 44 },
-      { day: 14, progress: 48 },
+      { day: 2, progress: 15 },
+      { day: 3, progress: 30 },
+      { day: 4, progress: 45 },
+      { day: 5, progress: 60 },
+      { day: 6, progress: 75 },
+      { day: 7, progress: 90 },
+      { day: 8, progress: 95 },
+      { day: 9, progress: 98 },
+      { day: 10, progress: 99 },
+      { day: 11, progress: 100 },
+      { day: 12, progress: 100 },
+      { day: 13, progress: 100 },
+      { day: 14, progress: 100 },
     ];
 
     if (period === 'month') {
       return [
         { day: 1, progress: 0 },
-        { day: 3, progress: 5 },
-        { day: 5, progress: 12 },
-        { day: 7, progress: 18 },
-        { day: 10, progress: 25 },
-        { day: 12, progress: 32 },
-        { day: 15, progress: 38 },
-        { day: 18, progress: 42 },
-        { day: 21, progress: 45 },
-        { day: 24, progress: 47 },
-        { day: 27, progress: 49 },
-        { day: 30, progress: 50 },
+        { day: 3, progress: 10 },
+        { day: 5, progress: 25 },
+        { day: 7, progress: 40 },
+        { day: 10, progress: 55 },
+        { day: 12, progress: 70 },
+        { day: 15, progress: 80 },
+        { day: 18, progress: 88 },
+        { day: 21, progress: 92 },
+        { day: 24, progress: 96 },
+        { day: 27, progress: 98 },
+        { day: 30, progress: 100 },
       ];
     }
 
     if (period === 'year') {
       return [
         { day: 1, progress: 0 },
-        { day: 30, progress: 15 },
-        { day: 60, progress: 35 },
-        { day: 90, progress: 55 },
-        { day: 120, progress: 75 },
-        { day: 150, progress: 95 },
-        { day: 180, progress: 115 },
-        { day: 210, progress: 135 },
-        { day: 240, progress: 155 },
-        { day: 270, progress: 175 },
-        { day: 300, progress: 185 },
-        { day: 330, progress: 195 },
-        { day: 365, progress: 200 },
+        { day: 30, progress: 8 },
+        { day: 60, progress: 20 },
+        { day: 90, progress: 35 },
+        { day: 120, progress: 50 },
+        { day: 150, progress: 65 },
+        { day: 180, progress: 78 },
+        { day: 210, progress: 85 },
+        { day: 240, progress: 92 },
+        { day: 270, progress: 96 },
+        { day: 300, progress: 98 },
+        { day: 330, progress: 99 },
+        { day: 365, progress: 100 },
       ];
     }
 
-    return [
-      { day: 1, progress: 0 },
-      { day: 2, progress: 10 },
-      { day: 3, progress: 25 },
-      { day: 4, progress: 40 },
-      { day: 5, progress: 55 },
-      { day: 6, progress: 70 },
-      { day: 7, progress: 85 },
-      { day: 8, progress: 90 },
-      { day: 9, progress: 92 },
-      { day: 10, progress: 94 },
-      { day: 11, progress: 96 },
-      { day: 12, progress: 98 },
-      { day: 13, progress: 99 },
-      { day: 14, progress: 100 },
-    ];
+    return baseData;
   };
 
   const periods = [
@@ -90,18 +75,18 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
   // Динамічні цілі за періодами
   const getGoalByPeriod = (period: string) => {
     switch (period) {
-      case 'week': return 100;
+      case 'week': return 20;
       case 'month': return 50;
-      case 'year': return 200;
-      default: return 100;
+      case 'year': return 100;
+      default: return 20;
     }
   };
 
   // Отримуємо поточний прогрес з даних
   const currentProgress = getProgressData(currentPeriod).slice(-1)[0]?.progress || 0;
-  const currentValue = Math.round(currentProgress);
+  const currentValue = Math.round((currentProgress / 100) * getGoalByPeriod(currentPeriod));
   const currentGoal = getGoalByPeriod(currentPeriod);
-  const progressPercent = Math.min((currentValue / currentGoal) * 100, 100);
+  const progressPercent = currentProgress;
   const up = currentValue > 0;
 
   // Мотиваційні повідомлення
@@ -205,10 +190,9 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
               axisLine={false} 
               tickLine={false}
               tick={{ fontSize: 11, fill: theme === 'dark' ? '#a0a0a0' : '#6b7280', fontWeight: 500 }}
-              domain={[0, currentPeriod === 'week' ? 100 : currentGoal]}
-              ticks={currentPeriod === 'week' ? [0, 20, 40, 60, 80, 100] : 
-                     [0, Math.round(currentGoal * 0.25), Math.round(currentGoal * 0.5), Math.round(currentGoal * 0.75), currentGoal]}
-              tickFormatter={(value) => `${value}`}
+              domain={[0, 100]}
+              ticks={[0, 25, 50, 75, 100]}
+              tickFormatter={(value) => `${value}%`}
               padding={{ top: 10, bottom: 10 }}
             />
             <Tooltip 
@@ -220,7 +204,7 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
                 fontSize: '12px',
                 boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
               }}
-              formatter={(value: any, name: any) => [`${value} чол.`, 'Кількість']}
+              formatter={(value: any, name: any) => [`${value}%`, 'Відсоток']}
               labelFormatter={(label) => `День: ${label} д.`}
               cursor={{ stroke: '#651FFF', strokeWidth: 2, strokeDasharray: '3 3' }}
             />
