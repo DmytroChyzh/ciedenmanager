@@ -98,7 +98,7 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
   const periodButtonClass = `w-8 h-8 px-3 text-xs font-medium transition-colors duration-200 focus:outline-none rounded-lg`;
   
   return (
-    <div className="bg-white dark:bg-dark-card rounded-xl flex flex-col p-4 md:p-6 min-w-[200px] md:min-w-[240px] h-[380px]">
+    <div className="bg-white dark:bg-dark-card rounded-xl flex flex-col p-4 md:p-6 min-w-[200px] md:min-w-[240px] h-[350px]">
       {/* Заголовок */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
@@ -109,30 +109,26 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
         {/* Переключувач періодів */}
         {onPeriodChange && (
           <div className="flex rounded-lg overflow-hidden bg-gray-100 dark:bg-dark-hover">
-            {periods.map((period) => {
-              const isActive = currentPeriod === period.key;
-              return (
-                <button
-                  key={period.key}
-                  onClick={() => onPeriodChange(period.key as 'week' | 'month' | 'year')}
-                  title={period.tooltip}
-                  className={
-                    periodButtonClass +
-                    (isActive
-                      ? ' bg-primary dark:bg-dark-primary text-white'
-                      : ' bg-transparent text-gray-700 dark:text-gray-300 hover:bg-primary-light dark:hover:bg-dark-primary-light')
-                  }
-                >
-                  {period.label}
-                </button>
-              );
-            })}
+            {periods.map((period) => (
+              <button
+                key={period.key}
+                onClick={() => onPeriodChange(period.key as 'week' | 'month' | 'year')}
+                className={`${periodButtonClass} ${
+                  currentPeriod === period.key
+                    ? 'bg-primary dark:bg-dark-primary text-white'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                }`}
+                title={period.tooltip}
+              >
+                {period.label}
+              </button>
+            ))}
           </div>
         )}
       </div>
       
       {/* Основна статистика */}
-      <div className="flex items-end gap-3 mb-4">
+      <div className="flex items-end gap-3 mb-3">
         <span className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-dark-text">{currentValue}</span>
         <span className="text-lg text-gray-500 dark:text-gray-400 mb-1">з {currentGoal}</span>
         <span className={`flex items-center gap-1 text-sm font-semibold ${getProgressColor()} mb-1`}>
