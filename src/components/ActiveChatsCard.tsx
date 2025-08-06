@@ -89,15 +89,6 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
   const progressPercent = currentProgress;
   const up = currentValue > 0;
 
-  // Мотиваційні повідомлення
-  const getMotivationalMessage = () => {
-    if (progressPercent >= 100) return "Відмінно! Всі цілі досягнуті! 🎉";
-    if (progressPercent >= 75) return "Майже там! Залишилося трохи! 💪";
-    if (progressPercent >= 50) return "На півдорозі! Продовжуй! 🔥";
-    if (progressPercent >= 25) return "Хороший старт! Далі! ⚡";
-    return "Почнемо! Кожен крок важливий! 🚀";
-  };
-
   const getProgressColor = () => {
     if (progressPercent >= 80) return "text-green-500";
     if (progressPercent >= 60) return "text-yellow-500";
@@ -144,7 +135,7 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
       <div className="flex items-end gap-3 mb-4">
         <span className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-dark-text">{currentValue}</span>
         <span className="text-lg text-gray-500 dark:text-gray-400 mb-1">з {currentGoal}</span>
-        <span className={`flex items-center gap-1 text-sm font-semibold ${getProgressColor()}`}>
+        <span className={`flex items-center gap-1 text-sm font-semibold ${getProgressColor()} mb-1`}>
           {up ? (
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
@@ -233,13 +224,6 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
             />
           </LineChart>
         </ResponsiveContainer>
-      </div>
-
-      {/* Мотиваційне повідомлення */}
-      <div className="mt-3 text-center">
-        <span className="text-sm font-medium text-primary dark:text-dark-primary bg-primary-light dark:bg-dark-primary-light px-3 py-2 rounded-full">
-          {getMotivationalMessage()}
-        </span>
       </div>
     </div>
   );
