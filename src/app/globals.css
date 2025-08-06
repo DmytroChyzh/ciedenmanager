@@ -140,8 +140,8 @@
 
 /* Покращені фокуси */
 *:focus-visible {
-  outline: 2px solid #651fff;
-  outline-offset: 2px;
+  outline: none;
+  outline-offset: 0;
 }
 
 .dark *:focus-visible {

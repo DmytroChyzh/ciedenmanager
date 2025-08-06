@@ -129,7 +129,7 @@ export default function ChatInput({
       <div className="pt-3 px-4 pb-3 flex flex-col rounded-b-2xl bg-gray-50 dark:bg-dark-hover">
         <textarea
           ref={textareaRef}
-          className="w-full bg-transparent outline-none text-sm placeholder:text-gray-500 dark:placeholder:text-gray-400 border-none resize-none min-h-[36px] max-h-[100px] leading-relaxed font-normal mb-2 text-gray-900 dark:text-dark-text"
+          className="w-full bg-transparent outline-none text-sm placeholder:text-gray-500 dark:placeholder:text-gray-400 border-none resize-none min-h-[36px] max-h-[100px] leading-relaxed font-normal mb-2 text-gray-900 dark:text-dark-text focus:outline-none focus:ring-0"
           placeholder="Запитайте що-небудь..."
           value={value}
           onChange={handleChange}

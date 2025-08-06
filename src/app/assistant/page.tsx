@@ -496,21 +496,21 @@ export default function AssistantPage() {
         <div className="flex flex-col h-full w-full max-w-full md:max-w-5xl mx-auto min-h-0 flex-1">
           {/* Empty State - Centered Input */}
           {activeChat.messages.length === 0 && (
-            <div className="flex-1 flex flex-col justify-center items-center px-3 sm:px-4 py-6 sm:py-8">
+            <div className="flex-1 flex flex-col justify-center items-center px-4 py-8">
               {/* Welcome Section */}
-              <div className="text-center mb-6 sm:mb-8">
+              <div className="text-center mb-8">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 text-gray-900 dark:text-dark-text">{t('welcomeCiedenAI')}</h1>
                 <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 max-w-xl mx-auto">{t('assistantDescription')}</p>
               </div>
               {/* Grid of Quick Actions */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 w-full max-w-md sm:max-w-2xl md:max-w-3xl mb-6 sm:mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-md sm:max-w-2xl md:max-w-3xl mb-8">
                 {examplePrompts.map((example, idx) => (
                   <button
                     key={idx}
-                    className="flex flex-col items-center justify-center bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-3 sm:p-4 shadow-sm hover:shadow-md hover:border-primary dark:hover:border-dark-primary transition group"
+                    className="flex flex-col items-center justify-center bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4 shadow-sm hover:shadow-md hover:border-primary dark:hover:border-dark-primary transition group"
                     onClick={() => handlePromptInsert(t(example.promptKey))}
                   >
-                    <span className="mb-2 sm:mb-3 text-primary dark:text-dark-primary">
+                    <span className="mb-3 text-primary dark:text-dark-primary">
                       <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" fill="currentColor" opacity="0.1"/><path d="M8 12h8M8 16h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
                     </span>
                     <span className="font-medium text-gray-900 dark:text-dark-text mb-1 text-sm">{t(example.titleKey)}</span>
@@ -519,7 +519,7 @@ export default function AssistantPage() {
                 ))}
               </div>
               {/* Chat Input */}
-              <div className="w-full mt-4 sm:mt-6">
+              <div className="w-full mt-6">
                 <ChatInput
                   value={input}
                   onChange={setInput}
@@ -545,8 +545,8 @@ export default function AssistantPage() {
           {activeChat.messages.length > 0 && (
             <div className="flex flex-col h-full w-full">
               {/* Messages Container */}
-              <div className="flex-1 pt-4 sm:pt-6 pb-4 sm:pb-6 px-3 sm:px-4 md:px-6">
-                <div className="space-y-3 sm:space-y-4">
+              <div className="flex-1 pt-6 pb-4 px-4 md:px-6">
+                <div className="space-y-4">
                   {activeChat.messages.map((message) => (
                     <ChatMessage 
                       key={message.id} 
@@ -558,12 +558,12 @@ export default function AssistantPage() {
                   ))}
                   {loading && (
                     <div className="w-full max-w-full md:max-w-4xl mx-auto flex justify-start">
-                      <div className="max-w-[90%] sm:max-w-[70%] md:max-w-2xl w-auto px-4 sm:px-5 py-3 rounded-xl shadow-sm bg-gray-100 dark:bg-dark-hover text-gray-800 dark:text-dark-text">
+                      <div className="max-w-[90%] sm:max-w-[70%] md:max-w-2xl w-auto px-5 py-3 rounded-xl shadow-sm bg-gray-100 dark:bg-dark-hover text-gray-800 dark:text-dark-text">
                         <div className="flex items-center gap-2">
                           <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" />
                           <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
                           <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
-                          <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 ml-2">AI набирає повідомлення...</span>
+                          <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">AI набирає повідомлення...</span>
                         </div>
                       </div>
                     </div>
@@ -572,7 +572,7 @@ export default function AssistantPage() {
                 <div ref={messagesEndRef} />
               </div>
               {/* Input Area — завжди знизу, по сітці */}
-              <div className="pb-4 sm:pb-6 px-3 sm:px-4 md:px-6 sticky bottom-0 bg-white dark:bg-dark-card z-10">
+              <div className="pb-4 px-4 md:px-6 sticky bottom-0 bg-white dark:bg-dark-card z-10">
                 <ChatInput
                   value={input}
                   onChange={setInput}
@@ -606,7 +606,6 @@ export default function AssistantPage() {
               onClick={handleNewChat}
               className="px-3 sm:px-4 py-2 bg-primary dark:bg-dark-primary text-white rounded-lg hover:bg-primary-hover dark:hover:bg-dark-primary-hover transition-colors font-medium shadow-sm text-sm flex items-center gap-2"
             >
-              <Plus size={16} />
               {t('newChat')}
             </button>
           </div>
