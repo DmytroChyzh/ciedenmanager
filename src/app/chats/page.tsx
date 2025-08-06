@@ -386,7 +386,7 @@ ${sessionData.notes}
           <div className="bg-white rounded-2xl flex flex-col h-full min-h-0 w-full overflow-hidden">
             <div className="flex flex-col md:flex-row flex-1 min-h-0 h-full w-full">
               {/* Sidebar для desktop/tablet */}
-              <div className="hidden md:block h-full border-r border-gray-200 flex-shrink-0 min-w-[280px] max-w-[400px] w-[320px] lg:w-[350px] xl:w-[400px]">
+              <div className="hidden md:block h-full border-r border-gray-200 flex-shrink-0 min-w-[240px] max-w-[320px] w-[280px] lg:w-[300px] xl:w-[320px]">
                 <ChatList selectedSessionId={selectedSessionId} onSelect={id => { setSelectedSessionId(id); setShowDetails(false); }} hideHeader />
               </div>
               <div className="flex-1 flex flex-col min-w-0 h-full min-h-0">
@@ -439,7 +439,7 @@ ${sessionData.notes}
               {showDetails && selectedSessionId && (
                 <>
                   {/* Desktop версія */}
-                  <div className="hidden md:flex h-full flex-col w-[320px] lg:w-[400px] xl:w-[500px] 2xl:w-[600px] max-w-[90vw] flex-shrink-0 border-l border-[#ede7ff] bg-white">
+                  <div className="hidden md:flex h-full flex-col w-[280px] lg:w-[320px] xl:w-[360px] 2xl:w-[400px] max-w-[90vw] flex-shrink-0 border-l border-[#ede7ff] bg-white">
                     <div className="p-6 h-full flex flex-col">
                       <div className="flex justify-between items-center mb-6">
                         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
