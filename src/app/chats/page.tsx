@@ -243,7 +243,7 @@ export default function ChatsPage() {
               <div className="hidden md:block h-full border-r border-gray-200 flex-shrink-0 min-w-[220px] max-w-[320px] w-[260px]">
                 <ChatList selectedSessionId={selectedSessionId} onSelect={id => { setSelectedSessionId(id); setShowDetails(false); }} hideHeader />
               </div>
-              <div className="flex-1 flex flex-col min-w-0 h-full min-h-0">
+              <div className="flex-1 flex flex-col min-w-0 h-full min-h-0 max-w-[600px]">
                 {/* Виправлений хедер */}
                 <div className="flex items-center justify-between w-full border-b border-gray-200 px-4 sm:px-6 py-4 sm:py-6 gap-4 sm:gap-6 bg-white" style={{minHeight: '72px'}}>
                   <div className="flex items-center gap-2 min-w-[120px] sm:min-w-[180px]">
@@ -278,13 +278,13 @@ export default function ChatsPage() {
                   </div>
                 </div>
                 {/* Чат */}
-                <div className="flex-1 min-h-0 flex flex-col px-4 sm:px-6 py-4 sm:py-6 justify-center h-full overflow-y-auto">
+                <div className="flex-1 min-h-0 flex flex-col px-3 sm:px-4 py-3 sm:py-4 justify-center h-full overflow-y-auto">
                   <ChatView sessionId={selectedSessionId} />
                 </div>
               </div>
               {/* Session Details блок */}
               {showDetails && selectedSessionId && (
-                <div className="hidden md:flex h-full flex-col w-[320px] lg:w-[400px] max-w-[90vw] flex-shrink-0 border-l border-[#ede7ff] bg-white">
+                <div className="hidden md:flex h-full flex-col w-[400px] lg:w-[500px] xl:w-[600px] max-w-[90vw] flex-shrink-0 border-l border-[#ede7ff] bg-white">
                   <div className="flex-1 overflow-y-auto p-6">
                     {isAnalyzing ? (
                       <div className="flex flex-col items-center justify-center h-full">
