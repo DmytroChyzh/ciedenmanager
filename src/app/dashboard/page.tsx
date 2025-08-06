@@ -28,6 +28,8 @@ export default function Dashboard() {
   const [showChatPopup, setShowChatPopup] = useState(false);
   const [selectedChatSession, setSelectedChatSession] = useState<any>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [showChatView, setShowChatView] = useState(false);
+  const [selectedChatForView, setSelectedChatForView] = useState<any>(null);
 
   // Стани періодів для кожної картки
   const [usersPeriod, setUsersPeriod] = useState<'week' | 'month' | 'year'>('week');
@@ -81,6 +83,12 @@ export default function Dashboard() {
     setTimeout(() => {
       setIsAnalyzing(false);
     }, 2000);
+  };
+
+  const handleRowClick = (sessionId: string) => {
+    const session = chats.find(chat => chat.id === sessionId);
+    setSelectedChatForView(session);
+    setShowChatView(true);
   };
 
   // Метрики для графіків з підтримкою періодів
@@ -413,10 +421,11 @@ ${sessionData.notes}
           <div className="flex-1 flex flex-col min-h-0">
             <div className="h-full overflow-y-auto min-h-0">
               <ChatSessionsTable 
-                sessions={filteredChats} 
-                selectedSessionId={selectedSessionId} 
-                onSelect={handleRowSelect} 
+                sessions={chats} 
+                selectedSessionId={selectedSessionId}
+                onSelect={handleRowSelect}
                 onGenerateReport={handleGenerateReport}
+                onRowClick={handleRowClick}
               />
             </div>
           </div>
@@ -600,6 +609,99 @@ ${sessionData.notes}
           </div>
         )}
       </div>
+
+      {/* Попап для перегляду чату - збоку справа */}
+      {showChatView && selectedChatForView && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50">
+          <div className="absolute right-0 top-0 h-full w-[600px] bg-white dark:bg-dark-card shadow-2xl transform transition-transform duration-300 ease-in-out">
+            <div className="p-6 h-full flex flex-col">
+              <div className="flex justify-between items-center mb-6">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                    Чат з: {selectedChatForView.contact?.name}
+                  </h2>
+                  <p className="text-sm text-gray-600 dark:text-dark-text-muted mt-1">
+                    {selectedChatForView.contact?.email}
+                  </p>
+                </div>
+                <button 
+                  onClick={() => setShowChatView(false)}
+                  className="p-2 text-gray-600 hover:text-red-500 dark:text-dark-text-muted dark:hover:text-red-400 transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto space-y-4 animate-fadeIn">
+                {selectedChatForView.messages?.map((message: any, index: number) => (
+                  <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                    <div className={`max-w-[80%] rounded-2xl px-4 py-3 ${
+                      message.role === 'user' 
+                        ? 'bg-purple-600 text-white' 
+                        : 'bg-gray-100 dark:bg-dark-hover text-gray-900 dark:text-dark-text'
+                    }`}>
+                      <div className="flex items-start space-x-3">
+                        {message.role === 'assistant' && (
+                          <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            </svg>
+                          </div>
+                        )}
+                        <div className="flex-1">
+                          <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                            {message.content || message.text || message.message || 'Повідомлення недоступне'}
+                          </p>
+                          <div className="flex items-center justify-between mt-2 text-xs opacity-70">
+                            <span>{message.role === 'user' ? 'Клієнт' : 'AI Асистент'}</span>
+                            <span>
+                              {message.timestamp?.toDate?.() 
+                                ? message.timestamp.toDate().toLocaleTimeString() 
+                                : new Date().toLocaleTimeString()
+                              }
+                            </span>
+                          </div>
+                        </div>
+                        {message.role === 'user' && (
+                          <div className="w-8 h-8 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                            <svg className="w-4 h-4 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                
+                {(!selectedChatForView.messages || selectedChatForView.messages.length === 0) && (
+                  <div className="text-center py-8 text-gray-500 dark:text-dark-text-muted">
+                    <svg className="w-12 h-12 mx-auto mb-4 text-gray-300 dark:text-dark-border" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                    <p className="text-lg font-medium">Немає повідомлень</p>
+                    <p className="text-sm">Цей чат поки що порожній</p>
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-gray-200 dark:border-dark-border">
+                <div className="flex items-center justify-between text-sm text-gray-600 dark:text-dark-text-muted">
+                  <span>Всього повідомлень: {selectedChatForView.messages?.length || 0}</span>
+                  <span>
+                    Створено: {selectedChatForView.createdAt?.toDate?.() 
+                      ? selectedChatForView.createdAt.toDate().toLocaleDateString() 
+                      : '—'
+                    }
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 } 

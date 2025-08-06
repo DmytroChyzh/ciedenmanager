@@ -7,9 +7,10 @@ interface ChatSessionsTableProps {
   selectedSessionId?: string | null;
   onSelect?: (id: string) => void;
   onGenerateReport?: (id: string) => void;
+  onRowClick?: (id: string) => void;
 }
 
-export default function ChatSessionsTable({ sessions, selectedSessionId, onSelect, onGenerateReport }: ChatSessionsTableProps) {
+export default function ChatSessionsTable({ sessions, selectedSessionId, onSelect, onGenerateReport, onRowClick }: ChatSessionsTableProps) {
   const { t } = useLanguage();
   const [filter, setFilter] = useState({ email: '' });
 
@@ -78,7 +79,8 @@ export default function ChatSessionsTable({ sessions, selectedSessionId, onSelec
                       key={session.id}
                       className={`border-b border-gray-200 dark:border-dark-border ${
                         isSelected ? 'bg-primary-light dark:bg-dark-primary-light' : ''
-                      }`}
+                      } ${onRowClick ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-dark-hover transition-colors' : ''}`}
+                      onClick={() => onRowClick && onRowClick(session.id)}
                     >
                       <td className={`px-3 py-3 ${isSelected ? 'text-primary dark:text-dark-primary font-medium' : ''}`}>
                         {session.metadata?.userName || '—'}
