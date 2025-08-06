@@ -205,7 +205,14 @@ export default function ChatsPage() {
   const [showDetails, setShowDetails] = useState(false);
   const [loadingDetails, setLoadingDetails] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [generatedReports, setGeneratedReports] = useState<{[key: string]: boolean}>({});
+  const [generatedReports, setGeneratedReports] = useState<{[key: string]: boolean}>(() => {
+    // Завантажуємо з localStorage при ініціалізації
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('generatedReports');
+      return saved ? JSON.parse(saved) : {};
+    }
+    return {};
+  });
   
   const handleGenerateReport = () => {
     if (!selectedSessionId) return;
@@ -221,11 +228,13 @@ export default function ChatsPage() {
     setShowDetails(true);
     setTimeout(() => {
       setIsAnalyzing(false);
-      // Позначаємо що звіт згенерований для цієї сесії
-      setGeneratedReports(prev => ({
-        ...prev,
+      // Позначаємо що звіт згенерований для цієї сесії і зберігаємо в localStorage
+      const newReports = {
+        ...generatedReports,
         [selectedSessionId]: true
-      }));
+      };
+      setGeneratedReports(newReports);
+      localStorage.setItem('generatedReports', JSON.stringify(newReports));
     }, 2000);
   };
 
@@ -407,14 +416,16 @@ ${sessionData.notes}
                   <div className="flex items-center min-w-[120px] sm:min-w-[180px] justify-end">
                     <button
                       className={`px-3 sm:px-4 lg:px-6 py-2 rounded-lg transition-colors text-xs sm:text-sm lg:text-base font-semibold shadow-sm ${
-                        generatedReports[selectedSessionId || ''] 
-                          ? 'bg-green-600 hover:bg-green-700 text-white' 
-                          : 'bg-[#651FFF] hover:bg-[#5A1BE0] text-white'
+                        !selectedSessionId 
+                          ? 'bg-gray-400 cursor-not-allowed' 
+                          : generatedReports[selectedSessionId || ''] 
+                            ? 'bg-green-600 hover:bg-green-700 text-white' 
+                            : 'bg-[#651FFF] hover:bg-[#5A1BE0] text-white'
                       }`}
                       onClick={handleGenerateReport}
                       disabled={!selectedSessionId}
                     >
-                      {generatedReports[selectedSessionId || ''] ? t('showReport') : t('generateReport')}
+                      {!selectedSessionId ? t('generateReport') : generatedReports[selectedSessionId || ''] ? t('showReport') : t('generateReport')}
                     </button>
                   </div>
                 </div>
