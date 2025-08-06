@@ -28,6 +28,7 @@ const translations = {
     activeChats: 'Активні чати',
     perWeek: 'за тиждень',
     selectSession: 'Виберіть сесію для перегляду деталей',
+    more: 'Більше',
     
     // Chat
     selectChat: 'Виберіть чат',
@@ -333,6 +334,7 @@ const translations = {
     activeChats: 'Active Chats',
     perWeek: 'per week',
     selectSession: 'Select session to view details',
+    more: 'More',
     
     // Chat
     selectChat: 'Select Chat',

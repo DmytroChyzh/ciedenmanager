@@ -29,6 +29,8 @@ export default function UsersCountCard({
       yTicks={[0, 5, 10, 15, 20]}
       onPeriodChange={onPeriodChange}
       currentPeriod={currentPeriod}
+      showMoreButton={true}
+      moreButtonLink="/analytics/users"
     />
   );
 } 

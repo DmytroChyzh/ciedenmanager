@@ -15,9 +15,11 @@ interface GraphCardProps {
   yTicks?: number[];
   onPeriodChange?: (period: 'week' | 'month' | 'year') => void;
   currentPeriod?: 'week' | 'month' | 'year';
+  showMoreButton?: boolean;
+  moreButtonLink?: string;
 }
 
-export default function GraphCard({ title, value, data, type = 'line', icon, percent, color = '#651FFF', yDomain = [0, 20], yTicks = [0, 5, 10, 15, 20], onPeriodChange, currentPeriod = 'week' }: GraphCardProps) {
+export default function GraphCard({ title, value, data, type = 'line', icon, percent, color = '#651FFF', yDomain = [0, 20], yTicks = [0, 5, 10, 15, 20], onPeriodChange, currentPeriod = 'week', showMoreButton = false, moreButtonLink }: GraphCardProps) {
   const { t } = useLanguage();
   const { theme } = useTheme();
   const up = percent >= 0;
@@ -48,28 +50,43 @@ export default function GraphCard({ title, value, data, type = 'line', icon, per
           <span className="text-gray-900 dark:text-dark-text font-bold text-xs sm:text-sm md:text-base lg:text-lg">{title}</span>
         </div>
         {/* Компактний переключувач періодів */}
-        {onPeriodChange && (
-          <div className="flex rounded-lg overflow-hidden bg-white dark:bg-dark-card">
-            {periods.map((period) => {
-              const isActive = currentPeriod === period.key;
-              return (
-                <button
-                  key={period.key}
-                  onClick={() => onPeriodChange(period.key as 'week' | 'month' | 'year')}
-                  title={period.tooltip}
-                  className={
-                    periodButtonClass +
-                    (isActive
-                      ? ' bg-primary dark:bg-dark-primary text-white'
-                      : ' bg-transparent text-gray-700 dark:text-gray-300 hover:bg-primary-light dark:hover:bg-dark-primary-light')
-                  }
-                >
-                  {period.label}
-                </button>
-              );
-            })}
-          </div>
-        )}
+        <div className="flex items-center gap-2">
+          {onPeriodChange && (
+            <div className="flex rounded-lg overflow-hidden bg-white dark:bg-dark-card">
+              {periods.map((period) => {
+                const isActive = currentPeriod === period.key;
+                return (
+                  <button
+                    key={period.key}
+                    onClick={() => onPeriodChange(period.key as 'week' | 'month' | 'year')}
+                    title={period.tooltip}
+                    className={
+                      periodButtonClass +
+                      (isActive
+                        ? ' bg-primary dark:bg-dark-primary text-white'
+                        : ' bg-transparent text-gray-700 dark:text-gray-300 hover:bg-primary-light dark:hover:bg-dark-primary-light')
+                    }
+                  >
+                    {period.label}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+          
+          {/* Кнопка "More" */}
+          {showMoreButton && moreButtonLink && (
+            <a
+              href={moreButtonLink}
+              className="bg-primary dark:bg-dark-primary text-white px-3 py-1 rounded-lg flex items-center gap-1 hover:bg-primary-dark dark:hover:bg-dark-primary-dark transition-colors duration-200 text-xs font-medium"
+            >
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 19l-7-7 7-7m8 14l-7-7 7-7" />
+              </svg>
+              {t('more')}
+            </a>
+          )}
+        </div>
       </div>
       
       <div className="flex items-end gap-2 mb-3">

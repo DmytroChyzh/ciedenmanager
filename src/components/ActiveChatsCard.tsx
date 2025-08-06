@@ -102,25 +102,38 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
           <span className="text-gray-900 dark:text-dark-text font-bold text-lg">{t('progressToGoals')}</span>
         </div>
         
-        {/* Переключувач періодів */}
-        {onPeriodChange && (
-          <div className="flex rounded-lg overflow-hidden bg-white dark:bg-dark-card">
-            {periods.map((period) => (
-              <button
-                key={period.key}
-                onClick={() => onPeriodChange(period.key as 'week' | 'month' | 'year')}
-                className={`${periodButtonClass} ${
-                  currentPeriod === period.key
-                    ? 'bg-primary dark:bg-dark-primary text-white'
-                    : 'bg-transparent text-gray-700 dark:text-gray-300 hover:bg-primary-light dark:hover:bg-dark-primary-light'
-                }`}
-                title={period.tooltip}
-              >
-                {period.label}
-              </button>
-            ))}
-          </div>
-        )}
+        {/* Переключувач періодів та кнопка More */}
+        <div className="flex items-center gap-2">
+          {onPeriodChange && (
+            <div className="flex rounded-lg overflow-hidden bg-white dark:bg-dark-card">
+              {periods.map((period) => (
+                <button
+                  key={period.key}
+                  onClick={() => onPeriodChange(period.key as 'week' | 'month' | 'year')}
+                  className={`${periodButtonClass} ${
+                    currentPeriod === period.key
+                      ? 'bg-primary dark:bg-dark-primary text-white'
+                      : 'bg-transparent text-gray-700 dark:text-gray-300 hover:bg-primary-light dark:hover:bg-dark-primary-light'
+                  }`}
+                  title={period.tooltip}
+                >
+                  {period.label}
+                </button>
+              ))}
+            </div>
+          )}
+          
+          {/* Кнопка "More" */}
+          <a
+            href="/analytics/goals"
+            className="bg-primary dark:bg-dark-primary text-white px-3 py-1 rounded-lg flex items-center gap-1 hover:bg-primary-dark dark:hover:bg-dark-primary-dark transition-colors duration-200 text-xs font-medium"
+          >
+            <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 19l-7-7 7-7m8 14l-7-7 7-7" />
+            </svg>
+            {t('more')}
+          </a>
+        </div>
       </div>
       
       {/* Основна статистика */}
