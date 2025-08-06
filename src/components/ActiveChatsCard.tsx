@@ -98,7 +98,7 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
   const periodButtonClass = `w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 xl:w-9 lg:h-9 2xl:w-10 2xl:h-8 px-1 sm:px-2 md:px-2 lg:px-3 text-xs font-medium transition-colors duration-200 focus:outline-none rounded-lg`;
   
   return (
-    <div className="bg-white dark:bg-dark-card rounded-xl flex flex-col p-4 md:p-6 min-w-[200px] md:min-w-[240px] h-[350px]">
+    <div className="bg-white dark:bg-dark-card rounded-xl flex flex-col p-4 md:p-6 min-w-[200px] md:min-w-[240px] h-[320px]">
       {/* Заголовок */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
@@ -146,8 +146,8 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
       </div>
 
       {/* Покращений графік з більшою областю */}
-      <div className="w-full min-h-[160px] animate-fadeIn">
-        <ResponsiveContainer width="100%" height={160}>
+      <div className="w-full min-h-[140px] animate-fadeIn">
+        <ResponsiveContainer width="100%" height={140}>
           <LineChart data={getProgressData(currentPeriod)} margin={{ top: 8, right: 0, left: 0, bottom: 0 }}>
             <defs>
               <linearGradient id="progressGradient" x1="0" y1="0" x2="0" y2="1">
@@ -201,7 +201,7 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
               type="monotone" 
               dataKey="progress" 
               stroke="#651FFF" 
-              strokeWidth={4} 
+              strokeWidth={1} 
               dot={{ r: 5, fill: '#651FFF', strokeWidth: 3, stroke: '#fff' }}
               activeDot={{ r: 7, fill: '#651FFF', strokeWidth: 3, stroke: '#fff' }}
               className="transition-all duration-300"
