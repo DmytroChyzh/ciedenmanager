@@ -135,7 +135,10 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
             </svg>
           )}
-          {Math.round(progressPercent)}% <span className="text-gray-500 dark:text-gray-400 font-normal ml-1">за {t(currentPeriod)}</span>
+          <span className={up ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}>
+            {Math.round(progressPercent)}%
+          </span>
+          <span className="text-gray-500 dark:text-gray-400 font-normal ml-1">за {t(currentPeriod)}</span>
         </span>
       </div>
 
