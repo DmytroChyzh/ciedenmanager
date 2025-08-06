@@ -181,7 +181,7 @@ export default function Dashboard() {
     
     if (allText.includes('мобільн') || allText.includes('app') || allText.includes('додаток') || allText.includes('ios') || allText.includes('android')) {
       projectType = 'мобільний додаток';
-      projectDescription = 'розробка нативного або крос-платформенного мобільного додатку';
+      projectDescription = 'розробка мобільного додатку для iOS та/або Android';
     } else if (allText.includes('веб') || allText.includes('сайт') || allText.includes('web') || allText.includes('інтернет')) {
       projectType = 'веб-сайт';
       projectDescription = 'створення веб-сайту або веб-додатку';
@@ -199,44 +199,44 @@ export default function Dashboard() {
       projectDescription = 'розробка програмного рішення';
     }
 
-    // Визначаємо складність та технології
+    // Визначаємо складність та оцінку
     let complexity = 'Середня';
     let timeEstimate = '2-3 місяці';
-    let technologies = 'React, Node.js, MongoDB';
     let budget = '15,000 - 25,000 USD';
+    let services = 'UX/UI дизайн, розробка, тестування';
 
     if (allText.includes('ai') || allText.includes('машинн') || allText.includes('ml') || allText.includes('штучн')) {
       complexity = 'Дуже висока';
       timeEstimate = '8-12 місяців';
-      technologies = 'Python, TensorFlow, React, Node.js, AWS, PostgreSQL';
       budget = '50,000 - 100,000 USD';
+      services = 'AI/ML розробка, UX/UI дизайн, інтеграція, тестування';
     } else if (allText.includes('відео') || allText.includes('стрім') || allText.includes('streaming') || allText.includes('twitch')) {
       complexity = 'Висока';
       timeEstimate = '6-9 місяців';
-      technologies = 'React, Node.js, WebRTC, Socket.io, AWS, Redis';
       budget = '35,000 - 60,000 USD';
+      services = 'Відео-розробка, UX/UI дизайн, серверна частина, тестування';
     } else if (allText.includes('платіж') || allText.includes('банк') || allText.includes('фінанс') || allText.includes('stripe')) {
       complexity = 'Висока';
       timeEstimate = '4-6 місяців';
-      technologies = 'React, Node.js, Stripe, PostgreSQL, AWS';
       budget = '25,000 - 45,000 USD';
+      services = 'Фінансова розробка, UX/UI дизайн, безпека, тестування';
     } else if (allText.includes('мобільн') || allText.includes('app') || allText.includes('ios') || allText.includes('android')) {
       complexity = 'Висока';
       timeEstimate = '3-5 місяців';
-      technologies = 'React Native, Node.js, Firebase, AWS';
       budget = '20,000 - 40,000 USD';
+      services = 'Мобільна розробка, UX/UI дизайн, тестування, публікація';
     } else if (allText.includes('ecommerce') || allText.includes('магазин') || allText.includes('онлайн')) {
       complexity = 'Середня';
       timeEstimate = '3-4 місяці';
-      technologies = 'React, Node.js, Stripe, MongoDB, AWS';
       budget = '18,000 - 30,000 USD';
+      services = 'E-commerce розробка, UX/UI дизайн, інтеграція платежів';
     }
 
     // Генеруємо детальне зведення
     const summary = `Клієнт зацікавлений у ${projectDescription}. ${allText.includes('ux') || allText.includes('дизайн') || allText.includes('ui') ? 'Особлива увага до UX/UI дизайну та користувацького досвіду.' : ''} ${allText.includes('конкурент') || allText.includes('twitch') || allText.includes('youtube') ? 'Визначені конкурентні переваги та цільова аудиторія.' : ''} ${allText.includes('масштаб') || allText.includes('велик') ? 'Проект має потенціал для масштабування.' : ''}`;
 
     // Генеруємо детальну оцінку
-    const estimate = `Приблизний час розробки: ${timeEstimate}. Складність: ${complexity}. Бюджет: ${budget}. Необхідні технології: ${technologies}.`;
+    const estimate = `Приблизний час розробки: ${timeEstimate}. Складність: ${complexity}. Бюджет: ${budget}. Послуги: ${services}.`;
 
     // Генеруємо ключові моменти
     const highlights = [];
@@ -246,6 +246,7 @@ export default function Dashboard() {
     if (allText.includes('бюджет') || allText.includes('кошт') || allText.includes('фінанс')) highlights.push('• Обговорений бюджет та фінансові аспекти');
     if (allText.includes('термін') || allText.includes('час') || allText.includes('deadline')) highlights.push('• Визначені терміни та етапи розробки');
     if (allText.includes('масштаб') || allText.includes('рост') || allText.includes('розвиток')) highlights.push('• План масштабування та розвитку продукту');
+    if (allText.includes('дизайн') || allText.includes('ui') || allText.includes('ux')) highlights.push('• Особлива увага до дизайну та користувацького досвіду');
     if (highlights.length === 0) highlights.push('• Потрібно деталізувати вимоги та цілі проекту');
 
     // Генеруємо розумні замітки AI
@@ -253,7 +254,8 @@ export default function Dashboard() {
     if (messages.length > 5) notes.push('✅ Клієнт активно взаємодіє та надає детальну інформацію');
     if (allText.includes('баченн') || allText.includes('ідея') || allText.includes('концепці')) notes.push('✅ Має чітке бачення продукту та його призначення');
     if (allText.includes('конкурент') || allText.includes('ринок') || allText.includes('аудиторі')) notes.push('✅ Розуміє конкурентні переваги та цільову аудиторію');
-    if (allText.includes('технічн') || allText.includes('технологі') || allText.includes('архітектур')) notes.push('✅ Інтересується технічними аспектами розробки');
+    if (allText.includes('дизайн') || allText.includes('ui') || allText.includes('ux')) notes.push('✅ Цінує якісний дизайн та користувацький досвід');
+    if (allText.includes('масштаб') || allText.includes('рост') || allText.includes('розвиток')) notes.push('✅ Думає про майбутнє та масштабування проекту');
     if (!allText.includes('бюджет') && !allText.includes('кошт') && !allText.includes('фінанс')) notes.push('⚠️ Потрібно обговорити бюджет та фінансування');
     if (!allText.includes('термін') && !allText.includes('час') && !allText.includes('deadline')) notes.push('⚠️ Визначити терміни та етапи проекту');
     if (messages.length < 3) notes.push('⚠️ Потрібно більше інформації для детального аналізу');
