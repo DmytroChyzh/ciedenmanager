@@ -49,7 +49,7 @@ export default function ChatSessionsTable({ sessions, selectedSessionId, onSelec
       
       {/* Таблиця зі скролінгом */}
       <div className="flex-1 min-h-0 overflow-hidden">
-        <div className="h-full overflow-y-auto max-h-[calc(100vh-324px)]">
+        <div className="h-full overflow-y-auto max-h-[calc(100vh-316px)]">
           <table className="min-w-full text-sm rounded-lg overflow-hidden bg-white dark:bg-dark-card text-gray-900 dark:text-dark-text">
             <thead className="sticky top-0 z-10">
               <tr className="bg-gray-50 dark:bg-dark-hover text-primary dark:text-dark-primary text-sm">
