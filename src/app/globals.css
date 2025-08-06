@@ -177,41 +177,80 @@
   
   /* Покращені кольори для іконок аватарок */
   .dark .bg-purple-500 {
-    background-color: #FF9102 !important;
+    background-color: #8B5CF6 !important;
   }
   
   .dark .bg-purple-600 {
-    background-color: #ffa726 !important;
+    background-color: #7C3AED !important;
   }
   
   .dark .bg-purple-700 {
-    background-color: #ff8a00 !important;
+    background-color: #6D28D9 !important;
   }
   
   /* Покращені кольори для тексту */
   .dark .text-gray-700 {
-    color: #ffffff !important;
+    color: #f9fafb !important;
   }
   
   .dark .text-gray-600 {
-    color: #e5e7eb !important;
+    color: #f3f4f6 !important;
   }
   
   .dark .text-gray-500 {
+    color: #e5e7eb !important;
+  }
+  
+  .dark .text-gray-400 {
     color: #d1d5db !important;
+  }
+  
+  .dark .text-gray-300 {
+    color: #9ca3af !important;
   }
   
   /* Покращені кольори для іконок */
   .dark .bg-purple-500,
   .dark .bg-purple-600,
   .dark .bg-purple-700 {
-    background-color: #FF9102 !important;
+    background-color: #4F46E5 !important;
   }
   
   .dark .text-purple-500,
   .dark .text-purple-600,
   .dark .text-purple-700 {
     color: #ffffff !important;
+  }
+  
+  /* Кращі кольори для аватарок чатів */
+  .dark .bg-indigo-500,
+  .dark .bg-indigo-600,
+  .dark .bg-indigo-700 {
+    background-color: #6366F1 !important;
+  }
+  
+  .dark .bg-blue-500,
+  .dark .bg-blue-600,
+  .dark .bg-blue-700 {
+    background-color: #3B82F6 !important;
+  }
+  
+  .dark .bg-green-500,
+  .dark .bg-green-600,
+  .dark .bg-green-700 {
+    background-color: #10B981 !important;
+  }
+  
+  .dark .bg-teal-500,
+  .dark .bg-teal-600,
+  .dark .bg-teal-700 {
+    background-color: #14B8A6 !important;
+  }
+  
+  .dark .bg-cyan-500,
+  .dark .bg-cyan-600,
+  .dark .bg-cyan-700 {
+    background-color: #06B6D4 !important;
   }
   
   /* Додаткові градієнти для різних кутів */
