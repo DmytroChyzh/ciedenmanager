@@ -74,13 +74,16 @@ export default function GraphCard({ title, value, data, type = 'line', icon, per
       
       <div className="flex items-end gap-2 mb-3">
         <span className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-dark-text">{value}</span>
-        <span className={`flex items-center gap-1 text-sm font-semibold ${percent >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-          {percent >= 0 ? (
+        <span className="flex items-center gap-1 text-sm font-semibold" style={{ color: percent > 0 ? '#16a34a' : '#dc2626' }}>
+          {percent > 0 ? (
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>
           ) : (
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
           )}
-          {Math.abs(percent)}% <span className="text-gray-500 dark:text-gray-400 font-normal ml-1">{t('per')} {t(currentPeriod)}</span>
+          <span style={{ color: percent > 0 ? '#16a34a' : '#dc2626' }}>
+            {Math.abs(percent)}%
+          </span>
+          <span className="text-gray-500 dark:text-gray-400 font-normal ml-1">{t('per')} {t(currentPeriod)}</span>
         </span>
       </div>
       
