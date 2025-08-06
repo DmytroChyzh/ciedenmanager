@@ -9,57 +9,57 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
   const { t } = useLanguage();
   const { theme } = useTheme();
 
-  // Спрощені дані для графіка - показуємо відсотки прогресу
+  // Спрощені дані для графіка - показуємо реальний прогрес
   const getProgressData = (period: string) => {
     const baseData = [
       { day: 1, progress: 0 },
-      { day: 2, progress: 15 },
-      { day: 3, progress: 30 },
-      { day: 4, progress: 45 },
-      { day: 5, progress: 60 },
-      { day: 6, progress: 75 },
-      { day: 7, progress: 90 },
-      { day: 8, progress: 95 },
-      { day: 9, progress: 98 },
-      { day: 10, progress: 99 },
-      { day: 11, progress: 100 },
-      { day: 12, progress: 100 },
-      { day: 13, progress: 100 },
-      { day: 14, progress: 100 },
+      { day: 2, progress: 12 },
+      { day: 3, progress: 25 },
+      { day: 4, progress: 38 },
+      { day: 5, progress: 52 },
+      { day: 6, progress: 65 },
+      { day: 7, progress: 78 },
+      { day: 8, progress: 82 },
+      { day: 9, progress: 85 },
+      { day: 10, progress: 87 },
+      { day: 11, progress: 89 },
+      { day: 12, progress: 91 },
+      { day: 13, progress: 93 },
+      { day: 14, progress: 95 },
     ];
 
     if (period === 'month') {
       return [
         { day: 1, progress: 0 },
-        { day: 3, progress: 10 },
-        { day: 5, progress: 25 },
-        { day: 7, progress: 40 },
-        { day: 10, progress: 55 },
-        { day: 12, progress: 70 },
-        { day: 15, progress: 80 },
-        { day: 18, progress: 88 },
-        { day: 21, progress: 92 },
-        { day: 24, progress: 96 },
-        { day: 27, progress: 98 },
-        { day: 30, progress: 100 },
+        { day: 3, progress: 8 },
+        { day: 5, progress: 18 },
+        { day: 7, progress: 28 },
+        { day: 10, progress: 42 },
+        { day: 12, progress: 55 },
+        { day: 15, progress: 65 },
+        { day: 18, progress: 72 },
+        { day: 21, progress: 78 },
+        { day: 24, progress: 82 },
+        { day: 27, progress: 85 },
+        { day: 30, progress: 88 },
       ];
     }
 
     if (period === 'year') {
       return [
         { day: 1, progress: 0 },
-        { day: 30, progress: 8 },
-        { day: 60, progress: 20 },
-        { day: 90, progress: 35 },
-        { day: 120, progress: 50 },
-        { day: 150, progress: 65 },
-        { day: 180, progress: 78 },
-        { day: 210, progress: 85 },
-        { day: 240, progress: 92 },
-        { day: 270, progress: 96 },
-        { day: 300, progress: 98 },
-        { day: 330, progress: 99 },
-        { day: 365, progress: 100 },
+        { day: 30, progress: 5 },
+        { day: 60, progress: 12 },
+        { day: 90, progress: 22 },
+        { day: 120, progress: 35 },
+        { day: 150, progress: 48 },
+        { day: 180, progress: 58 },
+        { day: 210, progress: 65 },
+        { day: 240, progress: 72 },
+        { day: 270, progress: 78 },
+        { day: 300, progress: 82 },
+        { day: 330, progress: 85 },
+        { day: 365, progress: 88 },
       ];
     }
 
@@ -72,13 +72,13 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
     { key: 'year', label: 'Y', tooltip: t('year') },
   ];
 
-  // Динамічні цілі за періодами
+  // Реальні цілі за періодами (максимум 86 користувачів)
   const getGoalByPeriod = (period: string) => {
     switch (period) {
-      case 'week': return 20;
-      case 'month': return 50;
-      case 'year': return 100;
-      default: return 20;
+      case 'week': return 16; // ~20% від 86
+      case 'month': return 43; // ~50% від 86
+      case 'year': return 86; // максимум
+      default: return 16;
     }
   };
 
