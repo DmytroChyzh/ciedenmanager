@@ -43,7 +43,7 @@ module.exports = {
         'bg-grey': '#f0f2f4',
         
         // Темна тема
-        'dark-bg': '#1a1a1a',
+        'dark-bg': '#212121',
         'dark-card': '#2a2a2a',
         'dark-text': '#ffffff',
         'dark-text-muted': '#a0a0a0',
