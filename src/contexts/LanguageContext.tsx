@@ -236,12 +236,8 @@ const translations = {
     
     // Session Details Popup
     sessionDetails: 'Session Details',
-    sessionInformation: 'Session Information',
-    sessionId: 'Session ID',
-    clientName: 'Client',
     createdDate: 'Created',
     totalMessages: 'Total messages',
-    analyzingSession: 'Аналізуємо сесію...',
     generatingSummaryAndEstimate: 'Генеруємо зведення та оцінку проекту',
     
     // Analysis Results
@@ -514,12 +510,8 @@ const translations = {
     
     // Session Details Popup
     sessionDetails: 'Session Details',
-    sessionInformation: 'Session Information',
-    sessionId: 'Session ID',
-    clientName: 'Client',
     createdDate: 'Created',
     totalMessages: 'Total messages',
-    analyzingSession: 'Analyzing session...',
     generatingSummaryAndEstimate: 'Generating summary and project estimate',
     
     // Analysis Results
