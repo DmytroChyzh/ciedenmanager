@@ -29,20 +29,56 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
     ];
 
     if (period === 'month') {
-      return baseData.map(item => ({
-        ...item,
-        progress: Math.min(item.progress * 2.5, 50)
-      }));
+      return [
+        { day: 1, progress: 0 },
+        { day: 3, progress: 5 },
+        { day: 5, progress: 12 },
+        { day: 7, progress: 18 },
+        { day: 10, progress: 25 },
+        { day: 12, progress: 32 },
+        { day: 15, progress: 38 },
+        { day: 18, progress: 42 },
+        { day: 21, progress: 45 },
+        { day: 24, progress: 47 },
+        { day: 27, progress: 49 },
+        { day: 30, progress: 50 },
+      ];
     }
 
     if (period === 'year') {
-      return baseData.map(item => ({
-        ...item,
-        progress: Math.min(item.progress * 10, 200)
-      }));
+      return [
+        { day: 1, progress: 0 },
+        { day: 30, progress: 15 },
+        { day: 60, progress: 35 },
+        { day: 90, progress: 55 },
+        { day: 120, progress: 75 },
+        { day: 150, progress: 95 },
+        { day: 180, progress: 115 },
+        { day: 210, progress: 135 },
+        { day: 240, progress: 155 },
+        { day: 270, progress: 175 },
+        { day: 300, progress: 185 },
+        { day: 330, progress: 195 },
+        { day: 365, progress: 200 },
+      ];
     }
 
-    return baseData;
+    return [
+      { day: 1, progress: 0 },
+      { day: 2, progress: 10 },
+      { day: 3, progress: 25 },
+      { day: 4, progress: 40 },
+      { day: 5, progress: 55 },
+      { day: 6, progress: 70 },
+      { day: 7, progress: 85 },
+      { day: 8, progress: 90 },
+      { day: 9, progress: 92 },
+      { day: 10, progress: 94 },
+      { day: 11, progress: 96 },
+      { day: 12, progress: 98 },
+      { day: 13, progress: 99 },
+      { day: 14, progress: 100 },
+    ];
   };
 
   const periods = [
@@ -54,10 +90,10 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
   // Динамічні цілі за періодами
   const getGoalByPeriod = (period: string) => {
     switch (period) {
-      case 'week': return 20;
+      case 'week': return 100;
       case 'month': return 50;
       case 'year': return 200;
-      default: return 20;
+      default: return 100;
     }
   };
 
@@ -153,9 +189,15 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
               axisLine={false} 
               tickLine={false}
               tick={{ fontSize: 11, fill: theme === 'dark' ? '#a0a0a0' : '#6b7280', fontWeight: 500 }}
-              tickFormatter={(value) => `${value} д.`}
-              domain={[0, 14]}
-              ticks={[0, 2, 4, 6, 8, 10, 12, 14]}
+              tickFormatter={(value) => {
+                if (currentPeriod === 'year') return `${value} д.`;
+                if (currentPeriod === 'month') return `${value} д.`;
+                return `${value} д.`;
+              }}
+              domain={currentPeriod === 'year' ? [0, 365] : currentPeriod === 'month' ? [0, 30] : [0, 14]}
+              ticks={currentPeriod === 'year' ? [0, 60, 120, 180, 240, 300, 365] : 
+                     currentPeriod === 'month' ? [0, 5, 10, 15, 20, 25, 30] : 
+                     [0, 2, 4, 6, 8, 10, 12, 14]}
               padding={{ left: 10, right: 10 }}
             />
             <YAxis 
@@ -163,8 +205,9 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
               axisLine={false} 
               tickLine={false}
               tick={{ fontSize: 11, fill: theme === 'dark' ? '#a0a0a0' : '#6b7280', fontWeight: 500 }}
-              domain={[0, currentGoal]}
-              ticks={[0, Math.round(currentGoal * 0.25), Math.round(currentGoal * 0.5), Math.round(currentGoal * 0.75), currentGoal]}
+              domain={[0, currentPeriod === 'week' ? 100 : currentGoal]}
+              ticks={currentPeriod === 'week' ? [0, 20, 40, 60, 80, 100] : 
+                     [0, Math.round(currentGoal * 0.25), Math.round(currentGoal * 0.5), Math.round(currentGoal * 0.75), currentGoal]}
               tickFormatter={(value) => `${value}`}
               padding={{ top: 10, bottom: 10 }}
             />
