@@ -419,14 +419,14 @@ ${sessionData.notes}
                         !selectedSessionId 
                           ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
                           : generatedReports[selectedSessionId || ''] 
-                            ? 'bg-green-500 hover:bg-green-600 text-white shadow-green-500/50' 
-                            : 'bg-[#651FFF] hover:bg-[#5A1BE0] hover:shadow-[#651FFF]/50 text-white shadow-[#651FFF]/30'
+                            ? 'bg-white text-[#651FFF] border-2 border-[#651FFF] hover:bg-[#651FFF] hover:text-white' 
+                            : 'bg-[#651FFF] hover:bg-[#5A1BE0] text-white shadow-[#651FFF]/30'
                       }`}
                       onClick={handleGenerateReport}
                       disabled={!selectedSessionId}
                       style={{minWidth: '100px'}}
                     >
-                      {!selectedSessionId ? 'Звіт' : generatedReports[selectedSessionId || ''] ? 'Звіт' : 'Звіт'}
+                      {!selectedSessionId ? t('generateReport') : generatedReports[selectedSessionId || ''] ? 'Звіт' : t('generateReport')}
                     </button>
                   </div>
                 </div>
