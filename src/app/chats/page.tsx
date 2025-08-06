@@ -28,8 +28,8 @@ function ChatView({ sessionId }: { sessionId?: string }) {
       <div className="flex-1 flex items-center justify-center">
         <div className="text-center">
           <div className="text-3xl mb-2">✨</div>
-          <div className="font-bold text-xl mb-1">{t('selectSessionToStart')}</div>
-          <div className="text-gray-500">{t('selectClientFromList')}</div>
+          <div className="font-bold text-xl mb-1 text-gray-900 dark:text-white">{t('selectSessionToStart')}</div>
+          <div className="text-gray-500 dark:text-gray-300">{t('selectClientFromList')}</div>
         </div>
       </div>
     );
