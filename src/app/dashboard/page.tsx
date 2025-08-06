@@ -31,7 +31,7 @@ export default function Dashboard() {
   const [showChatView, setShowChatView] = useState(false);
   const [selectedChatForView, setSelectedChatForView] = useState<any>(null);
   const [selectedRowId, setSelectedRowId] = useState<string | null>(null);
-
+  
   // Стани періодів для кожної картки
   const [usersPeriod, setUsersPeriod] = useState<'week' | 'month' | 'year'>('week');
   const [targetsPeriod, setTargetsPeriod] = useState<'week' | 'month' | 'year'>('week');
@@ -401,20 +401,20 @@ ${sessionData.notes}
       <div className="flex flex-col gap-3 sm:gap-4 md:gap-5 lg:gap-6 flex-1 min-h-0">
         {/* Графіки - один під одним на мобільних */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-5 lg:gap-6 flex-shrink-0">
-          <UsersCountCard 
-            value={totalUsers} 
-            data={getMetricData(chats, 'users', usersPeriod)} 
-            percent={getGrowth(getMetricData(chats, 'users', usersPeriod))}
-            onPeriodChange={setUsersPeriod}
-            currentPeriod={usersPeriod}
-          />
+        <UsersCountCard 
+          value={totalUsers} 
+          data={getMetricData(chats, 'users', usersPeriod)} 
+          percent={getGrowth(getMetricData(chats, 'users', usersPeriod))}
+          onPeriodChange={setUsersPeriod}
+          currentPeriod={usersPeriod}
+        />
           <ActiveChatsCard 
             value={activeChats} 
             percent={getGrowth(getMetricData(chats, 'active', targetsPeriod))}
-            onPeriodChange={setTargetsPeriod}
-            currentPeriod={targetsPeriod}
-          />
-        </div>
+          onPeriodChange={setTargetsPeriod}
+          currentPeriod={targetsPeriod}
+        />
+      </div>
         
         {/* Таблиця чат-сесій - повна ширина */}
         <div className="flex-1 h-[840px] flex flex-col min-h-0">
@@ -423,7 +423,7 @@ ${sessionData.notes}
               <ChatSessionsTable 
                 sessions={chats} 
                 selectedSessionId={selectedRowId}
-                onSelect={handleRowSelect}
+                onSelect={handleRowSelect} 
                 onGenerateReport={handleGenerateReport}
                 onRowClick={handleRowClick}
               />
@@ -686,8 +686,8 @@ ${sessionData.notes}
                     </svg>
                     <p className="text-lg font-medium">Немає повідомлень</p>
                     <p className="text-sm">Цей чат поки що порожній</p>
-                  </div>
-                )}
+                </div>
+              )}
               </div>
 
               <div className="mt-4 pt-4 border-t border-gray-200 dark:border-dark-border">
