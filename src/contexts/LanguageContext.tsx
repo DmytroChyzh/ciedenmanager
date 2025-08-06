@@ -74,9 +74,6 @@ const translations = {
     timelineDiscussed: 'Обговорено терміни',
     technologyStackDiscussed: 'Обговорено технологічний стек',
     exportOptions: 'Експорт',
-    exportPDF: 'PDF',
-    exportCSV: 'CSV',
-    exportExcel: 'Excel',
     emailDraft: 'Email чернетка',
     
     // SalesChatView
@@ -586,9 +583,6 @@ const translations = {
     needMoreInformation: 'Need more information for detailed analysis',
     
     // Export Buttons
-    exportPDF: 'Export PDF',
-    exportCSV: 'Export CSV',
-    exportExcel: 'Export Excel',
     generateEmailDraft: 'Generate email draft',
   }
 };
