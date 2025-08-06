@@ -493,7 +493,7 @@ export default function AssistantPage() {
       
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col bg-white dark:bg-dark-card rounded-none md:rounded-l-xl h-full min-h-0 relative overflow-y-auto">
-        <div className="flex flex-col h-full w-full max-w-full md:max-w-5xl mx-auto min-h-0 flex-1">
+        <div className="flex flex-col h-full w-full max-w-full mx-auto min-h-0 flex-1">
           {/* Empty State - Centered Input */}
           {activeChat.messages.length === 0 && (
             <div className="flex-1 flex flex-col justify-center items-center px-4 py-8">
@@ -503,7 +503,7 @@ export default function AssistantPage() {
                 <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 max-w-xl mx-auto">{t('assistantDescription')}</p>
               </div>
               {/* Grid of Quick Actions */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-md sm:max-w-2xl md:max-w-3xl mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-md sm:max-w-2xl md:max-w-4xl mb-8">
                 {examplePrompts.map((example, idx) => (
                   <button
                     key={idx}
@@ -519,7 +519,7 @@ export default function AssistantPage() {
                 ))}
               </div>
               {/* Chat Input */}
-              <div className="w-full mt-6">
+              <div className="w-full max-w-4xl mt-6">
                 <ChatInput
                   value={input}
                   onChange={setInput}
@@ -546,7 +546,7 @@ export default function AssistantPage() {
             <div className="flex flex-col h-full w-full">
               {/* Messages Container */}
               <div className="flex-1 pt-6 pb-4 px-4 md:px-6">
-                <div className="space-y-4">
+                <div className="space-y-4 max-w-4xl mx-auto">
                   {activeChat.messages.map((message) => (
                     <ChatMessage 
                       key={message.id} 
@@ -557,7 +557,7 @@ export default function AssistantPage() {
                     />
                   ))}
                   {loading && (
-                    <div className="w-full max-w-full md:max-w-4xl mx-auto flex justify-start">
+                    <div className="w-full flex justify-start">
                       <div className="max-w-[90%] sm:max-w-[70%] md:max-w-2xl w-auto px-5 py-3 rounded-xl shadow-sm bg-gray-100 dark:bg-dark-hover text-gray-800 dark:text-dark-text">
                         <div className="flex items-center gap-2">
                           <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" />
@@ -573,23 +573,25 @@ export default function AssistantPage() {
               </div>
               {/* Input Area — завжди знизу, по сітці */}
               <div className="pb-4 px-4 md:px-6 sticky bottom-0 bg-white dark:bg-dark-card z-10">
-                <ChatInput
-                  value={input}
-                  onChange={setInput}
-                  onSend={handleSend}
-                  loading={loading}
-                  error={error}
-                  placeholder=""
-                  onFileAttach={handleFileAttach}
-                  onVoiceInput={handleVoiceInput}
-                />
-                {attachedFile && (
-                  <div className="mt-2 text-xs text-gray-600 dark:text-gray-400 flex items-center gap-2">
-                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M16.5 13.5V7.75C16.5 5.67893 14.8211 4 12.75 4C10.6789 4 9 5.67893 9 7.75V16.25C9 17.4926 10.0074 18.5 11.25 18.5C12.4926 18.5 13.5 17.4926 13.5 16.25V8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                    <span>{attachedFile.name}</span>
-                    <button className="text-red-400 hover:text-red-600 ml-2" onClick={() => setAttachedFile(null)}>✕</button>
-                  </div>
-                )}
+                <div className="max-w-4xl mx-auto">
+                  <ChatInput
+                    value={input}
+                    onChange={setInput}
+                    onSend={handleSend}
+                    loading={loading}
+                    error={error}
+                    placeholder=""
+                    onFileAttach={handleFileAttach}
+                    onVoiceInput={handleVoiceInput}
+                  />
+                  {attachedFile && (
+                    <div className="mt-2 text-xs text-gray-600 dark:text-gray-400 flex items-center gap-2">
+                      <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M16.5 13.5V7.75C16.5 5.67893 14.8211 4 12.75 4C10.6789 4 9 5.67893 9 7.75V16.25C9 17.4926 10.0074 18.5 11.25 18.5C12.4926 18.5 13.5 17.4926 13.5 16.25V8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      <span>{attachedFile.name}</span>
+                      <button className="text-red-400 hover:text-red-600 ml-2" onClick={() => setAttachedFile(null)}>✕</button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           )}
