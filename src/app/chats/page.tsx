@@ -415,18 +415,18 @@ ${sessionData.notes}
                   </div>
                   <div className="flex items-center min-w-[120px] sm:min-w-[180px] justify-end">
                     <button
-                      className={`px-4 py-2 rounded-lg transition-colors text-sm font-semibold shadow-md border-2 ${
+                      className={`px-4 py-2 rounded-lg transition-all duration-200 text-sm font-semibold shadow-lg ${
                         !selectedSessionId 
-                          ? 'bg-gray-400 text-gray-600 cursor-not-allowed border-gray-300' 
+                          ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
                           : generatedReports[selectedSessionId || ''] 
-                            ? 'bg-green-600 hover:bg-green-700 text-white border-green-500' 
-                            : 'bg-[#651FFF] hover:bg-[#5A1BE0] text-white border-[#651FFF]'
+                            ? 'bg-green-500 hover:bg-green-600 text-white shadow-green-500/50' 
+                            : 'bg-[#651FFF] hover:bg-[#5A1BE0] hover:shadow-[#651FFF]/50 text-white shadow-[#651FFF]/30'
                       }`}
                       onClick={handleGenerateReport}
                       disabled={!selectedSessionId}
-                      style={{minWidth: '120px'}}
+                      style={{minWidth: '100px'}}
                     >
-                      {!selectedSessionId ? t('generateReport') : generatedReports[selectedSessionId || ''] ? t('showReport') : t('generateReport')}
+                      {!selectedSessionId ? 'Звіт' : generatedReports[selectedSessionId || ''] ? 'Звіт' : 'Звіт'}
                     </button>
                   </div>
                 </div>
