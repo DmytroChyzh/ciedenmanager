@@ -344,8 +344,6 @@ ${sessionData.notes}
 
   const [showSidebar, setShowSidebar] = useState(false);
 
-
-
   return (
     <div className="min-h-0 flex-1 flex flex-col md:flex-row bg-[#F7F8F9]" style={{height: '100vh'}}>
       {/* Sidebar для мобільних */}
@@ -699,8 +697,8 @@ ${sessionData.notes}
                           </div>
                         )}
                       </div>
-                    </div>
                   </div>
+                </div>
                 </>
               )}
                   <div className="p-6 h-full flex flex-col">
