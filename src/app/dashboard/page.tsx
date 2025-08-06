@@ -161,6 +161,83 @@ export default function Dashboard() {
     return Math.round(((curr - prev) / prev) * 100);
   };
 
+  // Функції для аналізу повідомлень
+  const analyzeMessages = (messages: any[]) => {
+    if (!messages || messages.length === 0) {
+      return {
+        summary: "Недостатньо даних для генерації зведення",
+        estimate: "Недостатньо даних для оцінки",
+        highlights: "Недостатньо даних для аналізу",
+        notes: "Очікування відповідей від клієнта"
+      };
+    }
+
+    // Аналізуємо текст повідомлень
+    const allText = messages.map(msg => msg.content || msg.text || '').join(' ').toLowerCase();
+    
+    // Визначаємо тип проекту
+    let projectType = '';
+    if (allText.includes('мобільн') || allText.includes('app') || allText.includes('додаток')) {
+      projectType = 'мобільний додаток';
+    } else if (allText.includes('веб') || allText.includes('сайт') || allText.includes('web')) {
+      projectType = 'веб-сайт';
+    } else if (allText.includes('платформ') || allText.includes('стрімер')) {
+      projectType = 'платформа для стрімерів';
+    } else if (allText.includes('ecommerce') || allText.includes('магазин')) {
+      projectType = 'e-commerce платформа';
+    } else {
+      projectType = 'програмний продукт';
+    }
+
+    // Визначаємо складність
+    let complexity = 'Середня';
+    let timeEstimate = '2-3 місяці';
+    let technologies = 'React, Node.js';
+
+    if (allText.includes('ai') || allText.includes('машинн') || allText.includes('ml')) {
+      complexity = 'Висока';
+      timeEstimate = '6-8 місяців';
+      technologies = 'React, Node.js, Python, TensorFlow, AWS';
+    } else if (allText.includes('відео') || allText.includes('стрім') || allText.includes('streaming')) {
+      complexity = 'Висока';
+      timeEstimate = '4-6 місяців';
+      technologies = 'React, Node.js, WebRTC, AWS, Socket.io';
+    } else if (allText.includes('платіж') || allText.includes('банк') || allText.includes('фінанс')) {
+      complexity = 'Висока';
+      timeEstimate = '3-5 місяців';
+      technologies = 'React, Node.js, Stripe, PostgreSQL';
+    }
+
+    // Генеруємо зведення
+    const summary = `Клієнт зацікавлений у створенні ${projectType}. ${allText.includes('ux') || allText.includes('дизайн') ? 'Особлива увага до UX/UI дизайну.' : ''} ${allText.includes('конкурент') ? 'Визначені конкурентні переваги.' : ''}`;
+
+    // Генеруємо оцінку
+    const estimate = `Приблизний час розробки: ${timeEstimate}. Складність: ${complexity}. Необхідні технології: ${technologies}.`;
+
+    // Генеруємо ключові моменти
+    const highlights = [];
+    if (allText.includes('аудиторі') || allText.includes('користувач')) highlights.push('• Визначена цільова аудиторія');
+    if (allText.includes('конкурент') || allText.includes('twitch') || allText.includes('youtube')) highlights.push('• Аналізовані конкуренти');
+    if (allText.includes('технічн') || allText.includes('технологі')) highlights.push('• Визначені технічні вимоги');
+    if (allText.includes('бюджет') || allText.includes('кошт')) highlights.push('• Обговорений бюджет');
+    if (highlights.length === 0) highlights.push('• Потрібно деталізувати вимоги');
+
+    // Генеруємо замітки AI
+    const notes = [];
+    if (messages.length > 2) notes.push('✅ Клієнт активно взаємодіє');
+    if (allText.includes('баченн') || allText.includes('ідея')) notes.push('✅ Має чітке бачення продукту');
+    if (allText.includes('конкурент')) notes.push('✅ Розуміє конкурентні переваги');
+    if (!allText.includes('бюджет') && !allText.includes('кошт')) notes.push('⚠️ Потрібно обговорити бюджет');
+    if (!allText.includes('термін') && !allText.includes('час')) notes.push('⚠️ Визначити терміни проекту');
+
+    return {
+      summary,
+      estimate,
+      highlights: highlights.join('\n'),
+      notes: notes.join('\n')
+    };
+  };
+
   // Фільтрована таблиця
   const filteredChats = chats.filter(chat =>
     chat.contact?.name?.toLowerCase().includes(search.toLowerCase()) ||
@@ -265,9 +342,7 @@ export default function Dashboard() {
                     <h3 className="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3">Auto-summary</h3>
                     <div className="bg-gray-50 dark:bg-dark-bg rounded-lg p-3 min-h-[60px]">
                       <p className="text-gray-700 dark:text-dark-text">
-                        {selectedChatSession.messages?.length > 2 
-                          ? "Клієнт зацікавлений у створенні платформи для стрімерів з покращеним UX та меншою кількістю обмежень порівняно з Twitch."
-                          : "Недостатньо даних для генерації зведення"}
+                        {analyzeMessages(selectedChatSession.messages).summary}
                       </p>
                     </div>
                   </div>
@@ -277,9 +352,7 @@ export default function Dashboard() {
                     <h3 className="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3">Estimate</h3>
                     <div className="bg-gray-50 dark:bg-dark-bg rounded-lg p-3 min-h-[60px]">
                       <p className="text-gray-700 dark:text-dark-text">
-                        {selectedChatSession.messages?.length > 3 
-                          ? "Приблизний час розробки: 4-6 місяців. Складність: Висока. Необхідні технології: React, Node.js, WebRTC, AWS."
-                          : "Недостатньо даних для оцінки"}
+                        {analyzeMessages(selectedChatSession.messages).estimate}
                       </p>
                     </div>
                   </div>
@@ -288,10 +361,8 @@ export default function Dashboard() {
                   <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4">
                     <h3 className="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3">Research Highlights</h3>
                     <div className="bg-gray-50 dark:bg-dark-bg rounded-lg p-3 min-h-[60px]">
-                      <p className="text-gray-700 dark:text-dark-text">
-                        {selectedChatSession.messages?.length > 2 
-                          ? "• Цільова аудиторія: стрімери та їх глядачі\n• Ключова відмінність: покращений UX та менше обмежень\n• Конкуренти: Twitch, YouTube Gaming\n• Технічні вимоги: відео-стрімінг, чат, донати"
-                          : "Недостатньо даних для аналізу"}
+                      <p className="text-gray-700 dark:text-dark-text whitespace-pre-line">
+                        {analyzeMessages(selectedChatSession.messages).highlights}
                       </p>
                     </div>
                   </div>
@@ -300,10 +371,8 @@ export default function Dashboard() {
                   <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4">
                     <h3 className="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3">AI Notes</h3>
                     <div className="bg-gray-50 dark:bg-dark-bg rounded-lg p-3 min-h-[60px]">
-                      <p className="text-gray-700 dark:text-dark-text">
-                        {selectedChatSession.messages?.length > 1 
-                          ? "✅ Клієнт має чітке бачення продукту\n✅ Розуміє конкурентні переваги\n⚠️ Потрібно деталізувати технічні вимоги\n⚠️ Визначити бюджет та терміни"
-                          : "Очікування відповідей від клієнта"}
+                      <p className="text-gray-700 dark:text-dark-text whitespace-pre-line">
+                        {analyzeMessages(selectedChatSession.messages).notes}
                       </p>
                     </div>
                   </div>
