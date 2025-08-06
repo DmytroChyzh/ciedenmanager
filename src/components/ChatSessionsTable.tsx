@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 interface ChatSessionsTableProps {
   sessions: any[];
@@ -12,10 +13,10 @@ interface ChatSessionsTableProps {
 
 export default function ChatSessionsTable({ sessions, selectedSessionId, onSelect, onGenerateReport, onRowClick }: ChatSessionsTableProps) {
   const { t } = useLanguage();
-  const [filter, setFilter] = useState({ email: '' });
+  const [searchTerm, setSearchTerm] = useState('');
 
   const filtered = sessions.filter(session => {
-    const matchesName = !filter.email || session.metadata?.userName?.toLowerCase().includes(filter.email.toLowerCase());
+    const matchesName = !searchTerm || session.metadata?.userName?.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesName;
   });
 
@@ -32,24 +33,27 @@ export default function ChatSessionsTable({ sessions, selectedSessionId, onSelec
   const now = Date.now();
 
   return (
-    <div className="bg-white dark:bg-dark-card rounded-xl p-4 md:p-6 h-full min-h-0 flex flex-col">
-      {/* Заголовок та пошук */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
-        <h2 className="text-lg md:text-xl font-semibold text-primary dark:text-dark-primary">{t('latestSessions')}</h2>
-        <div className="flex gap-2">
+    <div className="bg-white dark:bg-dark-card rounded-xl p-4 md:p-6 h-[calc(100vh-400px)] min-h-0 flex flex-col">
+      {/* Заголовок і пошук */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <h2 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-dark-text">
+          {t('latestSessions')}
+        </h2>
+        <div className="relative w-full sm:w-64">
           <input
             type="text"
             placeholder={t('searchByName')}
-            value={filter.email}
-            onChange={e => setFilter(f => ({ ...f, email: e.target.value }))}
-            className="border border-gray-300 dark:border-dark-border rounded-lg px-3 py-2 text-sm w-full md:w-64 bg-white dark:bg-dark-card text-gray-900 dark:text-dark-text placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary/20 dark:focus:ring-dark-primary/20 focus:border-primary dark:focus:border-dark-primary outline-none transition-colors"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-dark-border rounded-lg bg-white dark:bg-dark-card text-gray-900 dark:text-dark-text placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-dark-primary focus:border-transparent"
           />
+          <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
         </div>
       </div>
-      
+
       {/* Таблиця зі скролінгом */}
       <div className="flex-1 min-h-0 overflow-hidden">
-        <div className="h-full overflow-y-auto max-h-[calc(100vh-800px)]">
+        <div className="h-full overflow-y-auto">
           <table className="min-w-full text-sm rounded-lg overflow-hidden bg-white dark:bg-dark-card text-gray-900 dark:text-dark-text">
             <thead className="sticky top-0 z-10">
               <tr className="bg-gray-50 dark:bg-dark-hover text-primary dark:text-dark-primary text-sm">
