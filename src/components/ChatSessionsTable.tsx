@@ -110,7 +110,7 @@ export default function ChatSessionsTable({ sessions, selectedSessionId, onSelec
                         <button
                           className={`font-medium text-xs uppercase tracking-wider px-3 py-2 rounded-lg flex items-center justify-center gap-2 transition-all duration-200 group hover:scale-105 shadow-sm hover:shadow-md ${
                             generatedReports[session.id]
-                              ? 'bg-white text-[#651FFF] border-2 border-[#651FFF] hover:bg-[#651FFF] hover:text-white'
+                              ? 'bg-white text-[#651FFF] border border-[#651FFF] hover:bg-[#651FFF] hover:text-white'
                               : 'border border-primary dark:border-dark-primary text-primary dark:text-dark-primary bg-white dark:bg-dark-card hover:bg-primary hover:text-white dark:hover:bg-dark-primary dark:hover:text-white'
                           }`}
                           onClick={e => { 

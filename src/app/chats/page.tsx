@@ -419,7 +419,7 @@ ${sessionData.notes}
                         !selectedSessionId 
                           ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
                           : generatedReports[selectedSessionId || ''] 
-                            ? 'bg-white text-[#651FFF] border-2 border-[#651FFF] hover:bg-[#651FFF] hover:text-white' 
+                            ? 'bg-white text-[#651FFF] border border-[#651FFF] hover:bg-[#651FFF] hover:text-white' 
                             : 'bg-[#651FFF] hover:bg-[#5A1BE0] text-white shadow-[#651FFF]/30'
                       }`}
                       onClick={handleGenerateReport}
