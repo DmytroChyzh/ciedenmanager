@@ -30,6 +30,7 @@ export default function Dashboard() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [showChatView, setShowChatView] = useState(false);
   const [selectedChatForView, setSelectedChatForView] = useState<any>(null);
+  const [selectedRowId, setSelectedRowId] = useState<string | null>(null);
 
   // Стани періодів для кожної картки
   const [usersPeriod, setUsersPeriod] = useState<'week' | 'month' | 'year'>('week');
@@ -88,6 +89,7 @@ export default function Dashboard() {
   const handleRowClick = (sessionId: string) => {
     const session = chats.find(chat => chat.id === sessionId);
     setSelectedChatForView(session);
+    setSelectedRowId(sessionId);
     setShowChatView(true);
   };
 
@@ -422,7 +424,7 @@ ${sessionData.notes}
             <div className="h-full overflow-y-auto min-h-0">
               <ChatSessionsTable 
                 sessions={chats} 
-                selectedSessionId={selectedSessionId}
+                selectedSessionId={selectedRowId}
                 onSelect={handleRowSelect}
                 onGenerateReport={handleGenerateReport}
                 onRowClick={handleRowClick}
@@ -625,7 +627,10 @@ ${sessionData.notes}
                   </p>
                 </div>
                 <button 
-                  onClick={() => setShowChatView(false)}
+                  onClick={() => {
+                    setShowChatView(false);
+                    setSelectedRowId(null); // Очищуємо вибраний рядок
+                  }}
                   className="p-2 text-gray-600 hover:text-red-500 dark:text-dark-text-muted dark:hover:text-red-400 transition-colors"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
