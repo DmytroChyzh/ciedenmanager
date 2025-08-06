@@ -13,11 +13,14 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
   const getProgressData = (period: string) => {
     const baseData = [
       { progress: 0, value: 0 },
-      { progress: 15, value: 3 },
+      { progress: 10, value: 2 },
+      { progress: 20, value: 4 },
       { progress: 30, value: 6 },
-      { progress: 45, value: 9 },
+      { progress: 40, value: 8 },
+      { progress: 50, value: 10 },
       { progress: 60, value: 12 },
-      { progress: 75, value: 15 },
+      { progress: 70, value: 14 },
+      { progress: 80, value: 16 },
       { progress: 90, value: 18 },
       { progress: 100, value: 20 },
     ];
@@ -131,43 +134,34 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
         </span>
       </div>
 
-      {/* Прогрес-бар */}
-      <div className="mb-4">
-        <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
-          <span>Прогрес</span>
-          <span>{progressPercent.toFixed(1)}%</span>
-        </div>
-        <div className="w-full bg-gray-200 dark:bg-dark-hover rounded-full h-3">
-          <div 
-            className={`h-3 rounded-full transition-all duration-700 ease-out ${
-              progressPercent >= 80 ? 'bg-green-500' : 
-              progressPercent >= 60 ? 'bg-yellow-500' : 'bg-red-500'
-            }`}
-            style={{ width: `${progressPercent}%` }}
-          ></div>
-        </div>
-      </div>
-      
-      {/* Покращений графік */}
+      {/* Покращений графік з більшою областю */}
       <div className="flex-1 min-h-0">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={getProgressData(currentPeriod)} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke={theme === 'dark' ? '#404040' : '#e5e7eb'} opacity={0.3} />
+          <LineChart data={getProgressData(currentPeriod)} margin={{ top: 15, right: 15, left: 15, bottom: 15 }}>
+            <defs>
+              <linearGradient id="progressGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#651FFF" stopOpacity={0.8}/>
+                <stop offset="100%" stopColor="#651FFF" stopOpacity={0.1}/>
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" stroke={theme === 'dark' ? '#404040' : '#e5e7eb'} opacity={0.2} />
             <XAxis 
               dataKey="progress" 
               axisLine={false} 
               tickLine={false}
-              tick={{ fontSize: 12, fill: theme === 'dark' ? '#a0a0a0' : '#6b7280', fontWeight: 500 }}
+              tick={{ fontSize: 11, fill: theme === 'dark' ? '#a0a0a0' : '#6b7280', fontWeight: 500 }}
               tickFormatter={(value) => `${value}%`}
               domain={[0, 100]}
               ticks={[0, 25, 50, 75, 100]}
+              padding={{ left: 10, right: 10 }}
             />
             <YAxis 
               dataKey="value" 
               axisLine={false} 
               tickLine={false}
-              tick={{ fontSize: 12, fill: theme === 'dark' ? '#a0a0a0' : '#6b7280', fontWeight: 500 }}
+              tick={{ fontSize: 11, fill: theme === 'dark' ? '#a0a0a0' : '#6b7280', fontWeight: 500 }}
               domain={[0, currentGoal]}
+              padding={{ top: 10, bottom: 10 }}
             />
             <Tooltip 
               contentStyle={{ 
@@ -175,19 +169,33 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
                 border: theme === 'dark' ? '1px solid #404040' : '1px solid #e5e7eb', 
                 borderRadius: 8, 
                 color: theme === 'dark' ? '#fff' : '#374151',
-                fontSize: '12px'
+                fontSize: '12px',
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
               }}
               formatter={(value: any, name: any) => [`${value}`, 'Поточне значення']}
               labelFormatter={(label) => `Прогрес: ${label}%`}
+              cursor={{ stroke: '#651FFF', strokeWidth: 2, strokeDasharray: '3 3' }}
             />
             <Line 
               type="monotone" 
               dataKey="value" 
               stroke="#651FFF" 
-              strokeWidth={3} 
-              dot={{ r: 4, fill: '#651FFF', strokeWidth: 2, stroke: '#fff' }}
-              activeDot={{ r: 6, fill: '#651FFF', strokeWidth: 2, stroke: '#fff' }}
+              strokeWidth={4} 
+              dot={{ r: 5, fill: '#651FFF', strokeWidth: 3, stroke: '#fff' }}
+              activeDot={{ r: 7, fill: '#651FFF', strokeWidth: 3, stroke: '#fff' }}
               className="transition-all duration-300"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            {/* Додаємо область під лінією для кращого візуального ефекту */}
+            <Line 
+              type="monotone" 
+              dataKey="value" 
+              stroke="transparent" 
+              fill="url(#progressGradient)"
+              strokeWidth={0}
+              dot={false}
+              activeDot={false}
             />
           </LineChart>
         </ResponsiveContainer>
