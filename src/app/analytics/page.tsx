@@ -4,7 +4,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, BarChart, Bar } from 'recharts';
 import { UserGroupIcon, BoltIcon, ArrowLeftIcon } from '@heroicons/react/24/solid';
-import { ArrowDownTrayIcon, DocumentArrowDownIcon } from '@heroicons/react/24/outline';
+import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 
 export default function AnalyticsPage() {
   const { t } = useLanguage();
@@ -88,7 +88,10 @@ export default function AnalyticsPage() {
     const data = activeTab === 'users' ? getUsersData(period) : getGoalsData(period);
     const csvContent = "data:text/csv;charset=utf-8," + 
       "Day,Value\n" + 
-      data.map(row => `${row.day},${row.value || row.progress}`).join("\n");
+      data.map(row => {
+        const value = 'value' in row ? row.value : row.progress;
+        return `${row.day},${value}`;
+      }).join("\n");
     
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
