@@ -27,6 +27,7 @@ export default function Dashboard() {
   // Стани для попапів
   const [showChatPopup, setShowChatPopup] = useState(false);
   const [selectedChatSession, setSelectedChatSession] = useState<any>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   // Стани періодів для кожної картки
   const [usersPeriod, setUsersPeriod] = useState<'week' | 'month' | 'year'>('week');
@@ -67,10 +68,19 @@ export default function Dashboard() {
   const handleGenerateReport = async (sessionId: string) => {
     setSelectedSessionId(sessionId);
     setShowDetails(true);
-    // Показуємо попап з чатом
+    
+    // Показуємо лоадинг
+    setIsAnalyzing(true);
+    setShowChatPopup(true);
+    
+    // Знаходимо сесію
     const session = chats.find(chat => chat.id === sessionId);
     setSelectedChatSession(session);
-    setShowChatPopup(true);
+    
+    // Симулюємо аналіз (2 секунди)
+    setTimeout(() => {
+      setIsAnalyzing(false);
+    }, 2000);
   };
 
   // Метрики для графіків з підтримкою періодів
@@ -432,94 +442,159 @@ ${sessionData.notes}
                   </button>
                 </div>
 
-                <div className="flex-1 overflow-y-auto space-y-6">
-                  {/* Session Info */}
-                  <div className="bg-gray-50 dark:bg-dark-bg rounded-xl p-4">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Session Information</h3>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-gray-600 dark:text-dark-text-muted">Session ID:</span>
-                        <span className="font-mono text-gray-900 dark:text-white">{selectedChatSession.id}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600 dark:text-dark-text-muted">Client:</span>
-                        <span className="text-gray-900 dark:text-white">{selectedChatSession.contact?.name}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600 dark:text-dark-text-muted">Email:</span>
-                        <span className="text-gray-900 dark:text-white">{selectedChatSession.contact?.email}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600 dark:text-dark-text-muted">Created:</span>
-                        <span className="text-gray-900 dark:text-white">
-                          {selectedChatSession.createdAt?.toDate?.() ? selectedChatSession.createdAt.toDate().toLocaleString() : '—'}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600 dark:text-dark-text-muted">Messages:</span>
-                        <span className="text-gray-900 dark:text-white">{selectedChatSession.messages?.length || 0}</span>
+                {isAnalyzing ? (
+                  // Лоадинг анімація
+                  <div className="flex-1 flex flex-col items-center justify-center space-y-6">
+                    <div className="relative">
+                      <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                        </svg>
                       </div>
                     </div>
+                    <div className="text-center space-y-2">
+                      <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Аналізуємо сесію...</h3>
+                      <p className="text-gray-600 dark:text-dark-text-muted">Генеруємо зведення та оцінку проекту</p>
+                    </div>
+                    <div className="flex space-x-2">
+                      <div className="w-2 h-2 bg-purple-600 rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-purple-600 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                      <div className="w-2 h-2 bg-purple-600 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                    </div>
                   </div>
+                ) : (
+                  // Результати аналізу
+                  <div className="flex-1 overflow-y-auto space-y-6 animate-fadeIn">
+                    {/* Session Info */}
+                    <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-dark-bg dark:to-dark-hover rounded-xl p-4 border border-purple-100 dark:border-dark-border">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+                        <svg className="w-5 h-5 mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Session Information
+                      </h3>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between items-center py-2 border-b border-purple-100 dark:border-dark-border">
+                          <span className="text-gray-600 dark:text-dark-text-muted font-medium">Session ID:</span>
+                          <span className="font-mono text-gray-900 dark:text-white bg-gray-100 dark:bg-dark-hover px-2 py-1 rounded">{selectedChatSession.id}</span>
+                        </div>
+                        <div className="flex justify-between items-center py-2 border-b border-purple-100 dark:border-dark-border">
+                          <span className="text-gray-600 dark:text-dark-text-muted font-medium">Client:</span>
+                          <span className="text-gray-900 dark:text-white font-medium">{selectedChatSession.contact?.name}</span>
+                        </div>
+                        <div className="flex justify-between items-center py-2 border-b border-purple-100 dark:border-dark-border">
+                          <span className="text-gray-600 dark:text-dark-text-muted font-medium">Email:</span>
+                          <span className="text-gray-900 dark:text-white">{selectedChatSession.contact?.email}</span>
+                        </div>
+                        <div className="flex justify-between items-center py-2 border-b border-purple-100 dark:border-dark-border">
+                          <span className="text-gray-600 dark:text-dark-text-muted font-medium">Created:</span>
+                          <span className="text-gray-900 dark:text-white">
+                            {selectedChatSession.createdAt?.toDate?.() ? selectedChatSession.createdAt.toDate().toLocaleString() : '—'}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center py-2">
+                          <span className="text-gray-600 dark:text-dark-text-muted font-medium">Messages:</span>
+                          <span className="bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-400 px-3 py-1 rounded-full font-medium">
+                            {selectedChatSession.messages?.length || 0}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
 
-                  {/* Auto-summary */}
-                  <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4">
-                    <h3 className="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3">Auto-summary</h3>
-                    <div className="bg-gray-50 dark:bg-dark-bg rounded-lg p-3 min-h-[60px]">
-                      <p className="text-gray-700 dark:text-dark-text">
-                        {analyzeMessages(selectedChatSession.messages).summary}
-                      </p>
+                    {/* Auto-summary */}
+                    <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
+                      <h3 className="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3 flex items-center">
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Auto-summary
+                      </h3>
+                      <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-dark-bg dark:to-dark-hover rounded-lg p-4 min-h-[80px] border-l-4 border-purple-500">
+                        <p className="text-gray-700 dark:text-dark-text leading-relaxed">
+                          {analyzeMessages(selectedChatSession.messages).summary}
+                        </p>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Estimate */}
-                  <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4">
-                    <h3 className="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3">Estimate</h3>
-                    <div className="bg-gray-50 dark:bg-dark-bg rounded-lg p-3 min-h-[60px]">
-                      <p className="text-gray-700 dark:text-dark-text">
-                        {analyzeMessages(selectedChatSession.messages).estimate}
-                      </p>
+                    {/* Estimate */}
+                    <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
+                      <h3 className="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3 flex items-center">
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                        </svg>
+                        Estimate
+                      </h3>
+                      <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-dark-bg dark:to-dark-hover rounded-lg p-4 min-h-[80px] border-l-4 border-green-500">
+                        <p className="text-gray-700 dark:text-dark-text leading-relaxed">
+                          {analyzeMessages(selectedChatSession.messages).estimate}
+                        </p>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Research Highlights */}
-                  <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4">
-                    <h3 className="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3">Research Highlights</h3>
-                    <div className="bg-gray-50 dark:bg-dark-bg rounded-lg p-3 min-h-[60px]">
-                      <p className="text-gray-700 dark:text-dark-text whitespace-pre-line">
-                        {analyzeMessages(selectedChatSession.messages).highlights}
-                      </p>
+                    {/* Research Highlights */}
+                    <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
+                      <h3 className="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3 flex items-center">
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                        </svg>
+                        Research Highlights
+                      </h3>
+                      <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-dark-bg dark:to-dark-hover rounded-lg p-4 min-h-[80px] border-l-4 border-yellow-500">
+                        <p className="text-gray-700 dark:text-dark-text whitespace-pre-line leading-relaxed">
+                          {analyzeMessages(selectedChatSession.messages).highlights}
+                        </p>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* AI Notes */}
-                  <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4">
-                    <h3 className="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3">AI Notes</h3>
-                    <div className="bg-gray-50 dark:bg-dark-bg rounded-lg p-3 min-h-[60px]">
-                      <p className="text-gray-700 dark:text-dark-text whitespace-pre-line">
-                        {analyzeMessages(selectedChatSession.messages).notes}
-                      </p>
+                    {/* AI Notes */}
+                    <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
+                      <h3 className="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3 flex items-center">
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                        </svg>
+                        AI Notes
+                      </h3>
+                      <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-dark-bg dark:to-dark-hover rounded-lg p-4 min-h-[80px] border-l-4 border-purple-500">
+                        <p className="text-gray-700 dark:text-dark-text whitespace-pre-line leading-relaxed">
+                          {analyzeMessages(selectedChatSession.messages).notes}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
 
                 {/* Export Buttons */}
-                <div className="mt-6 pt-4 border-t border-gray-200 dark:border-dark-border">
-                  <div className="flex gap-3 flex-wrap">
-                    <button onClick={exportToPDF} className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                      Експорт PDF
-                    </button>
-                    <button onClick={exportToCSV} className="border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-hover px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                      Експорт CSV
-                    </button>
-                    <button onClick={exportToExcel} className="border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-hover px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                      Експорт Excel
-                    </button>
-                    <button onClick={generateEmailDraft} className="border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-hover px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                      Згенерувати email-чернетку
-                    </button>
+                {!isAnalyzing && (
+                  <div className="mt-6 pt-4 border-t border-gray-200 dark:border-dark-border animate-fadeIn">
+                    <div className="flex gap-3 flex-wrap">
+                      <button onClick={exportToPDF} className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:scale-105 shadow-lg">
+                        <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Експорт PDF
+                      </button>
+                      <button onClick={exportToCSV} className="border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-hover px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:scale-105">
+                        <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Експорт CSV
+                      </button>
+                      <button onClick={exportToExcel} className="border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-hover px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:scale-105">
+                        <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Експорт Excel
+                      </button>
+                      <button onClick={generateEmailDraft} className="border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-hover px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:scale-105">
+                        <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        Згенерувати email-чернетку
+                      </button>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
