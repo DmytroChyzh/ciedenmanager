@@ -189,7 +189,7 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
               dataKey="progress" 
               axisLine={false} 
               tickLine={false}
-              tick={{ fontSize: 11, fill: theme === 'dark' ? '#a0a0a0' : '#6b7280', fontWeight: 500 }}
+              tick={{ fontSize: 10, fill: theme === 'dark' ? '#a0a0a0' : '#6b7280', fontWeight: 500 }}
               domain={[0, 100]}
               ticks={[0, 25, 50, 75, 100]}
               tickFormatter={(value) => `${value}%`}
