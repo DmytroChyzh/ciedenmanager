@@ -9,9 +9,10 @@ interface ChatSessionsTableProps {
   onSelect?: (id: string) => void;
   onGenerateReport?: (id: string) => void;
   onRowClick?: (id: string) => void;
+  generatedReports?: {[key: string]: boolean};
 }
 
-export default function ChatSessionsTable({ sessions, selectedSessionId, onSelect, onGenerateReport, onRowClick }: ChatSessionsTableProps) {
+export default function ChatSessionsTable({ sessions, selectedSessionId, onSelect, onGenerateReport, onRowClick, generatedReports = {} }: ChatSessionsTableProps) {
   const { t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -107,14 +108,22 @@ export default function ChatSessionsTable({ sessions, selectedSessionId, onSelec
                       </td>
                       <td className={`px-3 py-3 ${isSelected ? 'text-primary dark:text-dark-primary' : ''}`}>
                         <button
-                          className="border border-primary dark:border-dark-primary text-primary dark:text-dark-primary font-medium text-xs uppercase tracking-wider bg-white dark:bg-dark-card px-3 py-2 rounded-lg flex items-center justify-center gap-2 transition-all duration-200 hover:bg-primary hover:text-white dark:hover:bg-dark-primary dark:hover:text-white group hover:scale-105 shadow-sm hover:shadow-md"
+                          className={`font-medium text-xs uppercase tracking-wider px-3 py-2 rounded-lg flex items-center justify-center gap-2 transition-all duration-200 group hover:scale-105 shadow-sm hover:shadow-md ${
+                            generatedReports[session.id]
+                              ? 'bg-white text-[#651FFF] border-2 border-[#651FFF] hover:bg-[#651FFF] hover:text-white'
+                              : 'border border-primary dark:border-dark-primary text-primary dark:text-dark-primary bg-white dark:bg-dark-card hover:bg-primary hover:text-white dark:hover:bg-dark-primary dark:hover:text-white'
+                          }`}
                           onClick={e => { 
                             e.stopPropagation(); 
                             onGenerateReport && onGenerateReport(session.id); 
                           }}
                         >
-                          {t('generateReport')}
-                          <svg className="w-4 h-4 transition-colors duration-200 group-hover:text-white text-primary dark:text-dark-primary" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                          {generatedReports[session.id] ? 'Звіт' : t('generateReport')}
+                          <svg className={`w-4 h-4 transition-colors duration-200 ${
+                            generatedReports[session.id]
+                              ? 'text-[#651FFF] group-hover:text-white'
+                              : 'text-primary dark:text-dark-primary group-hover:text-white'
+                          }`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                           </svg>
                         </button>

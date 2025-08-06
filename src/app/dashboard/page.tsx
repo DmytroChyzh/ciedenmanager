@@ -35,6 +35,16 @@ export default function Dashboard() {
   // Стани періодів для кожної картки
   const [usersPeriod, setUsersPeriod] = useState<'week' | 'month' | 'year'>('week');
   const [targetsPeriod, setTargetsPeriod] = useState<'week' | 'month' | 'year'>('week');
+  
+  // Стан для згенерованих звітів (як в чатах)
+  const [generatedReports, setGeneratedReports] = useState<{[key: string]: boolean}>(() => {
+    // Завантажуємо з localStorage при ініціалізації
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('generatedReports');
+      return saved ? JSON.parse(saved) : {};
+    }
+    return {};
+  });
 
   useEffect(() => {
     async function fetchChatSessions() {
@@ -69,6 +79,13 @@ export default function Dashboard() {
   };
 
   const handleGenerateReport = async (sessionId: string) => {
+    // Якщо звіт вже згенерований для цієї сесії, просто показуємо його
+    if (generatedReports[sessionId]) {
+      setSelectedSessionId(sessionId);
+      setShowDetails(true);
+      return;
+    }
+    
     setSelectedSessionId(sessionId);
     setShowDetails(true);
     
@@ -83,6 +100,13 @@ export default function Dashboard() {
     // Симулюємо аналіз (2 секунди)
     setTimeout(() => {
       setIsAnalyzing(false);
+      // Позначаємо що звіт згенерований для цієї сесії і зберігаємо в localStorage
+      const newReports = {
+        ...generatedReports,
+        [sessionId]: true
+      };
+      setGeneratedReports(newReports);
+      localStorage.setItem('generatedReports', JSON.stringify(newReports));
     }, 2000);
   };
 
@@ -426,6 +450,7 @@ ${sessionData.notes}
                 onSelect={handleRowSelect} 
                 onGenerateReport={handleGenerateReport}
                 onRowClick={handleRowClick}
+                generatedReports={generatedReports}
               />
             </div>
           </div>
