@@ -8,6 +8,7 @@ import ChatSessionsTable from '@/components/ChatSessionsTable';
 import SalesChatView from '@/components/SalesChatView';
 import GraphCard from '@/components/GraphCard';
 import UsersCountCard from '@/components/UsersCountCard';
+import ActiveChatsCard from '@/components/ActiveChatsCard';
 import ChatViewMini from '@/components/ChatViewMini';
 import { db } from '@/lib/firebase';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
@@ -26,6 +27,7 @@ export default function Dashboard() {
   
   // Стани періодів для кожної картки
   const [usersPeriod, setUsersPeriod] = useState<'week' | 'month' | 'year'>('week');
+  const [targetsPeriod, setTargetsPeriod] = useState<'week' | 'month' | 'year'>('week');
 
   useEffect(() => {
     async function fetchChatSessions() {
@@ -182,40 +184,24 @@ export default function Dashboard() {
             onPeriodChange={setUsersPeriod}
             currentPeriod={usersPeriod}
           />
+          <ActiveChatsCard 
+            value={activeChats} 
+            percent={getGrowth(getMetricData(chats, 'active', targetsPeriod))}
+            onPeriodChange={setTargetsPeriod}
+            currentPeriod={targetsPeriod}
+          />
         </div>
         
-        {/* Основна область з таблицею та деталями */}
-        <div className="flex flex-col xl:flex-row gap-3 sm:gap-4 md:gap-5 lg:gap-6 flex-1 min-h-0">
-          {/* Таблиця чат-сесій */}
-          <div className="flex-1 h-[400px] sm:h-[450px] md:h-[500px] lg:h-[550px] xl:h-[600px] 2xl:h-[650px] flex flex-col min-h-0">
-            <div className="flex-1 flex flex-col min-h-0">
-              <div className="h-full overflow-y-auto min-h-0">
-                <ChatSessionsTable 
-                  sessions={filteredChats} 
-                  selectedSessionId={selectedSessionId} 
-                  onSelect={handleRowSelect} 
-                  onGenerateReport={handleGenerateReport}
-                />
-              </div>
-            </div>
-          </div>
-          
-          {/* Деталі сесій - справа */}
-          <div className="w-full xl:w-[400px] 2xl:w-[500px] 3xl:w-[600px] flex flex-col gap-3 sm:gap-4 md:gap-5 lg:gap-6 min-h-0">
-            <div className="h-[400px] sm:h-[450px] md:h-[500px] lg:h-[550px] xl:h-[600px] 2xl:h-[650px] flex flex-col min-h-0">
-              <div className="flex-1 flex flex-col min-h-0">
-                <div className="h-full overflow-y-auto min-h-0">
-                  {showDetails && selectedSessionId ? (
-                    <SalesChatView sessionId={selectedSessionId} />
-                  ) : selectedSessionId ? (
-                    <ChatViewMini sessionId={selectedSessionId} />
-                  ) : (
-                    <div className="bg-white dark:bg-dark-card rounded-xl p-4 md:p-6 h-full flex items-center justify-center text-gray-400 dark:text-dark-text-muted min-h-[80px] md:min-h-[120px] text-sm md:text-base text-center">
-                      {t('selectSession')}
-                    </div>
-                  )}
-                </div>
-              </div>
+        {/* Таблиця чат-сесій - повна ширина */}
+        <div className="h-[400px] sm:h-[450px] md:h-[500px] lg:h-[550px] xl:h-[600px] 2xl:h-[650px] flex flex-col min-h-0">
+          <div className="flex-1 flex flex-col min-h-0">
+            <div className="h-full overflow-y-auto min-h-0">
+              <ChatSessionsTable 
+                sessions={filteredChats} 
+                selectedSessionId={selectedSessionId} 
+                onSelect={handleRowSelect} 
+                onGenerateReport={handleGenerateReport}
+              />
             </div>
           </div>
         </div>
