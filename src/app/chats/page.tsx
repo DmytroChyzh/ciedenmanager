@@ -240,7 +240,7 @@ export default function ChatsPage() {
           <div className="bg-white rounded-2xl flex flex-col h-full min-h-0 w-full overflow-hidden">
             <div className="flex flex-col md:flex-row flex-1 min-h-0 h-full w-full">
               {/* Sidebar для desktop/tablet */}
-              <div className="hidden md:block h-full border-r border-gray-200 flex-shrink-0 min-w-[280px] max-w-[400px] w-[320px]">
+              <div className="hidden md:block h-full border-r border-gray-200 flex-shrink-0 min-w-[350px] max-w-[500px] w-[400px]">
                 <ChatList selectedSessionId={selectedSessionId} onSelect={id => { setSelectedSessionId(id); setShowDetails(false); }} hideHeader />
               </div>
               <div className="flex-1 flex flex-col min-w-0 h-full min-h-0">
@@ -284,7 +284,7 @@ export default function ChatsPage() {
               </div>
               {/* Session Details блок */}
               {showDetails && selectedSessionId && (
-                <div className="hidden md:flex h-full flex-col w-[320px] lg:w-[400px] max-w-[90vw] flex-shrink-0 border-l border-[#ede7ff] bg-white">
+                <div className="hidden md:flex h-full flex-col w-[450px] lg:w-[550px] xl:w-[650px] max-w-[90vw] flex-shrink-0 border-l border-[#ede7ff] bg-white">
                   <div className="flex-1 overflow-y-auto p-6">
                     {isAnalyzing ? (
                       <div className="flex flex-col items-center justify-center h-full">
