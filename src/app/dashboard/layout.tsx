@@ -2,7 +2,7 @@
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-[#F7F8F9]">
+    <div className="min-h-screen bg-[#F7F8F9] dark:bg-dark-bg">
       {children}
     </div>
   );
