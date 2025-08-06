@@ -9,33 +9,36 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
   const { t } = useLanguage();
   const { theme } = useTheme();
 
-  // Спрощені дані для графіка - тільки прогрес без днів тижня
+  // Спрощені дані для графіка - показуємо реальний прогрес
   const getProgressData = (period: string) => {
     const baseData = [
-      { progress: 0, value: 0 },
-      { progress: 10, value: 2 },
-      { progress: 20, value: 4 },
-      { progress: 30, value: 6 },
-      { progress: 40, value: 8 },
-      { progress: 50, value: 10 },
-      { progress: 60, value: 12 },
-      { progress: 70, value: 14 },
-      { progress: 80, value: 16 },
-      { progress: 90, value: 18 },
-      { progress: 100, value: 20 },
+      { day: 1, progress: 0 },
+      { day: 2, progress: 5 },
+      { day: 3, progress: 12 },
+      { day: 4, progress: 18 },
+      { day: 5, progress: 25 },
+      { day: 6, progress: 35 },
+      { day: 7, progress: 45 },
+      { day: 8, progress: 55 },
+      { day: 9, progress: 65 },
+      { day: 10, progress: 75 },
+      { day: 11, progress: 85 },
+      { day: 12, progress: 90 },
+      { day: 13, progress: 95 },
+      { day: 14, progress: 100 },
     ];
 
     if (period === 'month') {
       return baseData.map(item => ({
         ...item,
-        value: item.value * 4
+        progress: Math.min(item.progress * 1.2, 100)
       }));
     }
 
     if (period === 'year') {
       return baseData.map(item => ({
         ...item,
-        value: item.value * 50
+        progress: Math.min(item.progress * 1.5, 100)
       }));
     }
 
@@ -58,28 +61,28 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
     }
   };
 
-  const currentGoal = getGoalByPeriod(currentPeriod);
-  const currentValue = Math.min(value, currentGoal);
-  const progressPercent = Math.min((currentValue / currentGoal) * 100, 100);
-  const remaining = Math.max(currentGoal - currentValue, 0);
+  // Отримуємо поточний прогрес з даних
+  const currentProgress = getProgressData(currentPeriod).slice(-1)[0]?.progress || 0;
+  const currentValue = Math.round(currentProgress);
+  const currentGoal = 100;
+  const progressPercent = currentValue;
+  const up = currentValue > 0;
 
   // Мотиваційні повідомлення
   const getMotivationalMessage = () => {
-    if (progressPercent >= 100) return '🎉 Ціль досягнута!';
-    if (progressPercent >= 80) return '💪 Майже досягнуто!';
-    if (progressPercent >= 60) return '🔥 Продовжуй!';
-    if (progressPercent >= 40) return '📈 Гарний прогрес!';
-    if (progressPercent >= 20) return '🚀 Сильний старт!';
-    return '⏰ Час діяти!';
+    if (currentValue >= 100) return "Відмінно! Всі цілі досягнуті! 🎉";
+    if (currentValue >= 75) return "Майже там! Залишилося трохи! 💪";
+    if (currentValue >= 50) return "На півдорозі! Продовжуй! 🔥";
+    if (currentValue >= 25) return "Хороший старт! Далі! ⚡";
+    return "Почнемо! Кожен крок важливий! 🚀";
   };
 
   const getProgressColor = () => {
-    if (progressPercent >= 80) return 'text-green-600 dark:text-green-400';
-    if (progressPercent >= 60) return 'text-yellow-600 dark:text-yellow-400';
-    return 'text-red-600 dark:text-red-400';
+    if (currentValue >= 80) return "text-green-500";
+    if (currentValue >= 60) return "text-yellow-500";
+    return "text-red-500";
   };
 
-  const up = percent >= 0;
   const periodButtonClass = `w-8 h-8 px-3 text-xs font-medium transition-colors duration-200 focus:outline-none rounded-lg`;
   
   return (
@@ -130,7 +133,7 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
             </svg>
           )}
-          {Math.abs(percent)}% <span className="text-gray-500 dark:text-gray-400 font-normal ml-1">за {t(currentPeriod)}</span>
+          {Math.abs(currentValue)}% <span className="text-gray-500 dark:text-gray-400 font-normal ml-1">за {t(currentPeriod)}</span>
         </span>
       </div>
 
@@ -146,21 +149,23 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke={theme === 'dark' ? '#404040' : '#e5e7eb'} opacity={0.2} />
             <XAxis 
+              dataKey="day" 
+              axisLine={false} 
+              tickLine={false}
+              tick={{ fontSize: 11, fill: theme === 'dark' ? '#a0a0a0' : '#6b7280', fontWeight: 500 }}
+              tickFormatter={(value) => `${value} д.`}
+              domain={[0, 14]}
+              ticks={[0, 2, 4, 6, 8, 10, 12, 14]}
+              padding={{ left: 10, right: 10 }}
+            />
+            <YAxis 
               dataKey="progress" 
               axisLine={false} 
               tickLine={false}
               tick={{ fontSize: 11, fill: theme === 'dark' ? '#a0a0a0' : '#6b7280', fontWeight: 500 }}
-              tickFormatter={(value) => `${value}%`}
               domain={[0, 100]}
-              ticks={[0, 25, 50, 75, 100]}
-              padding={{ left: 10, right: 10 }}
-            />
-            <YAxis 
-              dataKey="value" 
-              axisLine={false} 
-              tickLine={false}
-              tick={{ fontSize: 11, fill: theme === 'dark' ? '#a0a0a0' : '#6b7280', fontWeight: 500 }}
-              domain={[0, currentGoal]}
+              ticks={[0, 15, 25, 50, 75, 100]}
+              tickFormatter={(value) => `${value}%`}
               padding={{ top: 10, bottom: 10 }}
             />
             <Tooltip 
@@ -172,13 +177,13 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
                 fontSize: '12px',
                 boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
               }}
-              formatter={(value: any, name: any) => [`${value}`, 'Поточне значення']}
-              labelFormatter={(label) => `Прогрес: ${label}%`}
+              formatter={(value: any, name: any) => [`${value}%`, 'Прогрес']}
+              labelFormatter={(label) => `День: ${label} д.`}
               cursor={{ stroke: '#651FFF', strokeWidth: 2, strokeDasharray: '3 3' }}
             />
             <Line 
               type="monotone" 
-              dataKey="value" 
+              dataKey="progress" 
               stroke="#651FFF" 
               strokeWidth={4} 
               dot={{ r: 5, fill: '#651FFF', strokeWidth: 3, stroke: '#fff' }}
@@ -190,7 +195,7 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
             {/* Додаємо область під лінією для кращого візуального ефекту */}
             <Line 
               type="monotone" 
-              dataKey="value" 
+              dataKey="progress" 
               stroke="transparent" 
               fill="url(#progressGradient)"
               strokeWidth={0}
