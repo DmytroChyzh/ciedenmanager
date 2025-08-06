@@ -183,7 +183,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col pb-6">
       {/* Основна область - вертикальний layout на мобільних */}
       <div className="flex flex-col gap-3 sm:gap-4 md:gap-5 lg:gap-6 flex-1 min-h-0">
         {/* Графіки - один під одним на мобільних */}
@@ -203,8 +203,8 @@ export default function Dashboard() {
           />
         </div>
         
-        {/* Таблиця чат-сесій - повна ширина та висота */}
-        <div className="flex-1 flex flex-col min-h-0">
+        {/* Таблиця чат-сесій - фіксована висота 840px */}
+        <div className="h-[840px] flex flex-col min-h-0">
           <div className="flex-1 flex flex-col min-h-0">
             <div className="h-full overflow-y-auto min-h-0">
               <ChatSessionsTable 
@@ -217,50 +217,54 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Попап з звітом */}
+        {/* Попап з звітом - збоку справа */}
         {showReportPopup && selectedReportSession && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-dark-card rounded-xl p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-                  Звіт по клієнту: {selectedReportSession.contact?.name}
-                </h2>
-                <div className="flex gap-2">
-                  <button 
-                    onClick={() => window.open(`mailto:${selectedReportSession.contact?.email}?subject=Звіт по сесії&body=Технічні дані сесії: ${selectedReportSession.id}`)}
-                    className="p-2 text-gray-600 hover:text-primary dark:text-dark-text-muted dark:hover:text-dark-primary transition-colors"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                  </button>
-                  <button 
-                    onClick={() => navigator.clipboard.writeText(selectedReportSession.contact?.email || '')}
-                    className="p-2 text-gray-600 hover:text-primary dark:text-dark-text-muted dark:hover:text-dark-primary transition-colors"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                    </svg>
-                  </button>
-                  <button 
-                    onClick={() => setShowReportPopup(false)}
-                    className="p-2 text-gray-600 hover:text-red-500 dark:text-dark-text-muted dark:hover:text-red-400 transition-colors"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50">
+            <div className="absolute right-0 top-0 h-full w-96 bg-white dark:bg-dark-card shadow-2xl transform transition-transform duration-300 ease-in-out">
+              <div className="p-6 h-full flex flex-col">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                    Звіт по клієнту: {selectedReportSession.contact?.name}
+                  </h2>
+                  <div className="flex gap-2">
+                    <button 
+                      onClick={() => window.open(`mailto:${selectedReportSession.contact?.email}?subject=Звіт по сесії&body=Технічні дані сесії: ${selectedReportSession.id}`)}
+                      className="p-2 text-gray-600 hover:text-primary dark:text-dark-text-muted dark:hover:text-dark-primary transition-colors"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </button>
+                    <button 
+                      onClick={() => navigator.clipboard.writeText(selectedReportSession.contact?.email || '')}
+                      className="p-2 text-gray-600 hover:text-primary dark:text-dark-text-muted dark:hover:text-dark-primary transition-colors"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      </svg>
+                    </button>
+                    <button 
+                      onClick={() => setShowReportPopup(false)}
+                      className="p-2 text-gray-600 hover:text-red-500 dark:text-dark-text-muted dark:hover:text-red-400 transition-colors"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div className="space-y-4">
-                <div className="bg-gray-50 dark:bg-dark-bg p-4 rounded-lg">
-                  <h3 className="font-medium text-gray-900 dark:text-white mb-2">Технічні дані сесії:</h3>
-                  <div className="text-sm text-gray-600 dark:text-dark-text-muted space-y-1">
-                    <p><strong>ID сесії:</strong> {selectedReportSession.id}</p>
-                    <p><strong>Email:</strong> {selectedReportSession.contact?.email}</p>
-                    <p><strong>Дата створення:</strong> {selectedReportSession.createdAt?.toDate?.() ? selectedReportSession.createdAt.toDate().toLocaleString() : '—'}</p>
-                    <p><strong>Останнє оновлення:</strong> {selectedReportSession.updatedAt?.toDate?.() ? selectedReportSession.updatedAt.toDate().toLocaleString() : '—'}</p>
-                    <p><strong>Кількість повідомлень:</strong> {selectedReportSession.messages?.length || 0}</p>
+                <div className="flex-1 overflow-y-auto">
+                  <div className="space-y-4">
+                    <div className="bg-gray-50 dark:bg-dark-bg p-4 rounded-lg">
+                      <h3 className="font-medium text-gray-900 dark:text-white mb-2">Технічні дані сесії:</h3>
+                      <div className="text-sm text-gray-600 dark:text-dark-text-muted space-y-1">
+                        <p><strong>ID сесії:</strong> {selectedReportSession.id}</p>
+                        <p><strong>Email:</strong> {selectedReportSession.contact?.email}</p>
+                        <p><strong>Дата створення:</strong> {selectedReportSession.createdAt?.toDate?.() ? selectedReportSession.createdAt.toDate().toLocaleString() : '—'}</p>
+                        <p><strong>Останнє оновлення:</strong> {selectedReportSession.updatedAt?.toDate?.() ? selectedReportSession.updatedAt.toDate().toLocaleString() : '—'}</p>
+                        <p><strong>Кількість повідомлень:</strong> {selectedReportSession.messages?.length || 0}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -268,25 +272,27 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* Попап з чатом */}
+        {/* Попап з чатом - збоку справа */}
         {showChatPopup && selectedChatSession && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-dark-card rounded-xl p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-                  Чат з: {selectedChatSession.contact?.name}
-                </h2>
-                <button 
-                  onClick={() => setShowChatPopup(false)}
-                  className="p-2 text-gray-600 hover:text-red-500 dark:text-dark-text-muted dark:hover:text-red-400 transition-colors"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-              <div className="h-[60vh] overflow-y-auto">
-                <SalesChatView sessionId={selectedChatSession.id} />
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50">
+            <div className="absolute right-0 top-0 h-full w-[600px] bg-white dark:bg-dark-card shadow-2xl transform transition-transform duration-300 ease-in-out">
+              <div className="p-6 h-full flex flex-col">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                    Чат з: {selectedChatSession.contact?.name}
+                  </h2>
+                  <button 
+                    onClick={() => setShowChatPopup(false)}
+                    className="p-2 text-gray-600 hover:text-red-500 dark:text-dark-text-muted dark:hover:text-red-400 transition-colors"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+                <div className="flex-1 overflow-y-auto">
+                  <SalesChatView sessionId={selectedChatSession.id} />
+                </div>
               </div>
             </div>
           </div>
