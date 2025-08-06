@@ -15,7 +15,7 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50 dark:bg-dark-bg relative overflow-hidden pb-2">
+    <div className="h-screen flex flex-col bg-gray-50 dark:bg-dark-bg relative overflow-hidden">
       <Header />
       {/* Sidebar для мобільних */}
       <div className="block md:hidden w-full">
