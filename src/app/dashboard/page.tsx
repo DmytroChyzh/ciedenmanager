@@ -69,6 +69,8 @@ export default function Dashboard() {
     const session = chats.find(chat => chat.id === sessionId);
     setSelectedChatSession(session);
     setShowChatPopup(true);
+    // Закриваємо попап з звітом якщо він відкритий
+    setShowReportPopup(false);
   };
 
   const handleGenerateReport = async (sessionId: string) => {
@@ -78,6 +80,8 @@ export default function Dashboard() {
     const session = chats.find(chat => chat.id === sessionId);
     setSelectedReportSession(session);
     setShowReportPopup(true);
+    // Закриваємо попап з чатом якщо він відкритий
+    setShowChatPopup(false);
   };
 
   // Метрики для графіків з підтримкою періодів
