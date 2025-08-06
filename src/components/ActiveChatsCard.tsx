@@ -194,6 +194,8 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
               ticks={[0, 25, 50, 75, 100]}
               tickFormatter={(value) => `${value}%`}
               padding={{ top: 10, bottom: 10 }}
+              allowDecimals={false}
+              interval={0}
             />
             <Tooltip 
               contentStyle={{ 
