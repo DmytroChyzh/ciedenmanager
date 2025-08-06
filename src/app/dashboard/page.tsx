@@ -61,20 +61,16 @@ export default function Dashboard() {
   }, []);
 
   const handleRowSelect = (sessionId: string) => {
-    setSelectedSessionId(sessionId);
-    setShowDetails(false);
-    // Показуємо попап з чатом
-    const session = chats.find(chat => chat.id === sessionId);
-    setSelectedChatSession(session);
-    setShowChatPopup(true);
-
+    // Нічого не робимо при кліку по рядку
   };
 
   const handleGenerateReport = async (sessionId: string) => {
     setSelectedSessionId(sessionId);
     setShowDetails(true);
-    // Закриваємо попап з чатом якщо він відкритий
-    setShowChatPopup(false);
+    // Показуємо попап з чатом
+    const session = chats.find(chat => chat.id === sessionId);
+    setSelectedChatSession(session);
+    setShowChatPopup(true);
   };
 
   // Метрики для графіків з підтримкою періодів

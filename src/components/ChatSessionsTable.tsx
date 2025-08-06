@@ -76,10 +76,9 @@ export default function ChatSessionsTable({ sessions, selectedSessionId, onSelec
                   return (
                     <tr
                       key={session.id}
-                      className={`border-b border-gray-200 dark:border-dark-border hover:bg-primary-muted dark:hover:bg-dark-primary-muted transition-colors cursor-pointer ${
+                      className={`border-b border-gray-200 dark:border-dark-border ${
                         isSelected ? 'bg-primary-light dark:bg-dark-primary-light' : ''
                       }`}
-                      onClick={() => onSelect && onSelect(session.id)}
                     >
                       <td className={`px-3 py-3 ${isSelected ? 'text-primary dark:text-dark-primary font-medium' : ''}`}>
                         {session.metadata?.userName || '—'}
