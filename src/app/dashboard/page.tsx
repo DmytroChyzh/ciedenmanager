@@ -173,62 +173,90 @@ export default function Dashboard() {
     }
 
     // Аналізуємо текст повідомлень
-    const allText = messages.map(msg => msg.content || msg.text || '').join(' ').toLowerCase();
+    const allText = messages.map(msg => msg.content || msg.text || msg.message || '').join(' ').toLowerCase();
     
     // Визначаємо тип проекту
     let projectType = '';
-    if (allText.includes('мобільн') || allText.includes('app') || allText.includes('додаток')) {
+    let projectDescription = '';
+    
+    if (allText.includes('мобільн') || allText.includes('app') || allText.includes('додаток') || allText.includes('ios') || allText.includes('android')) {
       projectType = 'мобільний додаток';
-    } else if (allText.includes('веб') || allText.includes('сайт') || allText.includes('web')) {
+      projectDescription = 'розробка нативного або крос-платформенного мобільного додатку';
+    } else if (allText.includes('веб') || allText.includes('сайт') || allText.includes('web') || allText.includes('інтернет')) {
       projectType = 'веб-сайт';
-    } else if (allText.includes('платформ') || allText.includes('стрімер')) {
+      projectDescription = 'створення веб-сайту або веб-додатку';
+    } else if (allText.includes('платформ') || allText.includes('стрімер') || allText.includes('twitch') || allText.includes('streaming')) {
       projectType = 'платформа для стрімерів';
-    } else if (allText.includes('ecommerce') || allText.includes('магазин')) {
+      projectDescription = 'розробка платформи для відео-стрімінгу та взаємодії з аудиторією';
+    } else if (allText.includes('ecommerce') || allText.includes('магазин') || allText.includes('онлайн') || allText.includes('продаж')) {
       projectType = 'e-commerce платформа';
+      projectDescription = 'створення онлайн-магазину з системою платежів';
+    } else if (allText.includes('ai') || allText.includes('машинн') || allText.includes('ml') || allText.includes('штучн')) {
+      projectType = 'AI/ML проект';
+      projectDescription = 'розробка системи з використанням штучного інтелекту';
     } else {
       projectType = 'програмний продукт';
+      projectDescription = 'розробка програмного рішення';
     }
 
-    // Визначаємо складність
+    // Визначаємо складність та технології
     let complexity = 'Середня';
     let timeEstimate = '2-3 місяці';
-    let technologies = 'React, Node.js';
+    let technologies = 'React, Node.js, MongoDB';
+    let budget = '15,000 - 25,000 USD';
 
-    if (allText.includes('ai') || allText.includes('машинн') || allText.includes('ml')) {
+    if (allText.includes('ai') || allText.includes('машинн') || allText.includes('ml') || allText.includes('штучн')) {
+      complexity = 'Дуже висока';
+      timeEstimate = '8-12 місяців';
+      technologies = 'Python, TensorFlow, React, Node.js, AWS, PostgreSQL';
+      budget = '50,000 - 100,000 USD';
+    } else if (allText.includes('відео') || allText.includes('стрім') || allText.includes('streaming') || allText.includes('twitch')) {
       complexity = 'Висока';
-      timeEstimate = '6-8 місяців';
-      technologies = 'React, Node.js, Python, TensorFlow, AWS';
-    } else if (allText.includes('відео') || allText.includes('стрім') || allText.includes('streaming')) {
+      timeEstimate = '6-9 місяців';
+      technologies = 'React, Node.js, WebRTC, Socket.io, AWS, Redis';
+      budget = '35,000 - 60,000 USD';
+    } else if (allText.includes('платіж') || allText.includes('банк') || allText.includes('фінанс') || allText.includes('stripe')) {
       complexity = 'Висока';
       timeEstimate = '4-6 місяців';
-      technologies = 'React, Node.js, WebRTC, AWS, Socket.io';
-    } else if (allText.includes('платіж') || allText.includes('банк') || allText.includes('фінанс')) {
+      technologies = 'React, Node.js, Stripe, PostgreSQL, AWS';
+      budget = '25,000 - 45,000 USD';
+    } else if (allText.includes('мобільн') || allText.includes('app') || allText.includes('ios') || allText.includes('android')) {
       complexity = 'Висока';
       timeEstimate = '3-5 місяців';
-      technologies = 'React, Node.js, Stripe, PostgreSQL';
+      technologies = 'React Native, Node.js, Firebase, AWS';
+      budget = '20,000 - 40,000 USD';
+    } else if (allText.includes('ecommerce') || allText.includes('магазин') || allText.includes('онлайн')) {
+      complexity = 'Середня';
+      timeEstimate = '3-4 місяці';
+      technologies = 'React, Node.js, Stripe, MongoDB, AWS';
+      budget = '18,000 - 30,000 USD';
     }
 
-    // Генеруємо зведення
-    const summary = `Клієнт зацікавлений у створенні ${projectType}. ${allText.includes('ux') || allText.includes('дизайн') ? 'Особлива увага до UX/UI дизайну.' : ''} ${allText.includes('конкурент') ? 'Визначені конкурентні переваги.' : ''}`;
+    // Генеруємо детальне зведення
+    const summary = `Клієнт зацікавлений у ${projectDescription}. ${allText.includes('ux') || allText.includes('дизайн') || allText.includes('ui') ? 'Особлива увага до UX/UI дизайну та користувацького досвіду.' : ''} ${allText.includes('конкурент') || allText.includes('twitch') || allText.includes('youtube') ? 'Визначені конкурентні переваги та цільова аудиторія.' : ''} ${allText.includes('масштаб') || allText.includes('велик') ? 'Проект має потенціал для масштабування.' : ''}`;
 
-    // Генеруємо оцінку
-    const estimate = `Приблизний час розробки: ${timeEstimate}. Складність: ${complexity}. Необхідні технології: ${technologies}.`;
+    // Генеруємо детальну оцінку
+    const estimate = `Приблизний час розробки: ${timeEstimate}. Складність: ${complexity}. Бюджет: ${budget}. Необхідні технології: ${technologies}.`;
 
     // Генеруємо ключові моменти
     const highlights = [];
-    if (allText.includes('аудиторі') || allText.includes('користувач')) highlights.push('• Визначена цільова аудиторія');
-    if (allText.includes('конкурент') || allText.includes('twitch') || allText.includes('youtube')) highlights.push('• Аналізовані конкуренти');
-    if (allText.includes('технічн') || allText.includes('технологі')) highlights.push('• Визначені технічні вимоги');
-    if (allText.includes('бюджет') || allText.includes('кошт')) highlights.push('• Обговорений бюджет');
-    if (highlights.length === 0) highlights.push('• Потрібно деталізувати вимоги');
+    if (allText.includes('аудиторі') || allText.includes('користувач') || allText.includes('цільов')) highlights.push('• Визначена цільова аудиторія та користувачі');
+    if (allText.includes('конкурент') || allText.includes('twitch') || allText.includes('youtube') || allText.includes('ринок')) highlights.push('• Проведений аналіз конкурентів та ринку');
+    if (allText.includes('технічн') || allText.includes('технологі') || allText.includes('архітектур')) highlights.push('• Визначена технічна архітектура та вимоги');
+    if (allText.includes('бюджет') || allText.includes('кошт') || allText.includes('фінанс')) highlights.push('• Обговорений бюджет та фінансові аспекти');
+    if (allText.includes('термін') || allText.includes('час') || allText.includes('deadline')) highlights.push('• Визначені терміни та етапи розробки');
+    if (allText.includes('масштаб') || allText.includes('рост') || allText.includes('розвиток')) highlights.push('• План масштабування та розвитку продукту');
+    if (highlights.length === 0) highlights.push('• Потрібно деталізувати вимоги та цілі проекту');
 
-    // Генеруємо замітки AI
+    // Генеруємо розумні замітки AI
     const notes = [];
-    if (messages.length > 2) notes.push('✅ Клієнт активно взаємодіє');
-    if (allText.includes('баченн') || allText.includes('ідея')) notes.push('✅ Має чітке бачення продукту');
-    if (allText.includes('конкурент')) notes.push('✅ Розуміє конкурентні переваги');
-    if (!allText.includes('бюджет') && !allText.includes('кошт')) notes.push('⚠️ Потрібно обговорити бюджет');
-    if (!allText.includes('термін') && !allText.includes('час')) notes.push('⚠️ Визначити терміни проекту');
+    if (messages.length > 5) notes.push('✅ Клієнт активно взаємодіє та надає детальну інформацію');
+    if (allText.includes('баченн') || allText.includes('ідея') || allText.includes('концепці')) notes.push('✅ Має чітке бачення продукту та його призначення');
+    if (allText.includes('конкурент') || allText.includes('ринок') || allText.includes('аудиторі')) notes.push('✅ Розуміє конкурентні переваги та цільову аудиторію');
+    if (allText.includes('технічн') || allText.includes('технологі') || allText.includes('архітектур')) notes.push('✅ Інтересується технічними аспектами розробки');
+    if (!allText.includes('бюджет') && !allText.includes('кошт') && !allText.includes('фінанс')) notes.push('⚠️ Потрібно обговорити бюджет та фінансування');
+    if (!allText.includes('термін') && !allText.includes('час') && !allText.includes('deadline')) notes.push('⚠️ Визначити терміни та етапи проекту');
+    if (messages.length < 3) notes.push('⚠️ Потрібно більше інформації для детального аналізу');
 
     return {
       summary,
@@ -236,6 +264,101 @@ export default function Dashboard() {
       highlights: highlights.join('\n'),
       notes: notes.join('\n')
     };
+  };
+
+  // Функції для експорту
+  const exportToPDF = () => {
+    if (selectedChatSession) {
+      const sessionData = analyzeMessages(selectedChatSession.messages);
+      const content = `
+Session Details Report
+====================
+
+Session Information:
+- ID: ${selectedChatSession.id}
+- Client: ${selectedChatSession.contact?.name}
+- Email: ${selectedChatSession.contact?.email}
+- Created: ${selectedChatSession.createdAt?.toDate?.() ? selectedChatSession.createdAt.toDate().toLocaleString() : '—'}
+- Messages: ${selectedChatSession.messages?.length || 0}
+
+Auto-summary:
+${sessionData.summary}
+
+Estimate:
+${sessionData.estimate}
+
+Research Highlights:
+${sessionData.highlights}
+
+AI Notes:
+${sessionData.notes}
+      `;
+      
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `session-${selectedChatSession.id}.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  };
+
+  const exportToCSV = () => {
+    if (selectedChatSession) {
+      const sessionData = analyzeMessages(selectedChatSession.messages);
+      const csvContent = `Session ID,Client,Email,Created,Messages,Summary,Estimate,Highlights,Notes
+"${selectedChatSession.id}","${selectedChatSession.contact?.name}","${selectedChatSession.contact?.email}","${selectedChatSession.createdAt?.toDate?.() ? selectedChatSession.createdAt.toDate().toLocaleString() : '—'}","${selectedChatSession.messages?.length || 0}","${sessionData.summary.replace(/"/g, '""')}","${sessionData.estimate.replace(/"/g, '""')}","${sessionData.highlights.replace(/"/g, '""')}","${sessionData.notes.replace(/"/g, '""')}"`;
+      
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `session-${selectedChatSession.id}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  };
+
+  const exportToExcel = () => {
+    // Для Excel використовуємо CSV формат (Excel може його відкрити)
+    exportToCSV();
+  };
+
+  const generateEmailDraft = () => {
+    if (selectedChatSession) {
+      const sessionData = analyzeMessages(selectedChatSession.messages);
+      const emailContent = `
+Тема: Оновлення по проекту - ${selectedChatSession.contact?.name}
+
+Шановний ${selectedChatSession.contact?.name},
+
+Дякуємо за ваш інтерес до наших послуг! Ось короткий звіт по нашій сесії:
+
+${sessionData.summary}
+
+${sessionData.estimate}
+
+Ключові моменти:
+${sessionData.highlights}
+
+Наступні кроки:
+${sessionData.notes}
+
+Готові обговорити деталі та почати роботу!
+
+З повагою,
+Команда розробки
+      `;
+      
+      const blob = new Blob([emailContent], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `email-draft-${selectedChatSession.id}.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
   };
 
   // Фільтрована таблиця
@@ -381,16 +504,16 @@ export default function Dashboard() {
                 {/* Export Buttons */}
                 <div className="mt-6 pt-4 border-t border-gray-200 dark:border-dark-border">
                   <div className="flex gap-3 flex-wrap">
-                    <button className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                    <button onClick={exportToPDF} className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
                       Експорт PDF
                     </button>
-                    <button className="border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-hover px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                    <button onClick={exportToCSV} className="border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-hover px-4 py-2 rounded-lg text-sm font-medium transition-colors">
                       Експорт CSV
                     </button>
-                    <button className="border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-hover px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                    <button onClick={exportToExcel} className="border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-hover px-4 py-2 rounded-lg text-sm font-medium transition-colors">
                       Експорт Excel
                     </button>
-                    <button className="border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-hover px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                    <button onClick={generateEmailDraft} className="border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-hover px-4 py-2 rounded-lg text-sm font-medium transition-colors">
                       Згенерувати email-чернетку
                     </button>
                   </div>
