@@ -95,7 +95,7 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
     return "text-red-500";
   };
 
-  const periodButtonClass = `w-8 h-8 px-3 text-xs font-medium transition-colors duration-200 focus:outline-none rounded-lg`;
+  const periodButtonClass = `w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 xl:w-9 lg:h-9 2xl:w-10 2xl:h-8 px-1 sm:px-2 md:px-2 lg:px-3 text-xs font-medium transition-colors duration-200 focus:outline-none rounded-lg`;
   
   return (
     <div className="bg-white dark:bg-dark-card rounded-xl flex flex-col p-4 md:p-6 min-w-[200px] md:min-w-[240px] h-[350px]">
@@ -108,7 +108,7 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
         
         {/* Переключувач періодів */}
         {onPeriodChange && (
-          <div className="flex rounded-lg overflow-hidden bg-gray-100 dark:bg-dark-hover">
+          <div className="flex rounded-lg overflow-hidden bg-white dark:bg-dark-card">
             {periods.map((period) => (
               <button
                 key={period.key}
@@ -116,7 +116,7 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
                 className={`${periodButtonClass} ${
                   currentPeriod === period.key
                     ? 'bg-primary dark:bg-dark-primary text-white'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                    : 'bg-transparent text-gray-700 dark:text-gray-300 hover:bg-primary-light dark:hover:bg-dark-primary-light'
                 }`}
                 title={period.tooltip}
               >
