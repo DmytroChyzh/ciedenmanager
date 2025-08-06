@@ -22,9 +22,14 @@ export default function Dashboard() {
   const [chats, setChats] = useState<any[]>([]);
   const [search, setSearch] = useState('');
   const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
-  const [generatingId, setGeneratingId] = useState<string | null>(null);
   const [showDetails, setShowDetails] = useState(false);
   
+  // Стани для попапів
+  const [showReportPopup, setShowReportPopup] = useState(false);
+  const [showChatPopup, setShowChatPopup] = useState(false);
+  const [selectedReportSession, setSelectedReportSession] = useState<any>(null);
+  const [selectedChatSession, setSelectedChatSession] = useState<any>(null);
+
   // Стани періодів для кожної картки
   const [usersPeriod, setUsersPeriod] = useState<'week' | 'month' | 'year'>('week');
   const [targetsPeriod, setTargetsPeriod] = useState<'week' | 'month' | 'year'>('week');
@@ -60,13 +65,19 @@ export default function Dashboard() {
   const handleRowSelect = (sessionId: string) => {
     setSelectedSessionId(sessionId);
     setShowDetails(false);
+    // Показуємо попап з чатом
+    const session = chats.find(chat => chat.id === sessionId);
+    setSelectedChatSession(session);
+    setShowChatPopup(true);
   };
 
   const handleGenerateReport = async (sessionId: string) => {
-    setGeneratingId(sessionId);
     setSelectedSessionId(sessionId);
     setShowDetails(true);
-    setTimeout(() => setGeneratingId(null), 2000);
+    // Показуємо попап з звітом
+    const session = chats.find(chat => chat.id === sessionId);
+    setSelectedReportSession(session);
+    setShowReportPopup(true);
   };
 
   // Метрики для графіків з підтримкою періодів
@@ -192,8 +203,8 @@ export default function Dashboard() {
           />
         </div>
         
-        {/* Таблиця чат-сесій - повна ширина */}
-        <div className="h-[400px] sm:h-[450px] md:h-[500px] lg:h-[550px] xl:h-[600px] 2xl:h-[650px] flex flex-col min-h-0">
+        {/* Таблиця чат-сесій - повна ширина та висота */}
+        <div className="flex-1 flex flex-col min-h-0">
           <div className="flex-1 flex flex-col min-h-0">
             <div className="h-full overflow-y-auto min-h-0">
               <ChatSessionsTable 
@@ -205,6 +216,81 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
+
+        {/* Попап з звітом */}
+        {showReportPopup && selectedReportSession && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white dark:bg-dark-card rounded-xl p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  Звіт по клієнту: {selectedReportSession.contact?.name}
+                </h2>
+                <div className="flex gap-2">
+                  <button 
+                    onClick={() => window.open(`mailto:${selectedReportSession.contact?.email}?subject=Звіт по сесії&body=Технічні дані сесії: ${selectedReportSession.id}`)}
+                    className="p-2 text-gray-600 hover:text-primary dark:text-dark-text-muted dark:hover:text-dark-primary transition-colors"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </button>
+                  <button 
+                    onClick={() => navigator.clipboard.writeText(selectedReportSession.contact?.email || '')}
+                    className="p-2 text-gray-600 hover:text-primary dark:text-dark-text-muted dark:hover:text-dark-primary transition-colors"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                  </button>
+                  <button 
+                    onClick={() => setShowReportPopup(false)}
+                    className="p-2 text-gray-600 hover:text-red-500 dark:text-dark-text-muted dark:hover:text-red-400 transition-colors"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div className="bg-gray-50 dark:bg-dark-bg p-4 rounded-lg">
+                  <h3 className="font-medium text-gray-900 dark:text-white mb-2">Технічні дані сесії:</h3>
+                  <div className="text-sm text-gray-600 dark:text-dark-text-muted space-y-1">
+                    <p><strong>ID сесії:</strong> {selectedReportSession.id}</p>
+                    <p><strong>Email:</strong> {selectedReportSession.contact?.email}</p>
+                    <p><strong>Дата створення:</strong> {selectedReportSession.createdAt?.toDate?.() ? selectedReportSession.createdAt.toDate().toLocaleString() : '—'}</p>
+                    <p><strong>Останнє оновлення:</strong> {selectedReportSession.updatedAt?.toDate?.() ? selectedReportSession.updatedAt.toDate().toLocaleString() : '—'}</p>
+                    <p><strong>Кількість повідомлень:</strong> {selectedReportSession.messages?.length || 0}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Попап з чатом */}
+        {showChatPopup && selectedChatSession && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white dark:bg-dark-card rounded-xl p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  Чат з: {selectedChatSession.contact?.name}
+                </h2>
+                <button 
+                  onClick={() => setShowChatPopup(false)}
+                  className="p-2 text-gray-600 hover:text-red-500 dark:text-dark-text-muted dark:hover:text-red-400 transition-colors"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              <div className="h-[60vh] overflow-y-auto">
+                <SalesChatView sessionId={selectedChatSession.id} />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
