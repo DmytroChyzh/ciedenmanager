@@ -30,7 +30,7 @@ export default function UsersCountCard({
       onPeriodChange={onPeriodChange}
       currentPeriod={currentPeriod}
       showMoreButton={true}
-      moreButtonLink="/analytics/users"
+      moreButtonLink="/analytics?tab=users"
     />
   );
 } 

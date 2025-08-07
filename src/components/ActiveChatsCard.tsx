@@ -125,7 +125,7 @@ export default function TargetsTrackerCard({ value, percent, onPeriodChange, cur
           
           {/* Кнопка "More" */}
           <a
-            href="/analytics/goals"
+            href="/analytics?tab=goals"
             className="bg-primary dark:bg-dark-primary text-white px-3 py-1 rounded-lg flex items-center gap-1 hover:bg-primary-dark dark:hover:bg-dark-primary-dark transition-colors duration-200 text-xs font-medium"
           >
             <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">

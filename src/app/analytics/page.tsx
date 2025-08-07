@@ -1,15 +1,25 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { UserGroupIcon, BoltIcon, ArrowLeftIcon } from '@heroicons/react/24/solid';
 import UsersAnalytics from '@/components/analytics/UsersAnalytics';
 import GoalsAnalytics from '@/components/analytics/GoalsAnalytics';
+import { useSearchParams } from 'next/navigation';
 
 export default function AnalyticsPage() {
   const { t } = useLanguage();
   const { theme } = useTheme();
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<'users' | 'goals'>('users');
+
+  // Автоматично переключаємо вкладку на основі URL параметрів
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    if (tab === 'goals' || tab === 'users') {
+      setActiveTab(tab);
+    }
+  }, [searchParams]);
 
   return (
     <div className="min-h-screen bg-[#F7F8F9] dark:bg-dark-bg p-4 md:p-6">
